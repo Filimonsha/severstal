@@ -1,0 +1,48 @@
+.btn {
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
+  display: flex !important;
+  -webkit-box-align: center !important;
+      -ms-flex-align: center !important;
+          align-items: center !important;
+  -webkit-box-pack: center !important;
+      -ms-flex-pack: center !important;
+          justify-content: center !important;
+  padding: 19px 32px !important;
+}
+
+.btn svg {
+  margin-right: 35px;
+}
+
+.btn-outline-primary {
+  border-radius: 0px !important;
+  border-color: #04306a !important;
+  color: #04306a !important;
+}
+
+.btn-outline-primary:hover {
+  background: #04306a !important;
+  color: white !important;
+}
+
+.btn-outline-primary:hover path {
+  stroke: white !important;
+}
+
+.btn-primary {
+  border-radius: 0px !important;
+  border-color: #04306a !important;
+  background: #04306a !important;
+}
+
+.btn-primary:hover {
+  border-radius: 0px !important;
+  border-color: #04306a !important;
+  opacity: 0.5;
+}
+
+.row {
+  max-width: 100%;
+}
+/*# sourceMappingURL=index.css.map */

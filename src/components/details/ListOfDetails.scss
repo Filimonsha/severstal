@@ -1,0 +1,40 @@
+@import "../../variables";
+
+.add-new-detail {
+    width: 100%;
+
+    max-width: 913px;
+    &__header {
+        border-bottom: 3px solid $dark-blue;
+        color: $dark-blue !important;
+        padding-bottom: 16px;
+        margin-bottom: 24px;
+    }
+    &__body {
+        height: 560px;
+        width: 100%;
+        background: $background-blue;
+    }
+    button {
+        padding: 19px 32px;
+    }
+}
+// Slider
+.swiper{
+    width: 100%;
+    height: 655px;
+}
+.swiper-slide {
+
+    img{
+        max-width: 100%;
+    }
+}
+.swiper-scrollbar {
+    border-radius: 0px;
+    width: 100%;
+}
+.swiper-scrollbar-drag {
+    border-radius: 0px !important;
+    background:$dark-blue !important;
+}

@@ -1,0 +1,21 @@
+.detail__header {
+  border-bottom: 3px solid #04306a;
+  color: #04306a !important;
+  padding-bottom: 16px;
+  margin-bottom: 24px;
+}
+
+.modal-dialog {
+  max-width: 1113px !important;
+}
+
+.measurement {
+  position: relative;
+  max-width: 441px;
+  max-height: 791px;
+}
+
+.measurement__wrap {
+  position: relative;
+}
+/*# sourceMappingURL=Detail.css.map */

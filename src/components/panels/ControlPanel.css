@@ -1,0 +1,226 @@
+.custom-control.material-switch {
+  --color: #26a69a;
+  padding-left: 0;
+}
+
+.custom-control.material-switch .material-switch-control-input {
+  display: none;
+}
+
+.custom-control.material-switch .material-switch-control-input:checked ~ .material-switch-control-indicator::after {
+  background-color: var(--color);
+  left: 17px;
+}
+
+.custom-control.material-switch .material-switch-control-indicator {
+  display: inline-block;
+  position: relative;
+  margin: 0 10px;
+  top: 4px;
+  width: 32px;
+  height: 16px;
+  background: #ddd;
+  border-radius: 16px;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+}
+
+.custom-control.material-switch .material-switch-control-indicator::after {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+  top: -1px;
+  left: -1px;
+  background: #fdfdfd;
+  -webkit-box-shadow: 0 2px 10px #aaa;
+          box-shadow: 0 2px 10px #aaa;
+}
+
+.custom-control.ios-switch {
+  --color: #4cd964;
+  padding-left: 0;
+}
+
+.custom-control.ios-switch .ios-switch-control-input {
+  display: none;
+}
+
+.custom-control.ios-switch .ios-switch-control-input:active ~ .ios-switch-control-indicator::after {
+  width: 20px;
+}
+
+.custom-control.ios-switch .ios-switch-control-input:checked ~ .ios-switch-control-indicator {
+  border: 10px solid var(--color);
+}
+
+.custom-control.ios-switch .ios-switch-control-input:checked ~ .ios-switch-control-indicator::after {
+  top: -8px;
+  left: 4px;
+}
+
+.custom-control.ios-switch .ios-switch-control-input:checked:active ~ .ios-switch-control-indicator::after {
+  left: 0px;
+}
+
+.custom-control.ios-switch .ios-switch-control-indicator {
+  display: inline-block;
+  position: relative;
+  margin: 0 10px;
+  top: 4px;
+  width: 32px;
+  height: 20px;
+  background: #fff;
+  border-radius: 16px;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+  border: 2px solid #ddd;
+}
+
+.custom-control.ios-switch .ios-switch-control-indicator::after {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-radius: 16px;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+  top: 0px;
+  left: 0px;
+  background: #fff;
+  -webkit-box-shadow: 0 0 2px #aaa, 0 2px 5px #999;
+          box-shadow: 0 0 2px #aaa, 0 2px 5px #999;
+}
+
+.custom-control.border-switch {
+  --color: #4cd964;
+  padding-left: 0;
+}
+
+.custom-control.border-switch .border-switch-control-input {
+  display: none;
+}
+
+.custom-control.border-switch .border-switch-control-input:checked ~ .border-switch-control-indicator {
+  border-color: var(--color);
+}
+
+.custom-control.border-switch .border-switch-control-input:checked ~ .border-switch-control-indicator::after {
+  left: 14px;
+  background-color: var(--color);
+}
+
+.custom-control.border-switch .border-switch-control-indicator {
+  display: inline-block;
+  position: relative;
+  margin: 0 10px;
+  top: 4px;
+  width: 32px;
+  height: 20px;
+  background: #fff;
+  border-radius: 16px;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+  border: 2px solid #ccc;
+}
+
+.custom-control.border-switch .border-switch-control-indicator::after {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+  top: 2px;
+  left: 2px;
+  background: #ccc;
+}
+
+.custom-control.teleport-switch {
+  --color: #4cd964;
+  padding-left: 0;
+}
+
+.custom-control.teleport-switch .teleport-switch-control-input {
+  display: none;
+}
+
+.custom-control.teleport-switch .teleport-switch-control-input:checked ~ .teleport-switch-control-indicator {
+  border-color: var(--color);
+}
+
+.custom-control.teleport-switch .teleport-switch-control-input:checked ~ .teleport-switch-control-indicator::after {
+  left: -14px;
+}
+
+.custom-control.teleport-switch .teleport-switch-control-input:checked ~ .teleport-switch-control-indicator::before {
+  right: 2px;
+  background-color: var(--color);
+}
+
+.custom-control.teleport-switch .teleport-switch-control-indicator {
+  display: inline-block;
+  position: relative;
+  margin: 0 10px;
+  top: 4px;
+  width: 32px;
+  height: 20px;
+  background: #fff;
+  border-radius: 16px;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+  border: 2px solid #ccc;
+  overflow: hidden;
+}
+
+.custom-control.teleport-switch .teleport-switch-control-indicator::after {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+  top: 2px;
+  left: 2px;
+  background: #ccc;
+}
+
+.custom-control.teleport-switch .teleport-switch-control-indicator::before {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+  top: 2px;
+  right: -14px;
+  background: #ccc;
+}
+
+.control-panel {
+  height: 100vh;
+  background: #ffffff;
+  -webkit-box-shadow: -4px 8px 23px rgba(0, 0, 0, 0.05);
+          box-shadow: -4px 8px 23px rgba(0, 0, 0, 0.05);
+  padding: 0 20px;
+  padding-top: 38px;
+}
+
+.control-panel h2 {
+  font-family: "Grtsk Peta";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+}
+/*# sourceMappingURL=ControlPanel.css.map */

@@ -1,0 +1,39 @@
+@import "./variables";
+.btn {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    svg {
+        margin-right: 35px;
+    }
+    padding: 19px 32px !important;
+    // max-width: 345px;
+}
+.btn-outline-primary {
+    border-radius: 0px !important;
+    border-color: $dark-blue !important;
+    color: $dark-blue !important;
+}
+.btn-outline-primary:hover {
+    background: $dark-blue !important;
+    color: white !important;
+    path {
+        stroke: white !important;
+    }
+}
+.btn-primary {
+    border-radius: 0px !important;
+    border-color: $dark-blue !important;
+    background: $dark-blue !important;
+}
+.btn-primary:hover {
+    border-radius: 0px !important;
+    border-color: $dark-blue !important;
+    opacity: 0.5;
+}
+.row{
+    max-width: 100%;
+}
+// #canvas{
+//     border:1px solid red;
+// }

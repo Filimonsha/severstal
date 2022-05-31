@@ -1,0 +1,35 @@
+.history {
+  padding: 43px 30px;
+}
+
+.history__false {
+  background: #ffd6d8 !important;
+}
+
+.history__nav {
+  margin-bottom: 24px;
+}
+
+.history__table thead {
+  background: #04306a;
+  color: white;
+}
+
+.history__table th {
+  text-align: center;
+  vertical-align: top;
+}
+
+.history__title {
+  margin-bottom: 24px;
+}
+
+.table-striped > tbody > tr:nth-child(2n) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
+  background-color: white;
+}
+
+.table-striped > tbody > tr:nth-child(2n) > td,
+.table-striped > tbody > tr:nth-child(2n) > th {
+  background-color: #f1f7ff;
+}
+/*# sourceMappingURL=History.css.map */

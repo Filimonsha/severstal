@@ -1,0 +1,71 @@
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #04306a;
+}
+
+.analysis-control-panel {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  height: 100vh;
+  overflow: scroll;
+  background: #ffffff;
+  -webkit-box-shadow: -4px 8px 23px rgba(0, 0, 0, 0.05);
+          box-shadow: -4px 8px 23px rgba(0, 0, 0, 0.05);
+  padding: 44px 40px;
+}
+
+.analysis-control-panel div {
+  width: 100%;
+}
+
+.analysis-control-panel__shape {
+  width: 100%;
+}
+
+.analysis-control-panel h2 {
+  font-family: "Grtsk Peta";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+}
+
+.analysis-control-panel__save {
+  max-width: 227px !important;
+  margin-right: 20px;
+}
+
+.analysis-control-panel__back {
+  max-width: 123px !important;
+}
+
+.accordion-button {
+  background: #f1f7ff !important;
+  border-radius: 0px !important;
+  border: none !important;
+}
+
+.accordion-button:focus {
+  border: none !important;
+  outline: none !important;
+  -webkit-box-shadow: none !important;
+          box-shadow: none !important;
+}
+
+.accordion-body {
+  background: #f1f7ff !important;
+  margin-top: 4px !important;
+  border-radius: 0px !important;
+  border: none !important;
+}
+
+.accordion-item {
+  margin-bottom: 8px;
+  border-radius: 0px !important;
+  border: none !important;
+}
+/*# sourceMappingURL=AnalysisControlPanel.css.map */

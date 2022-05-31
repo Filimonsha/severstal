@@ -1,0 +1,30 @@
+@import "../variables";
+.history {
+    padding: 43px 30px;
+    &__false {
+        background: $main-red;
+    }
+    &__nav{
+        margin-bottom: 24px;
+    }
+    &__table {
+        thead {
+            background: $dark-blue;
+            color: white;
+        }
+        th{
+            text-align: center;
+            vertical-align: top;
+        }
+    }
+    &__title{
+        margin-bottom: 24px;
+    }
+}
+.table-striped > tbody > tr:nth-child(2n) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
+   background-color: white;
+}
+.table-striped > tbody > tr:nth-child(2n) > td,
+.table-striped > tbody > tr:nth-child(2n) > th {
+  background-color: #f1f7ff;
+}
