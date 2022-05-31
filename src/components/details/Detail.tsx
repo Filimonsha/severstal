@@ -1,7 +1,8 @@
 import Ruler from "@scena/ruler";
 import { useEffect, useRef, useState } from "react"
-import { Modal } from "react-bootstrap"
+import { Button, Modal } from "react-bootstrap"
 import { Helmet } from "react-helmet";
+import ScrollContainer from "react-indiana-drag-scroll";
 import { useSwiper } from "swiper/react";
 import "./Detail.css"
 import "./rulez-black.css"
@@ -19,23 +20,23 @@ interface IProps {
 const Detail = (props: IProps) => {
   const [show, setShow] = useState(false)
   const [value, setValue] = useState("1")
-  const [onImg, setOnImg] = useState(true)
+  const [allowScrolling, setAllowScrolling] = useState(true)
   let position = {
     top: 0, left: 0, x: 0, y: 0
   }
   // const draggbleElem = document.getElementById('img');
   // console.log(draggbleElem)
   const swiper = useSwiper()
-  
+
   // const draggbleElem = useRef(null)
 
 
-  
+
   useEffect(() => {
     props.setSwiper(swiper)
 
   })
-  
+
 
   return (
     <>
@@ -71,19 +72,12 @@ const Detail = (props: IProps) => {
         width: 441,
         height: 60,
 
-        alignment: "top",
+        alignment: "bottom",
         textDefaults: {
           rotation: -90,
           centerText: true,
         },
-        // guides: [
-        //   {
-        //     position: 200,
-        //   },
-        //   {
-        //     position: 400,
-        //   },
-        // ],
+
       });
       rulezH.render();
       var rulezV = new Rulez({
@@ -103,14 +97,7 @@ const Detail = (props: IProps) => {
             offset: 20,
           },
         ],
-        guides: [
-          {
-            position: 200,
-          },
-          {
-            position: 400,
-          },
-        ],
+
       });
       rulezV.render();
       var scroll = document.getElementById("scroll");
@@ -170,42 +157,22 @@ const Detail = (props: IProps) => {
 
             <div className="content">
               <div id="scroll"
-                onDragStart={(e) => {
-                  e.preventDefault()
-                }}
-                onMouseDown={(e) => {
-                  // setOnImg(true)
-                  position.left = e.currentTarget.scrollLeft
-                  position.top = e.currentTarget.scrollTop
-                  position.x = e.clientX
-                  position.y = e.clientY
-
-                  console.log(position)
-
-                }}
-                onMouseMove={(e) => {
-                  if (onImg) {
-                    const dx = e.clientX - position.x;
-                    const dy = e.clientY - position.y;
-                    e.currentTarget.scrollTop = position.top - dy;
-                    e.currentTarget.scrollLeft = position.left - dx;
-                  }
-
-
-                }}
-                onMouseUp={(e) => {
-                  setOnImg(false)
-                  console.log("Аббуууу")
-                }}
               >
-                <div style={{ width: "394px", height: "559.59px" }} >
-                  <div>
-                    <img id="img" src={props.srcOFImg}
 
-                    />
+
+                <ScrollContainer vertical={allowScrolling} horizontal={allowScrolling}>
+                  <div style={{ width: "394px", height: "559.59px" }} >
+                    <div>
+                      <img id="img" src={props.srcOFImg}
+
+                      />
+                    </div>
+
                   </div>
+                </ScrollContainer>
 
-                </div>
+
+
               </div>
             </div>
             <div className="ruler-horizontal">
@@ -217,6 +184,8 @@ const Detail = (props: IProps) => {
           </div>
         </Modal.Body>
         <Modal.Footer>
+          <Button variant="outline-primary " className='analysis-control-panel__shape m-0' onClick={() => setAllowScrolling(false)}>Рисовать</Button>
+
         </Modal.Footer>
       </Modal>
     </>

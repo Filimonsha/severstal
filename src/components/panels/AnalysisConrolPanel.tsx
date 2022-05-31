@@ -68,14 +68,12 @@ const AnalysisConrolPanel = (props: IProps) => {
       </span>
 
       <div className='d-flex justify-content-center justify-content-between mb-3'>
-        <Button variant="outline-primary analysis-control-panel__save" className=''>Сохранить отчет</Button>
+        <Button variant="outline-primary " className='analysis-control-panel__save'>Сохранить отчет</Button>
         <Button className="d-flex align-items-center analysis-control-panel__back" variant="primary">
           Назад
         </Button>
       </div>
-        <Button variant="outline-primary analysis-control-panel__shape m-0" className=''>Просмотреть полное сечение</Button>
-
-
+      <Button variant="outline-primary " className='analysis-control-panel__shape m-0'>Просмотреть полное сечение</Button>
     </div>
   )
 }
