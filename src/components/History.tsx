@@ -1,8 +1,15 @@
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Table } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
+import { AuthCtx } from '../context/authContext'
 import "./History.css"
 const History = () => {
+    const userIsAuth = useContext(AuthCtx)
+
+    useEffect(()=>{
+        
+    },[])
+
     const listOfTest=[
         {
             1:"2022.05.0001",

@@ -20,6 +20,11 @@
   padding: 19px 32px;
 }
 
+.add-new-detail_list-is-pure {
+  width: 913px;
+  height: 515px;
+}
+
 .swiper {
   width: 100%;
   height: 655px;
@@ -37,5 +42,11 @@
 .swiper-scrollbar-drag {
   border-radius: 0px !important;
   background: #04306a !important;
+}
+
+.adding-image__screen {
+  width: 720px;
+  height: 470px;
+  border: 1px solid black;
 }
 /*# sourceMappingURL=ListOfDetails.css.map */

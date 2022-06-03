@@ -18,15 +18,18 @@
     button {
         padding: 19px 32px;
     }
+    &_list-is-pure {
+        width: 913px;
+        height: 515px;
+    }
 }
 // Slider
-.swiper{
+.swiper {
     width: 100%;
     height: 655px;
 }
 .swiper-slide {
-
-    img{
+    img {
         max-width: 100%;
     }
 }
@@ -36,5 +39,15 @@
 }
 .swiper-scrollbar-drag {
     border-radius: 0px !important;
-    background:$dark-blue !important;
+    background: $dark-blue !important;
+}
+
+.adding-image {
+    
+    &__screen {
+        width: 720px;
+        height: 470px;
+        border: 1px solid black;
+    }
+
 }

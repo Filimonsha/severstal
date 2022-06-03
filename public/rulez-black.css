@@ -94,7 +94,7 @@
 #svgV,
 #svgH {
     overflow: visible;  
-    /* overflow: hidden; */
+    overflow: hidden;
 }
 /* .ruler-horizontal rect[x^="-"]{
     display: none;
