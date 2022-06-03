@@ -45,4 +45,12 @@
 .row {
   max-width: 100%;
 }
+
+#img {
+  border: 1px solid red;
+}
+
+.upper-canvas {
+  background: none !important;
+}
 /*# sourceMappingURL=index.css.map */

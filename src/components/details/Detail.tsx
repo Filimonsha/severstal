@@ -19,25 +19,21 @@ interface IProps {
 
 const Detail = (props: IProps) => {
   const [show, setShow] = useState(false)
-  const [value, setValue] = useState("1")
   const [allowScrolling, setAllowScrolling] = useState(true)
-  let position = {
-    top: 0, left: 0, x: 0, y: 0
-  }
-  // const draggbleElem = document.getElementById('img');
-  // console.log(draggbleElem)
+  const [alert, setAlert] = useState(false)
+  const [imageH, setImageH] = useState(559.59)
+  
   const swiper = useSwiper()
-
-  // const draggbleElem = useRef(null)
-
-
 
   useEffect(() => {
     props.setSwiper(swiper)
 
   })
 
+  useEffect(() => {
 
+
+  }, [allowScrolling])
   return (
     <>
 
@@ -65,7 +61,103 @@ const Detail = (props: IProps) => {
           <script>
             {`
         var currentScale = 1;
-      var initialScale = 1;
+        var lineScale = 5;
+      var lineShift = 40;
+
+       // Canvas
+              var line, isDown;
+      var arr = new Array();
+      var startx = new Array();
+      var endx = new Array();
+      var starty = new Array();
+      var endy = new Array();
+      var temp = 0;
+      var graphtype;
+      trigger = "1";
+      var text;
+
+      var canvas = (this.__canvas = new fabric.Canvas("img", {
+        hoverCursor: "pointer",
+        selection: false,
+      }));
+      fabric.Object.prototype.transparentCorners = false;
+
+      canvas.on("mouse:down", function (o) {
+        if (trigger == "1") {
+          isDown = true;
+          var pointer = canvas.getPointer(o.e);
+          canvas.width = 1000 
+          console.log(canvas,"СУКАААА" )
+          console.log(pointer.x,pointer.y, "ЫЫЫЫЫЫЫЫЫ")
+          var points = [pointer.x, pointer.y -lineShift, pointer.x, pointer.y -lineShift];
+          startx[temp] = pointer.x;
+          starty[temp] = pointer.y - lineShift;
+          line = new fabric.Line(points, {
+            strokeWidth: lineScale,
+            stroke: "red",
+            originX: "center",
+            originY: "center",
+          });
+          canvas.add(line);
+        } else {
+          canvas.forEachObject(function (o) {
+            o.setCoords();
+          });
+        }
+      });
+
+      canvas.on("mouse:move", function (o) {
+        canvas.remove(text);
+        canvas.renderAll();
+        if (!isDown) return;
+        var pointer = canvas.getPointer(o.e);
+        line.set({ x2: pointer.x, y2: pointer.y - lineShift });
+
+        endx[temp] = pointer.x;
+        endy[temp] = pointer.y - lineShift;
+
+        if (trigger == "1") {
+          var px = Calculate.lineLength(
+            startx[temp],
+            starty[temp],
+            endx[temp],
+            endy[temp]
+          ).toFixed(2);
+          text = new fabric.Text("Length " + px, {
+            left: endx[temp],
+            top: endy[temp],
+            fontSize: 12,
+          });
+          canvas.add(text);
+        }
+
+        canvas.renderAll();
+      });
+
+      canvas.on("mouse:up", function (o) {
+        var pointer = canvas.getPointer(o.e);
+        isDown = false;
+      });
+
+      canvas.on("mouse:over", function (e) {
+        e.target.setStroke("blue");
+        canvas.renderAll();
+      });
+
+      canvas.on("mouse:out", function (e) {
+        e.target.setStroke("red");
+        canvas.renderAll();
+      });
+
+      var Calculate = {
+        lineLength: function (x1, y1, x2, y2) {
+          //线长
+          //clearRect(x2, y2);
+          return Math.sqrt(
+            Math.pow(x2 * 1 - x1 * 1, 2) + Math.pow(y2 * 1 - y1 * 1, 2)
+          );
+        },
+      };
       var rulezH = new Rulez({
         element: document.getElementById("svgH"),
         layout: "horizontal",
@@ -127,14 +219,22 @@ const Detail = (props: IProps) => {
             imgHeight = img.height;
           }
           if (event.deltaY > 0) {
-            // let scale = currentScale + 0.2;
-            if (currentScale > 1) {currentScale = currentScale - 0.2;}
+            if (currentScale > 1) {currentScale = currentScale - 0.2;
+            lineScale = lineScale + 0.3
+            
+            }
+            console.log(currentScale)
           } else if (event.deltaY < 0) {
             currentScale = currentScale + 0.2;
-
-            console.log(currentScale);
+            if(lineScale - 0.3 > 0){
+            lineScale = lineScale - 0.3
+            // lineShift = lineShift / 2
+            }
+            console.log(currentScale)
           }
-
+          // canvas.style.width
+          
+          console.log(canvas.style, "ААААААААААААААААААААААААААААААААААЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫ")
           img.style.width = imgWidth * currentScale + "px";
           img.style.height = imgHeight * currentScale + "px";
           rulezH.setScale(1 / currentScale);
@@ -142,8 +242,7 @@ const Detail = (props: IProps) => {
         });
 
 
-        // Canvas
-        
+       
         `}
           </script>
         </Helmet>
@@ -158,21 +257,18 @@ const Detail = (props: IProps) => {
             <div className="content">
               <div id="scroll"
               >
-
-
                 <ScrollContainer vertical={allowScrolling} horizontal={allowScrolling}>
                   <div style={{ width: "394px", height: "559.59px" }} >
                     <div>
-                      <img id="img" src={props.srcOFImg}
+                      {/* <img id="img" src={props.srcOFImg}
 
-                      />
+                      /> */}
+                      <canvas id="img" width={394} height={imageH} style={{background:`url(${props.srcOFImg})`,backgroundSize:"cover"}} ></canvas>
+
                     </div>
 
                   </div>
                 </ScrollContainer>
-
-
-
               </div>
             </div>
             <div className="ruler-horizontal">
