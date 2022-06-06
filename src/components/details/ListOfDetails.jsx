@@ -85,7 +85,7 @@ const ListOfDetails = ({ setSwiper }) => {
   };
 
   const handleUpdateTest = () => {
-    createSegmentAndGetImages();
+    createSegmentAndGetImages(testInfo.id);
     setShowUpdateTest(false);
   };
 
@@ -99,7 +99,7 @@ const ListOfDetails = ({ setSwiper }) => {
         scrollbar={{
           hide: false,
         }}
-        mousewheel
+        // mousewheel
         slidesPerView={"auto"}
         // breakpoints={{
         //   900: {
@@ -110,7 +110,7 @@ const ListOfDetails = ({ setSwiper }) => {
         //   },
         // }}
         spaceBetween={24}
-        modules={[Scrollbar, Mousewheel]}
+        modules={[Scrollbar,Mousewheel]}
         className="mySwiper"
       >
         {listOfDetails.length !== 0 &&
@@ -172,7 +172,7 @@ const ListOfDetails = ({ setSwiper }) => {
                 Новая часть
               </div>
               <div className="add-new-detail__body d-flex align-items-center justify-content-center">
-                <Button className="d-flex align-items-center" variant="primary">
+                <Button className="d-flex align-items-center" variant="primary" onClick={()=>setShowUpdateTest(true)}>
                   <svg
                     className="me-4"
                     width="24"

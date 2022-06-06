@@ -6,15 +6,19 @@
         padding-bottom: 16px;
         margin-bottom: 24px;
     }
+    &__slider-image {
+        max-width: 394px;
+        max-height: 559.59px;
+    }
 }
-.modal-dialog{
+.modal-dialog {
     max-width: 1113px !important;
 }
-.measurement{
+.measurement {
     position: relative;
-    &__wrap{
+    &__wrap {
         position: relative;
     }
-max-width: 441px;
-max-height: 791px;
+    max-width: 441px;
+    max-height: 791px;
 }

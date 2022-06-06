@@ -3,8 +3,8 @@ import { useEffect, useRef, useState } from "react"
 import { Button, Modal } from "react-bootstrap"
 import { Helmet } from "react-helmet";
 import ScrollContainer from "react-indiana-drag-scroll";
-import { Swiper,Mousewheel, Scrollbar } from "swiper";
-import { SwiperSlide, useSwiper } from "swiper/react";
+import { Mousewheel, Scrollbar } from "swiper";
+import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
 import "./Detail.css"
 import "./rulez-black.css"
 
@@ -23,6 +23,7 @@ interface IProps {
 }
 
 
+const aboba = [{}, {}, {}, {}, {}]
 
 
 const Detail = (props: IProps) => {
@@ -64,20 +65,33 @@ const Detail = (props: IProps) => {
             scrollbar={{
               hide: false,
             }}
+            nested
             mousewheel
-            slidesPerView={"auto"}
+            slidesPerView={3}
             modules={[Scrollbar, Mousewheel]}
+            className=""
           >
-            
+
             {
               props.detailInfo.images.map(el => {
-                <SwiperSlider>
-
-                </Slider>
                 return (
-                  <img src={`http://${process.env.REACT_APP_SERVER_SEVERSTAL}${el.file_crop}`} alt="" className="me-3" />
+                  <SwiperSlide>
+                    <img src={`http://${process.env.REACT_APP_SERVER_SEVERSTAL}${el.file_crop}`} alt="" className="me-3" />
+                  </SwiperSlide>
                 )
               })
+              // aboba.map(() => {
+              //   return (
+              //     <SwiperSlide>
+              //       <img
+              //         src={`http://${process.env.REACT_APP_SERVER_SEVERSTAL}/api/imaging/current_image/?offset=${20}`}
+              //         alt="camera-img"
+              //         className="detail__slider-image"
+              //       // className="w-100 h-100"
+              //       />
+              //     </SwiperSlide>
+              //   )
+              // })
             }
           </Swiper>
 

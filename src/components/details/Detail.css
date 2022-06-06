@@ -5,6 +5,11 @@
   margin-bottom: 24px;
 }
 
+.detail__slider-image {
+  max-width: 394px;
+  max-height: 559.59px;
+}
+
 .modal-dialog {
   max-width: 1113px !important;
 }
