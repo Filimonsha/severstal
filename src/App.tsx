@@ -3,6 +3,9 @@ import './App.css';
 import Layout from './components/common/Layout';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Ruler from '@scena/ruler';
+import axios from 'axios';
+axios.defaults.withCredentials = true
+
 function App() {
   // useEffect(()=>{
   //   console.log("Приложение")
@@ -17,7 +20,7 @@ function App() {
   // });
   return (
     <div className="App">
-      <Layout/>
+      <Layout />
     </div>
   );
 }

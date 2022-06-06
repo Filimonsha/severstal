@@ -3,12 +3,20 @@ import { useEffect, useRef, useState } from "react"
 import { Button, Modal } from "react-bootstrap"
 import { Helmet } from "react-helmet";
 import ScrollContainer from "react-indiana-drag-scroll";
-import { useSwiper } from "swiper/react";
+import { Swiper,Mousewheel, Scrollbar } from "swiper";
+import { SwiperSlide, useSwiper } from "swiper/react";
 import "./Detail.css"
 import "./rulez-black.css"
 
+interface IDetail {
+  id: string, test: string,
+  length: string,
+  width: string,
+  images: Array<any>,
+}
 
 interface IProps {
+  detailInfo: IDetail,
   srcOFImg: string,
   index: number,
   setSwiper: any,
@@ -22,13 +30,17 @@ const Detail = (props: IProps) => {
   const [allowScrolling, setAllowScrolling] = useState(true)
   const [alert, setAlert] = useState(false)
   const [imageH, setImageH] = useState(559.59)
-  
+
   const swiper = useSwiper()
 
   useEffect(() => {
     props.setSwiper(swiper)
 
   })
+  useEffect(() => {
+
+    console.log("я ебануттттый", props.detailInfo)
+  }, [])
 
   useEffect(() => {
 
@@ -43,12 +55,32 @@ const Detail = (props: IProps) => {
 
 
         </div>
-        <div className="detail__img" onClick={() => {
+        <div className="detail__img d-flex" onClick={() => {
           setShow(true)
 
 
         }}>
-          <img src={props.srcOFImg} alt="Изображение детали" />
+          <Swiper
+            scrollbar={{
+              hide: false,
+            }}
+            mousewheel
+            slidesPerView={"auto"}
+            modules={[Scrollbar, Mousewheel]}
+          >
+            
+            {
+              props.detailInfo.images.map(el => {
+                <SwiperSlider>
+
+                </Slider>
+                return (
+                  <img src={`http://${process.env.REACT_APP_SERVER_SEVERSTAL}${el.file_crop}`} alt="" className="me-3" />
+                )
+              })
+            }
+          </Swiper>
+
         </div>
       </div>
 
@@ -263,7 +295,7 @@ const Detail = (props: IProps) => {
                       {/* <img id="img" src={props.srcOFImg}
 
                       /> */}
-                      <canvas id="img" width={394} height={imageH} style={{background:`url(${props.srcOFImg})`,backgroundSize:"cover"}} ></canvas>
+                      <canvas id="img" width={394} height={imageH} style={{ background: `url(${props.srcOFImg})`, backgroundSize: "cover" }} ></canvas>
 
                     </div>
 

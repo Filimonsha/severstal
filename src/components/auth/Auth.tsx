@@ -3,6 +3,7 @@ import React, { useContext, useState } from 'react'
 import { Alert, Button, Container, Form, Row } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 import { AuthCtx, BASE_URL } from '../../context/authContext'
+import axiosInstance from '../../helpers/axios'
 
 function Auth() {
 
@@ -13,19 +14,18 @@ function Auth() {
   const authCtx = useContext(AuthCtx)
 
   const handleAuth = () => {
-    axios.post(`${BASE_URL}/api/auth/login/`, {
+    axiosInstance.post(`/api/auth/login/`, {
       username: login,
       password: password,
-    })
+    },)
       .then((res) => {
         authCtx.setUserIsAuth(true)
-        console.log(authCtx.userIsAuth)
+        console.log(res)
+        console.log(document.cookie)
         nav("/")
       })
       .catch((res) => {
         console.log("ssssssssssssssss", res)
-
-
       })
   }
   return (

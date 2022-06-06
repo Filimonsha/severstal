@@ -49,4 +49,62 @@
   height: 470px;
   border: 1px solid black;
 }
+
+.adding-image__range {
+  max-width: 598px;
+}
+
+.adding-image__form option,
+.adding-image__form select,
+.adding-image__form input,
+.adding-image__form textarea {
+  border-radius: 0 !important;
+  background: #f1f7ff !important;
+}
+
+.adding-image__form option::-webkit-input-placeholder,
+.adding-image__form select::-webkit-input-placeholder,
+.adding-image__form input::-webkit-input-placeholder,
+.adding-image__form textarea::-webkit-input-placeholder {
+  color: #000 !important;
+}
+
+.adding-image__form option:-ms-input-placeholder,
+.adding-image__form select:-ms-input-placeholder,
+.adding-image__form input:-ms-input-placeholder,
+.adding-image__form textarea:-ms-input-placeholder {
+  color: #000 !important;
+}
+
+.adding-image__form option::-ms-input-placeholder,
+.adding-image__form select::-ms-input-placeholder,
+.adding-image__form input::-ms-input-placeholder,
+.adding-image__form textarea::-ms-input-placeholder {
+  color: #000 !important;
+}
+
+.adding-image__form option::placeholder,
+.adding-image__form select::placeholder,
+.adding-image__form input::placeholder,
+.adding-image__form textarea::placeholder {
+  color: #000 !important;
+}
+
+.adding-image__form option:focus, .adding-image__form option:active,
+.adding-image__form select:focus,
+.adding-image__form select:active,
+.adding-image__form input:focus,
+.adding-image__form input:active,
+.adding-image__form textarea:focus,
+.adding-image__form textarea:active {
+  outline: none !important;
+}
+
+.form-range::-webkit-slider-thumb {
+  background-color: #04306a !important;
+}
+
+.form-range::-webkit-slider-runnable-track {
+  height: 5px !important;
+}
 /*# sourceMappingURL=ListOfDetails.css.map */

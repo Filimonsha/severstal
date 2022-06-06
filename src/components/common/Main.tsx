@@ -52,7 +52,7 @@ const Main = () => {
         <div className='d-flex'>
             <Col md={9}
             >
-                <ListOfDetails listOfDetails={listOfDetails} setSwiper={setSwiper} />
+                <ListOfDetails  setSwiper={setSwiper} />
             </Col>
             <Col md={3}>
                 <ControlPanel listOfDetails={listOfDetails} swiper={swiper} />

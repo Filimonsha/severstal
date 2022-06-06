@@ -43,11 +43,34 @@
 }
 
 .adding-image {
-    
     &__screen {
         width: 720px;
         height: 470px;
         border: 1px solid black;
     }
+    &__range {
+        max-width: 598px;
+    }
+    &__form {
+        option,
+        select,
+        input,
+        textarea {
+            border-radius: 0 !important;
+            background: $background-blue !important;
+            &::placeholder {
+                color: #000 !important;
+            }
+            &:focus,&:active{
+                outline: none !important;
+            }
+        }
+    }
+}
 
+.form-range::-webkit-slider-thumb {
+    background-color: rgba(4, 48, 106, 1) !important;
+}
+.form-range::-webkit-slider-runnable-track {
+    height: 5px !important;
 }
