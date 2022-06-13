@@ -223,4 +223,31 @@
   font-weight: 500;
   font-size: 24px;
 }
+
+.control-panel span,
+.control-panel p {
+  font-size: 16px;
+  line-height: 19px;
+}
+
+.control-panel .alert {
+  border-radius: 0 !important;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  padding: 12px 24px;
+}
+
+.control-panel button {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  padding: 19px 32px 18px;
+}
+
+#choosing-part__input {
+  background: #fafcff;
+  /* Second/Gray color */
+  border: 1px solid #c8cacc;
+}
 /*# sourceMappingURL=ControlPanel.css.map */

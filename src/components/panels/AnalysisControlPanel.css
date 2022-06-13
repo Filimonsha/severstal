@@ -19,6 +19,16 @@
   padding: 44px 40px;
 }
 
+.analysis-control-panel__comment {
+  min-height: 150px !important;
+  max-height: 150px !important;
+  overflow-y: scroll;
+  background: #f1f7ff !important;
+  font-weight: 400;
+  font-size: 16px !important;
+  line-height: 18px !important;
+}
+
 .analysis-control-panel div {
   width: 100%;
 }
@@ -28,10 +38,9 @@
 }
 
 .analysis-control-panel h2 {
-  font-family: "Grtsk Peta";
-  font-style: normal;
   font-weight: 500;
   font-size: 24px;
+  line-height: 29px;
 }
 
 .analysis-control-panel__save {
@@ -43,10 +52,20 @@
   max-width: 123px !important;
 }
 
+.analysis-control-panel h4 {
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 29px;
+}
+
 .accordion-button {
   background: #f1f7ff !important;
   border-radius: 0px !important;
   border: none !important;
+}
+
+.modal-dialog {
+  max-width: 90% !important;
 }
 
 .accordion-button:focus {

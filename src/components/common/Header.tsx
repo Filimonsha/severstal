@@ -1,8 +1,10 @@
 import React from 'react'
 import { Container, Navbar } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import axiosInstance from '../../helpers/axios'
 import "./Header.css"
 const Header = () => {
+  const nav = useNavigate()
   return (
     <header className="header d-flex justify-content-between">
       <Navbar.Brand>
@@ -12,11 +14,20 @@ const Header = () => {
         </svg>
       </Navbar.Brand>
       <Navbar>
-        <Link to="/">
+        <a className='me-2 header__new-test' onClick={() => {
+          // window.history.replaceState({}, document.title)
+          window.location.reload();
+          nav("/")
+        }}>
           Новый тест
-        </Link>
-        <Link to="/history">
+        </a>
+        <Link to="/history" className='me-2'>
           История тестов
+        </Link>
+        <Link to="/auth" onClick={() => {
+          axiosInstance.post("/api/auth/logout/")
+        }}>
+          Выйти
         </Link>
       </Navbar>
 

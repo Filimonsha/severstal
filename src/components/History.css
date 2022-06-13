@@ -10,6 +10,10 @@
   margin-bottom: 24px;
 }
 
+.history__back {
+  padding: 18px 32px !important;
+}
+
 .history__table thead {
   background: #04306a;
   color: white;

@@ -1,39 +1,30 @@
-import React, { useContext, useEffect } from 'react'
-import { Table } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import React, { useContext, useEffect, useState } from 'react'
+import { Alert, Spinner, Table } from 'react-bootstrap'
+import { Link, useNavigate } from 'react-router-dom'
 import { AuthCtx } from '../context/authContext'
+import axiosInstance from '../helpers/axios'
+import { ITest } from '../types/interfaces'
+// import { getCookie } from '../helpers/api'
 import "./History.css"
 const History = () => {
-    const userIsAuth = useContext(AuthCtx)
+    const [listOfTests, setListOfTests] = useState<Array<ITest | undefined>>([])
+    const nav = useNavigate()
+    useEffect(() => {
+        axiosInstance.get('/api/imaging/test/').then((res) => {
+            {
+                // setListOfTests(res.data)
+                res.data.forEach((test: any) => {
+                    axiosInstance.get(`/api/imaging/test/${test.id}/`).then(res => {
+                        console.log(res.data)
+                        setListOfTests(prevListOfTests => ([...prevListOfTests, res.data]))
 
-    useEffect(()=>{
-        
-    },[])
 
-    const listOfTest=[
-        {
-            1:"2022.05.0001",
-            2:"Сляб литой",
-            3:"707802 0102",
-            4:"4",
-            5:"2",
-            6:"123 х 3577",
-            7:"09.05.2022",
-            8:"Нет",
-            9:false
-        },
-        {
-            1: "2022.05.0001",
-            2: "Сляб литой",
-            3: "707802 0102",
-            4: "4",
-            5: "2",
-            6: "123 х 3577",
-            7: "09.05.2022",
-            8: "Нет",
-            9: false
-        }
-    ]
+                    }).catch(er => console.log(er))
+                })
+            }
+        })
+    }, [])
+
     return (
         <div className="history">
             <div className="history__nav d-flex justify-content-between">
@@ -55,23 +46,10 @@ const History = () => {
             <h2 className='history__title text-start'>
                 История тестов
             </h2>
-            <Table bordered striped className='history__table'>
-                <thead>
-                    <tr>
-                        <th>Номер теста</th>
-                        <th>Вид/профиль продукции</th>
-                        <th>Номер плавки/ручья</th>
-                        <th>ОР</th>
-                        <th>ОХН</th>
-                        <th>Сечение, мм</th>
-                        <th>Дата</th>
-                        <th>Комментарий</th>
-                        <th>Анализ</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {listOfTest.map((el)=>{
-                        return (
+            {
+                listOfTests.length !== 0 ?
+                    <Table bordered striped className='history__table w-100'>
+                        <thead>
                             <tr>
                                 <th>Номер теста</th>
                                 <th>Вид/профиль продукции</th>
@@ -81,21 +59,69 @@ const History = () => {
                                 <th>Сечение, мм</th>
                                 <th>Дата</th>
                                 <th>Комментарий</th>
-
-
-                                    {el[9]===true?
-                                    <th className='history__suc'>
-                                        Есть
-                                    </th> :
-                                    <th className='history__false'>
-                                        Нет
-                                    </th>
-                                    }
+                                <th>Анализ</th>
                             </tr>
-                        )
-                    })}
-                </tbody>
-            </Table>
+                        </thead>
+
+                        <tbody>
+                            {listOfTests?.map((el) => {
+                                return (
+                                    <tr>
+                                        <th><p>
+                                            {el?.number}
+                                        </p>
+                                        </th>
+                                        <th><p>
+                                            {el?.product_type}
+                                        </p>
+                                        </th>
+                                        <th>
+                                            <p>
+                                                {el?.melting_number}
+                                            </p>
+                                        </th>
+                                        <th>
+                                            <p>
+                                                {el?.score.ОР}
+                                            </p>
+                                        </th>
+                                        <th>
+                                            <p>
+                                                {el?.score.ОХН}
+                                            </p>
+                                        </th>
+                                        <th>{el?.segments?.map(segment => (<p>{segment.width}x{segment.length}</p>))}</th>
+
+
+                                        <th>
+                                            <p>
+                                                {el?.date}
+                                            </p>
+                                        </th>
+                                        <th className='text-center'>
+                                            <p style={{ maxWidth: "250px", margin: "0 auto", overflowY: "scroll" }}>
+                                                {el?.comment}
+                                            </p>
+                                        </th>
+                                        <th style={{ background: el?.date ? "none" : "#FFD6D8" }}>
+                                            {el?.date ?
+                                                <div>Есть</div>
+                                                :
+                                                <div>
+                                                    Нет
+                                                </div>
+                                            }
+                                        </th>
+
+                                    </tr>
+                                )
+                            })}
+                        </tbody>
+                    </Table>
+                    :
+                    <Spinner animation='border' />
+            }
+
         </div>
     )
 }

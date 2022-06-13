@@ -3,4 +3,12 @@
     padding: 0 30px;
     padding-top: 18px;
     padding-bottom: 22px;
+    &__new-test{
+        cursor: pointer;
+    }
+    a{
+        &:hover{
+            border-bottom: 1px solid white;
+        }
+    }
 }

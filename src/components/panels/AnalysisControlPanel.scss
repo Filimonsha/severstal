@@ -13,17 +13,26 @@
     background: #ffffff;
     box-shadow: -4px 8px 23px rgba(0, 0, 0, 0.05);
     padding: 44px 40px;
+    &__comment {
+        min-height: 150px !important;
+        max-height: 150px !important;
+        overflow-y: scroll;
+        background: #f1f7ff !important;
+        font-weight: 400;
+        font-size: 16px !important;
+        line-height: 18px !important;
+    }
+
     div {
         width: 100%;
     }
-    &__shape{
+    &__shape {
         width: 100%;
     }
     h2 {
-        font-family: "Grtsk Peta";
-        font-style: normal;
         font-weight: 500;
         font-size: 24px;
+        line-height: 29px;
     }
     &__save {
         max-width: 227px !important;
@@ -32,18 +41,29 @@
     &__back {
         max-width: 123px !important;
     }
-
+    h4 {
+        font-weight: 500;
+        font-size: 24px;
+        line-height: 29px;
+    }
+    // &__modal{
+    //     max-width: 90% !important;
+    // }
 }
 .accordion-button {
     background: #f1f7ff !important;
     border-radius: 0px !important;
     border: none !important;
 }
+.modal-dialog{
+    max-width: 90% !important;
+}
 .accordion-button:focus {
     border: none !important;
     outline: none !important;
     box-shadow: none !important;
 }
+
 .accordion-body {
     background: #f1f7ff !important;
     margin-top: 4px !important;

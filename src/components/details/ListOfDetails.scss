@@ -57,11 +57,12 @@
         input,
         textarea {
             border-radius: 0 !important;
-            background: $background-blue !important;
+            background-color: $background-blue !important;
             &::placeholder {
                 color: #000 !important;
             }
-            &:focus,&:active{
+            &:focus,
+            &:active {
                 outline: none !important;
             }
         }
@@ -73,4 +74,39 @@
 }
 .form-range::-webkit-slider-runnable-track {
     height: 5px !important;
+}
+
+.list-of-details {
+    padding-right: 0 !important;
+    &__title {
+        font-style: normal;
+        font-weight: 500;
+        font-size: 24px;
+        line-height: 29px;
+    }
+}
+.adding-image {
+    &__error {
+        color: #ff848a !important;
+    }
+}
+.adding-image__form {
+    padding-right: 15px;
+    max-height: 470px;
+    overflow-y: scroll;
+    textarea {
+        height: 100px;
+    }
+}
+.modal-header {
+    h3 {
+        font-weight: 500;
+        font-size: 24px;
+        line-height: 29px;
+    }
+    h4 {
+        font-weight: 400;
+        font-size: 20px;
+        line-height: 24px;
+    }
 }

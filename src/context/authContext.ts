@@ -4,4 +4,4 @@ export const BASE_URL = "http://78.140.243.10:8000";
 //   userIsAuth: boolean;
 //   setUserIsAuth: any;
 // }
-export const AuthCtx = React.createContext<any>(null);
+export const AuthCtx = React.createContext<any>("");

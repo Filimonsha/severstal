@@ -1,0 +1,62 @@
+.analysed-segment {
+  height: 100%;
+}
+
+.analysed-segment__square {
+  /* Second/green */
+  background: #b3f1c8;
+  /* Second/Gray color */
+  border: 1px solid #c8cacc;
+  width: 30px;
+  height: 30px;
+}
+
+.analysed-segment__without-def {
+  height: 383px;
+  width: 100%;
+  background: #d6e4ff;
+}
+
+.analysed-segment__with-def {
+  height: 383px;
+  height: 100%;
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  background: #ffd6d8;
+}
+
+.analysed-segment__gray {
+  height: 383px;
+  width: 100%;
+  background: #f0f0f0;
+}
+
+.analysed-segment__succ, .analysed-segment__wait {
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+/*# sourceMappingURL=AnalysedSegment.css.map */

@@ -59,7 +59,7 @@
 .adding-image__form input,
 .adding-image__form textarea {
   border-radius: 0 !important;
-  background: #f1f7ff !important;
+  background-color: #f1f7ff !important;
 }
 
 .adding-image__form option::-webkit-input-placeholder,
@@ -106,5 +106,42 @@
 
 .form-range::-webkit-slider-runnable-track {
   height: 5px !important;
+}
+
+.list-of-details {
+  padding-right: 0 !important;
+}
+
+.list-of-details__title {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 29px;
+}
+
+.adding-image__error {
+  color: #ff848a !important;
+}
+
+.adding-image__form {
+  padding-right: 15px;
+  max-height: 470px;
+  overflow-y: scroll;
+}
+
+.adding-image__form textarea {
+  height: 100px;
+}
+
+.modal-header h3 {
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 29px;
+}
+
+.modal-header h4 {
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
 }
 /*# sourceMappingURL=ListOfDetails.css.map */

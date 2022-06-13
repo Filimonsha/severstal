@@ -7,44 +7,64 @@ import { Mousewheel, Scrollbar } from "swiper";
 import Detail from "./Detail";
 import { useEffect, useState } from "react";
 import axiosInstance from "../../helpers/axios";
-
-const ListOfDetails = ({ setSwiper }) => {
-  const [listOfDetails, setListOfDetails] = useState([]);
+import { useForm } from "react-hook-form";
+const ListOfDetails = ({
+  listOfDetails,
+  setListOfDetailsToAnalysis,
+  setSwiper,
+  setCurrentTestId,
+  currentInfoAboutTest,
+  setCurrentInfoAboutTest,
+  sideOfLighting,
+}) => {
+  // const [listOfDetails, setListOfDetails] = useState([]);
   const [showAddingTest, setShowAddingTest] = useState(false);
   const [showUpdateTest, setShowUpdateTest] = useState(false);
   const [rangeValue, setRangeValue] = useState(50);
-  const [numberOfMelting, setNumberOfMelting] = useState("");
   const [length, setLength] = useState("");
   const [width, setWidth] = useState("");
   const [comment, setComment] = useState("");
-  const [typeOfProduct, setTypeOfProduct] = useState("");
-  const [methodic, setMethodic] = useState("");
+  const [testWasAnalysed, setTestWasAnalysed] = useState(false);
 
   const [testInfo, setTestInfo] = useState({});
 
   const [typeOfProductsList, setTypeOfProductsList] = useState([]);
   const [methodicsList, setMethodicsList] = useState([]);
 
-  const createSegmentAndGetImages = (testId) => {
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors },
+  } = useForm();
+  useEffect(() => console.log(currentInfoAboutTest, "АААААААААААААААААА"));
+  const createSegmentAndGetImages = (testId, data) => {
     console.log(testId, testInfo, length, width);
     axiosInstance
       .post("/api/imaging/segment/", {
-        test: testId,
-        length: length,
-        width: width,
+        test: Number(testId),
+        length: Number(data.length),
+        width: Number(data.width),
       })
       .then((res) => {
         console.log("/api/imaging/segment/", res);
 
         axiosInstance
           .post(
-            `/api/imaging/segment/${res.data.id}/make_images/?offset=${rangeValue}`
+            `/api/imaging/segment/${Number(
+              res.data.id
+            )}/make_images/?offset=${Number(rangeValue)}`
           )
           .then((res) => {
-            console.log("/api/imaging/segment/{id}/make_images/",res);
-            setListOfDetails((prevArray) => [...prevArray, res.data]);
-            console.log(listOfDetails);
-          });
+            console.log("/api/imaging/segment/{id}/make_images/", res);
+            setCurrentInfoAboutTest((prevTestInfo) => ({
+              ...prevTestInfo,
+              segments: [...prevTestInfo.segments, res.data],
+            }));
+            console.log("currentInfoTest", currentInfoAboutTest);
+            setListOfDetailsToAnalysis((prevArray) => [...prevArray, res.data]);
+          })
+          .catch((er) => console.log(er));
       });
   };
 
@@ -65,12 +85,21 @@ const ListOfDetails = ({ setSwiper }) => {
       .catch((er) => console.log(er));
   }, []);
 
-  const handleAddTest = () => {
+  function setErrors(errors) {
+    Object.keys(errors).forEach((key) => {
+      setError(key, { message: errors[key].join(","), type: "required" });
+      console.log(key, errors[key].join(","));
+    });
+  }
+
+  const handleAddTest = (data) => {
+    console.log("ЭТО ДАННЫЕ АА", data);
+
     axiosInstance
       .post("/api/imaging/test/", {
-        product_type: typeOfProduct,
-        measurement_technique: methodic,
-        melting_number: numberOfMelting,
+        product_type: Number(data.product_type),
+        measurement_technique: Number(data.measurement_technique),
+        melting_number: data.melting_number,
         comment: comment,
         date: null,
       })
@@ -78,47 +107,58 @@ const ListOfDetails = ({ setSwiper }) => {
         console.log(res);
         setTestInfo(res.data);
         console.log(testInfo);
-        createSegmentAndGetImages(res.data.id);
+        createSegmentAndGetImages(res.data.id, data);
+        setCurrentTestId(res.data.id);
+
+        setCurrentInfoAboutTest(res.data);
+
+        setShowAddingTest(false);
       })
-      .catch((er) => console.log(er));
-    setShowAddingTest(false);
+      .catch((er) => {
+        console.log(er, er.response.data);
+        setErrors(er.response.data);
+      });
+    // setComment(data.comment);
   };
 
-  const handleUpdateTest = () => {
-    createSegmentAndGetImages(testInfo.id);
+  const handleUpdateTest = (data) => {
+    createSegmentAndGetImages(testInfo.id, data);
+    axiosInstance
+      .put(`api/imaging/test/${currentInfoAboutTest.id}/`, {
+        comment: comment,
+      })
+      .then((res) =>
+        setCurrentInfoAboutTest((prevInfo) => ({
+          ...prevInfo,
+          comment: comment,
+        }))
+      );
     setShowUpdateTest(false);
   };
 
   const [img, setImg] = useState("");
-  useEffect(() => {
-    console.log(rangeValue);
-  }, [rangeValue]);
+
   return (
-    <div className="list-of-details">
+    <div className="list-of-details p-4">
+      <h2 className="list-of-details__title mb-3 text-start">Новый тест</h2>
       <Swiper
         scrollbar={{
           hide: false,
+          draggable: true,
         }}
-        // mousewheel
-        slidesPerView={"auto"}
-        // breakpoints={{
-        //   900: {
-        //     slidesPerView: 2,
-        //   },
-        //   1680: {
-        //     slidesPerView: 4,
-        //   },
-        // }}
+        mousewheel
+        draggable
+        slidesPerView={1}
         spaceBetween={24}
-        modules={[Scrollbar,Mousewheel]}
+        modules={[Scrollbar, Mousewheel]}
         className="mySwiper"
       >
         {listOfDetails.length !== 0 &&
           listOfDetails.map((el, index) => {
-            console.log(el,"ой уо")
             return (
               <SwiperSlide>
                 <Detail
+                  sideOfLighting={sideOfLighting}
                   detailInfo={el}
                   srcOFImg={require("../assets/door.jpg")}
                   index={index + 1}
@@ -127,88 +167,104 @@ const ListOfDetails = ({ setSwiper }) => {
               </SwiperSlide>
             );
           })}
-        <SwiperSlide>
-          {listOfDetails.length == 0 ? (
-            <Col className="list-of-details__add-new-detail add-new-detail add-new-detail_list-is-pure">
-              <div className="add-new-detail__header text-start ">
-                Добавить часть и создать тест
-              </div>
-              <div className="add-new-detail__body w-100 d-flex align-items-center justify-content-center">
-                <Button
-                  className="d-flex align-items-center"
-                  variant="primary"
-                  onClick={() => setShowAddingTest(true)}
-                >
-                  <svg
-                    className="me-4"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
+        {!currentInfoAboutTest?.date && (
+          <SwiperSlide>
+            {listOfDetails.length == 0 ? (
+              <Col className="list-of-details__add-new-detail add-new-detail add-new-detail_list-is-pure">
+                <div className="add-new-detail__header text-start ">
+                  Добавить сегмент и создать тест
+                </div>
+                <div className="add-new-detail__body w-100 d-flex align-items-center justify-content-center">
+                  <Button
+                    className="d-flex align-items-center"
+                    variant="primary"
+                    onClick={() => setShowAddingTest(true)}
                   >
-                    <path
-                      d="M12 5V19"
-                      stroke="white"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                    <path
-                      d="M5 12H19"
-                      stroke="white"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                  </svg>
-                  ДОБАВИТЬ ИЗОРАЖЕНИЕ
-                </Button>
-              </div>
-            </Col>
-          ) : (
-            <Col className="list-of-details__add-new-detail add-new-detail">
-              <div className="add-new-detail__header text-start">
-                Новая часть
-              </div>
-              <div className="add-new-detail__body d-flex align-items-center justify-content-center">
-                <Button className="d-flex align-items-center" variant="primary" onClick={()=>setShowUpdateTest(true)}>
-                  <svg
-                    className="me-4"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
+                    <svg
+                      className="me-4"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M12 5V19"
+                        stroke="white"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M5 12H19"
+                        stroke="white"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                    ДОБАВИТЬ ИЗОРАЖЕНИЕ
+                  </Button>
+                </div>
+              </Col>
+            ) : (
+              <Col className="list-of-details__add-new-detail add-new-detail">
+                <div className="add-new-detail__header text-start">
+                  Новая часть
+                </div>
+                <div className="add-new-detail__body d-flex align-items-center justify-content-center">
+                  <Button
+                    className="d-flex align-items-center"
+                    variant="primary"
+                    onClick={() => setShowUpdateTest(true)}
                   >
-                    <path
-                      d="M12 5V19"
-                      stroke="white"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                    <path
-                      d="M5 12H19"
-                      stroke="white"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                  </svg>
-                  ДОБАВИТЬ ИЗОРАЖЕНИЕ
-                </Button>
-              </div>
-            </Col>
-          )}
-        </SwiperSlide>
+                    <svg
+                      className="me-4"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M12 5V19"
+                        stroke="white"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M5 12H19"
+                        stroke="white"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                    ДОБАВИТЬ ИЗОРАЖЕНИЕ
+                  </Button>
+                </div>
+              </Col>
+            )}
+          </SwiperSlide>
+        )}
       </Swiper>
 
       {/* ! */}
       {/* Добавление теста  */}
-      <Modal show={showAddingTest} onHide={() => {}} animation={true}>
-        <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
+      <Modal
+        show={showAddingTest}
+        onSubmit={() => console.log("отправлено")}
+        onHide={() => {
+          setShowAddingTest(false);
+        }}
+        animation={true}
+      >
+        <Modal.Header className="border-0 pb-0 align-items-start" closeButton>
+          <Modal.Title>
+            <h3 className="mb-3">Настройки темплета</h3>
+            <h4 className="m-0">Новый тест</h4>
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Row>
@@ -240,12 +296,17 @@ const ListOfDetails = ({ setSwiper }) => {
             <Col>
               <Form className="adding-image__form">
                 <Form.Group>
+                  <Form.Text className="adding-image__error">
+                    {errors.product_type?.message}
+                  </Form.Text>
                   <Form.Select
-                    className="mb-3"
-                    onChange={(e) => {
-                      console.log(e.target.value);
-                      setTypeOfProduct(e.target.value);
-                    }}
+                    className="mb-2"
+                    // onChange={(e) => {
+                    //   setTypeOfProduct(e.target.value);
+                    // }}
+                    {...register("product_type", {
+                      // required: "емае мама звонит",
+                    })}
                   >
                     <option disabled selected>
                       Вид продукции
@@ -258,45 +319,67 @@ const ListOfDetails = ({ setSwiper }) => {
                       );
                     })}
                   </Form.Select>
+
+                  <Form.Text className="adding-image__error">
+                    {errors.melting_number?.message}
+                  </Form.Text>
                   <Form.Control
                     type="number"
                     placeholder="Номер плавки ручья"
                     className="mb-3"
-                    value={numberOfMelting}
-                    onChange={(e) => setNumberOfMelting(e.target.value)}
+                    {...register("melting_number", {})}
                   />
-                  <Form.Text className="">Сечение, мм</Form.Text>
+                  <Form.Text className="">
+                    Сечение, мм <br />
+                  </Form.Text>
+                  <Form.Text className="adding-image__error">
+                    {errors.length?.message}
+                  </Form.Text>
                   <Form.Control
                     type="number"
                     placeholder="Длина"
                     className="mb-2"
-                    value={length}
-                    onChange={(e) => setLength(e.target.value)}
+                    {...register("length", {
+                      required: "Это поле обязательно.",
+                      validate: {
+                        positive: (v) =>
+                          parseInt(v) > 0 || "Должно быть больше 0",
+                      },
+                    })}
                   />
+                  <Form.Text className="adding-image__error">
+                    {errors.width?.message}
+                  </Form.Text>
                   <Form.Control
                     type="number"
                     placeholder="Ширина"
                     className="mb-2"
-                    value={width}
-                    onChange={(e) => setWidth(e.target.value)}
+                    {...register("width", {
+                      required: "Это поле обязательно.",
+                      validate: {
+                        positive: (v) =>
+                          parseInt(v) > 0 || "Должно быть больше 0",
+                      },
+                    })}
                   />
+                  <Form.Text>Комментарий</Form.Text>
                   <Form.Control
                     as="textarea"
                     placeholder="Комментарий, если необходимо"
-                    className="mb-3"
+                    className="mb-2 "
                     value={comment}
                     onChange={(e) => setComment(e.target.value)}
                   />
+                  <Form.Text className="adding-image__error">
+                    {errors.product_type?.message}
+                  </Form.Text>
                   <Form.Select
                     className="mb-2"
-                    onChange={(e) => {
-                      console.log(e.target.value);
-                      setMethodic(e.target.value);
-                    }}
+                    {...register("measurement_technique", {})}
                   >
-                    <option disabled selected>
+                    {/* <option disabled value={1} selected>
                       Методика измерения
-                    </option>
+                    </option> */}
                     {methodicsList.map((el) => {
                       return (
                         <option key={el.id} value={el.id}>
@@ -318,7 +401,11 @@ const ListOfDetails = ({ setSwiper }) => {
           >
             Отмена
           </Button>
-          <Button variant="primary" onClick={handleAddTest}>
+          <Button
+            variant="primary"
+            type="submit"
+            onClick={handleSubmit(handleAddTest)}
+          >
             Добавить
           </Button>
         </Modal.Footer>
@@ -326,9 +413,18 @@ const ListOfDetails = ({ setSwiper }) => {
 
       {/* ! */}
       {/* Обновление теста  */}
-      <Modal show={showUpdateTest} onHide={() => {}} animation={true}>
-        <Modal.Header>
-          <Modal.Title>Modal heading</Modal.Title>
+      <Modal
+        show={showUpdateTest}
+        onHide={() => {
+          setShowUpdateTest(false);
+        }}
+        animation={true}
+      >
+        <Modal.Header className="border-0 pb-0 align-items-start" closeButton>
+          <Modal.Title>
+            <h3 className="mb-3">Добавление детали</h3>
+            {/* <h4 className="m-0">Новый тест</h4> */}
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Row>
@@ -360,45 +456,38 @@ const ListOfDetails = ({ setSwiper }) => {
             <Col>
               <Form className="adding-image__form">
                 <Form.Group>
-                  {/* <Form.Select
-                    className="mb-3"
-                    onChange={(e) => {
-                      console.log(e.target.value);
-                      setTypeOfProduct(e.target.value);
-                    }}
-                  >
-                    <option disabled selected>
-                      Вид продукции
-                    </option>
-                    {typeOfProductsList.map((el) => {
-                      return (
-                        <option key={el.id} value={el.id}>
-                          {el.name}
-                        </option>
-                      );
-                    })}
-                  </Form.Select> */}
-                  {/* <Form.Control
-                    type="number"
-                    placeholder="Номер плавки ручья"
-                    className="mb-3"
-                    value={numberOfMelting}
-                    onChange={(e) => setNumberOfMelting(e.target.value)}
-                  /> */}
-                  <Form.Text className="">Сечение, мм</Form.Text>
+                  <Form.Text className="">
+                    Сечение, мм <br />
+                  </Form.Text>
+                  <Form.Text className="adding-image__error">
+                    {errors.length?.message}
+                  </Form.Text>
                   <Form.Control
                     type="number"
                     placeholder="Длина"
                     className="mb-2"
-                    value={length}
-                    onChange={(e) => setLength(e.target.value)}
+                    {...register("length", {
+                      required: "Это поле обязательно.",
+                      validate: {
+                        positive: (v) =>
+                          parseInt(v) > 0 || "Должно быть больше 0",
+                      },
+                    })}
                   />
+                  <Form.Text className="adding-image__error">
+                    {errors.width?.message}
+                  </Form.Text>
                   <Form.Control
                     type="number"
                     placeholder="Ширина"
                     className="mb-2"
-                    value={width}
-                    onChange={(e) => setWidth(e.target.value)}
+                    {...register("width", {
+                      required: "Это поле обязательно.",
+                      validate: {
+                        positive: (v) =>
+                          parseInt(v) > 0 || "Должно быть больше 0",
+                      },
+                    })}
                   />
                   <Form.Control
                     as="textarea"
@@ -407,24 +496,6 @@ const ListOfDetails = ({ setSwiper }) => {
                     value={comment}
                     onChange={(e) => setComment(e.target.value)}
                   />
-                  {/* <Form.Select
-                    className="mb-2"
-                    onChange={(e) => {
-                      console.log(e.target.value);
-                      setMethodic(e.target.value);
-                    }}
-                  >
-                    <option disabled selected>
-                      Методика измерения
-                    </option>
-                    {methodicsList.map((el) => {
-                      return (
-                        <option key={el.id} value={el.id}>
-                          {el.name}
-                        </option>
-                      );
-                    })}
-                  </Form.Select> */}
                 </Form.Group>
               </Form>
             </Col>
@@ -433,12 +504,16 @@ const ListOfDetails = ({ setSwiper }) => {
         <Modal.Footer>
           <Button
             variant="outline-primary"
-            onClick={() => setShowAddingTest(false)}
+            onClick={() => setShowUpdateTest(false)}
             className=""
           >
             Отмена
           </Button>
-          <Button variant="primary" onClick={handleUpdateTest}>
+          <Button
+            variant="primary"
+            type="submit"
+            onClick={handleSubmit(handleUpdateTest)}
+          >
             Добавить
           </Button>
         </Modal.Footer>

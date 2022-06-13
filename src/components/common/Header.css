@@ -4,4 +4,12 @@
   padding-top: 18px;
   padding-bottom: 22px;
 }
+
+.header__new-test {
+  cursor: pointer;
+}
+
+.header a:hover {
+  border-bottom: 1px solid white;
+}
 /*# sourceMappingURL=Header.css.map */

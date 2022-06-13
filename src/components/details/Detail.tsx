@@ -1,25 +1,22 @@
 import Ruler from "@scena/ruler";
 import { useEffect, useRef, useState } from "react"
-import { Button, Modal } from "react-bootstrap"
+import { Button, Form, Modal } from "react-bootstrap"
 import { Helmet } from "react-helmet";
 import ScrollContainer from "react-indiana-drag-scroll";
 import { Mousewheel, Scrollbar } from "swiper";
 import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
+import { ISegment } from "../../types/interfaces";
 import "./Detail.css"
 import "./rulez-black.css"
 
-interface IDetail {
-  id: string, test: string,
-  length: string,
-  width: string,
-  images: Array<any>,
-}
+
 
 interface IProps {
-  detailInfo: IDetail,
+  detailInfo: ISegment,
   srcOFImg: string,
   index: number,
   setSwiper: any,
+  sideOfLighting: boolean,
 }
 
 
@@ -30,22 +27,18 @@ const Detail = (props: IProps) => {
   const [show, setShow] = useState(false)
   const [allowScrolling, setAllowScrolling] = useState(true)
   const [alert, setAlert] = useState(false)
+  const [currentScale, setCurrentScale] = useState(1)
   const [imageH, setImageH] = useState(559.59)
-
+  const [imageW, setImageW] = useState(394)
+  const [clickedImage, setClickedImage] = useState<string>("")
   const swiper = useSwiper()
 
   useEffect(() => {
     props.setSwiper(swiper)
 
   })
-  useEffect(() => {
-
-    console.log("я ебануттттый", props.detailInfo)
-  }, [])
 
   useEffect(() => {
-
-
   }, [allowScrolling])
   return (
     <>
@@ -56,14 +49,10 @@ const Detail = (props: IProps) => {
 
 
         </div>
-        <div className="detail__img d-flex" onClick={() => {
-          setShow(true)
-
-
-        }}>
+        <div className="detail__img d-flex" >
           <Swiper
             scrollbar={{
-              hide: false,
+              hide: true,
             }}
             nested
             mousewheel
@@ -74,24 +63,32 @@ const Detail = (props: IProps) => {
 
             {
               props.detailInfo.images.map(el => {
-                return (
-                  <SwiperSlide>
-                    <img src={`http://${process.env.REACT_APP_SERVER_SEVERSTAL}${el.file_crop}`} alt="" className="me-3" />
-                  </SwiperSlide>
-                )
+                console.log(el)
+                if (props.sideOfLighting) {
+                  if (el.light === "top") {
+                    console.log("Покзываем фотки с top")
+                    return (<SwiperSlide >
+                      <img src={`http://${process.env.REACT_APP_SERVER_SEVERSTAL}${el.file_crop}`} alt="" className="me-3" onClick={() => {
+                        setShow(true)
+                        setClickedImage(el.file_crop)
+
+                      }} />
+                    </SwiperSlide>)
+                  }
+                } else if (!props.sideOfLighting) {
+                  if (el.light === "top") {
+                    console.log("Показываем фотки с front")
+                    return (<SwiperSlide >
+                      <img src={`http://${process.env.REACT_APP_SERVER_SEVERSTAL}${el.file_crop}`} alt="" className="me-3" onClick={() => {
+                        setShow(true)
+                        setClickedImage(el.file_crop)
+
+                      }} />
+                    </SwiperSlide>)
+                  }
+                }
               })
-              // aboba.map(() => {
-              //   return (
-              //     <SwiperSlide>
-              //       <img
-              //         src={`http://${process.env.REACT_APP_SERVER_SEVERSTAL}/api/imaging/current_image/?offset=${20}`}
-              //         alt="camera-img"
-              //         className="detail__slider-image"
-              //       // className="w-100 h-100"
-              //       />
-              //     </SwiperSlide>
-              //   )
-              // })
+
             }
           </Swiper>
 
@@ -133,7 +130,6 @@ const Detail = (props: IProps) => {
           isDown = true;
           var pointer = canvas.getPointer(o.e);
           canvas.width = 1000 
-          console.log(canvas,"СУКАААА" )
           console.log(pointer.x,pointer.y, "ЫЫЫЫЫЫЫЫЫ")
           var points = [pointer.x, pointer.y -lineShift, pointer.x, pointer.y -lineShift];
           startx[temp] = pointer.x;
@@ -283,6 +279,9 @@ const Detail = (props: IProps) => {
           console.log(canvas.style, "ААААААААААААААААААААААААААААААААААЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫ")
           img.style.width = imgWidth * currentScale + "px";
           img.style.height = imgHeight * currentScale + "px";
+          img.setAttribute('width',imgWidth * currentScale)
+                    img.setAttribute('height',imgHeight * currentScale)
+
           rulezH.setScale(1 / currentScale);
           rulezV.setScale(1 / currentScale);
         });
@@ -302,6 +301,20 @@ const Detail = (props: IProps) => {
 
             <div className="content">
               <div id="scroll"
+              // onWheel={(e) =>
+              //   {if (e.deltaY > 0) {
+              //   if (currentScale > 1) {
+              //     setCurrentScale(prevCurrentScale=>prevCurrentScale - 0.2)
+              //     console.log("А это с реакта",currentScale)
+
+
+              //   }
+              //   console.log(currentScale)
+              // } else if (e.deltaY < 0) {
+              //   setCurrentScale(prevCurrentScale => prevCurrentScale - 0.2)
+              //   console.log("А это с реакта", currentScale)
+              // }}
+              // }
               >
                 <ScrollContainer vertical={allowScrolling} horizontal={allowScrolling}>
                   <div style={{ width: "394px", height: "559.59px" }} >
@@ -309,7 +322,8 @@ const Detail = (props: IProps) => {
                       {/* <img id="img" src={props.srcOFImg}
 
                       /> */}
-                      <canvas id="img" width={394} height={imageH} style={{ background: `url(${props.srcOFImg})`, backgroundSize: "cover" }} ></canvas>
+                      <canvas id="img" width={imageW} height={imageH} style={{ background: `url(http://${process.env.REACT_APP_SERVER_SEVERSTAL! + clickedImage!})`, backgroundSize: "cover" }} ></canvas>
+                      {/* <canvas id="img" style={{ background: `url(http://${process.env.REACT_APP_SERVER_SEVERSTAL! + clickedImage!})`, backgroundSize: "cover" }} ></canvas> */}
 
                     </div>
 
@@ -326,8 +340,23 @@ const Detail = (props: IProps) => {
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="outline-primary " className='analysis-control-panel__shape m-0' onClick={() => setAllowScrolling(false)}>Рисовать</Button>
+          <Button variant="outline-primary " className='analysis-control-panel__shape m-0' onClick={() => setAllowScrolling(prevValue => !prevValue)}>Рисовать</Button>
+          <Form.Check
+            type="switch"
+            id="draw-switch"
+            label="Check this switch"
+            onChange={(e) => {
+              if (e.target.value !== "on") {
+                e.target.value = "on"
+                console.log(e.target.value)
 
+              } else {
+                e.target.value = "off "
+                console.log(e.target.value)
+
+              }
+            }}
+          />
         </Modal.Footer>
       </Modal>
     </>

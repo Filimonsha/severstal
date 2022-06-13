@@ -11,7 +11,6 @@ function Auth() {
   const [login, setLogin] = useState("")
   const [password, setPassword] = useState("")
   const nav = useNavigate()
-  const authCtx = useContext(AuthCtx)
 
   const handleAuth = () => {
     axiosInstance.post(`/api/auth/login/`, {
@@ -19,9 +18,7 @@ function Auth() {
       password: password,
     },)
       .then((res) => {
-        authCtx.setUserIsAuth(true)
         console.log(res)
-        console.log(document.cookie)
         nav("/")
       })
       .catch((res) => {

@@ -198,7 +198,7 @@
     background: #ccc;
 }
 .control-panel {
-    height:100vh;
+    height: 100vh;
 
     background: #ffffff;
     box-shadow: -4px 8px 23px rgba(0, 0, 0, 0.05);
@@ -210,4 +210,28 @@
         font-weight: 500;
         font-size: 24px;
     }
+    span,
+    p {
+        font-size: 16px;
+        line-height: 19px;
+    }
+    .alert {
+        border-radius: 0 !important;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+        padding: 12px 24px;
+    }
+    button {
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+        padding: 19px 32px 18px;
+    }
+}
+#choosing-part__input {
+    background: #fafcff;
+    /* Second/Gray color */
+
+    border: 1px solid #c8cacc;
 }

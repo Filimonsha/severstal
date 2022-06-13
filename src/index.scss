@@ -1,4 +1,38 @@
 @import "./variables";
+@font-face {
+    font-family: "Heartless";
+    src: local("Heartless"), url(./fonts/Heartless.ttf) format("ttf");
+}
+p,
+div,
+a,
+button,
+span,
+h1,
+h2,
+h3,
+h4,
+::placeholder,
+input,
+textarea {
+    font-family: "Heartless", Arial, Helvetica, sans-serif !important;
+}
+*:focus {
+    outline: none !important;
+    -webkit-box-shadow: 0 !important;
+    box-shadow: none !important;
+    border-color: none;
+}
+a {
+    text-decoration: none !important;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+
+    /* Main/Wight color */
+
+    color: #ffffff !important;
+}
 .btn {
     display: flex !important;
     align-items: center !important;
@@ -31,15 +65,14 @@
     border-color: $dark-blue !important;
     opacity: 0.5;
 }
-.row{
+.row {
     max-width: 100%;
 }
-#img{
-    border:1px solid red;
+#img {
+    border: 1px solid red;
     // width: 500px;
     // height: 500px;
-
 }
-.upper-canvas{
-    background:none !important;
+.upper-canvas {
+    background: none !important;
 }
