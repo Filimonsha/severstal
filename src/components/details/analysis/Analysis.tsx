@@ -14,18 +14,16 @@ interface IProps {
 const Analysis = (props: IProps) => {
   const [swiper, setSwiper] = useState(null)
   return (
-    // <Row className='analysis'>
     <div className="analysis d-flex">
       <Col md="9">
-        <ListOfAnalysedParts  currentInfoAboutTest={props.currentInfoAboutTest} setCurrentInfoAboutTest={props.setCurrentInfoAboutTest} listOfDetails={props.listOfSegments} setSwiper={setSwiper} />
+        <ListOfAnalysedParts isHistoryRoute={false} currentInfoAboutTest={props.currentInfoAboutTest} setCurrentInfoAboutTest={props.setCurrentInfoAboutTest} setSwiper={setSwiper} />
       </Col>
       <Col md="3">
-        <AnalysisConrolPanel setCurrentInfoAboutTest={props.setCurrentInfoAboutTest} currentInfoAboutTest={props.currentInfoAboutTest} listOfDetails={props.listOfSegments} swiper={swiper} setUserClickedAnalysis={props.setUserClickedAnalysis} />
+        <AnalysisConrolPanel isHistoryRoute={false} setCurrentInfoAboutTest={props.setCurrentInfoAboutTest} currentInfoAboutTest={props.currentInfoAboutTest} swiper={swiper} setUserClickedAnalysis={props.setUserClickedAnalysis} />
       </Col>
     </div>
 
 
-    // </Row>
   )
 }
 

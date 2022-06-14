@@ -5,18 +5,14 @@ import { ISegment, ITest } from '../../../types/interfaces';
 import AnalysedSegment from './AnalysedSegment';
 import "./ListOfAnalysedParts.css"
 interface IProps {
-    listOfDetails: ISegment[],
+    // listOfDetails: ISegment[],
     setSwiper: any,
     setCurrentInfoAboutTest: React.Dispatch<React.SetStateAction<ITest>>,
     currentInfoAboutTest: ITest,
-
+    isHistoryRoute:boolean,
 }
 
 const ListOfAnalysedParts = (props: IProps) => {
-    useEffect(() => {
-        console.log("пришедший массив сегментов", props.listOfDetails)
-
-    }, [])
     return (
         <div className="list-of-details p-4">
             <h2 className="list-of-details__title mb-3 text-start">
@@ -33,14 +29,16 @@ const ListOfAnalysedParts = (props: IProps) => {
                         slidesPerView: 2,
                     },
                     1680: {
-                        slidesPerView: 4,
+                        slidesPerView: 3,
                     },
                 }}
                 spaceBetween={24}
                 modules={[Scrollbar, Mousewheel]}
                 className="mySwiper"
             >
-                {props.listOfDetails.map((currentSegment, index) => {
+                {/* {props.listOfDetails.map((currentSegment, index) => { */}
+                {props.currentInfoAboutTest.segments.map((currentSegment, index) => {
+
                     console.log("ЭЛЕМЕНТ LISTOFDETAILS", currentSegment, index)
                     // const currentArrayAnalysedImages: Array<object> = []
                     return (
@@ -74,13 +72,10 @@ const ListOfAnalysedParts = (props: IProps) => {
                                     currentSegment.images.map(
                                         (currentImage, index) => {
 
-                                            // const AnalysedSegment = lazy(() => import("./AnalysedSegment"))
                                             if (currentImage.light === "top") {
                                                 return (
                                                     <SwiperSlide>
-                                                        {/* <Suspense fallback={<h1>Загрузка</h1>}> */}
                                                         <AnalysedSegment setCurrentInfoAboutTest={props.setCurrentInfoAboutTest} currentInfoAboutTest={props.currentInfoAboutTest} imageId={currentImage.id} />
-                                                        {/* </Suspense> */}
                                                     </SwiperSlide>
                                                 )
                                             }

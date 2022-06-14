@@ -8,7 +8,7 @@ interface IProps {
     imageId: number,
     currentInfoAboutTest: ITest,
     setCurrentInfoAboutTest: React.Dispatch<React.SetStateAction<ITest>>,
-
+    isHistoryRoute: boolean
 }
 interface IDefect {
     name: string,
@@ -27,7 +27,10 @@ const AnalysedSegment = (props: IProps) => {
 
     useEffect(() => {
         console.log("ИзрБРАЖЕНИЕ ПОМЕНЯЛОСЬ ", props.imageId)
-        analyseImage()
+        if (!props.isHistoryRoute) {
+            analyseImage()
+
+        }
     }, [props.imageId])
     const analyseImage = useCallback(() => {
         axiosInstance.post(`/api/imaging/image/${props.imageId}/analyze/`).then(res => {
@@ -47,10 +50,24 @@ const AnalysedSegment = (props: IProps) => {
             console.log(wasAnalysed)
         })
     }, [props.imageId])
+
+    const checkIsImageWithoutDefects = () => {
+        // res.data.defects.forEach((defect: IDefect) => {
+        //     if (defect.score !== 0) {
+        //         setImageWithoutDefects(false)
+        //     }
+        //     if (defect.name === "ОХН") {
+        //         setDefectsScore(prevDefectsScore => ({ ...prevDefectsScore, ОХН: defect.score }))
+        //     } else if (defect.name = "ОР") {
+        //         setDefectsScore(prevDefectsScore => ({ ...prevDefectsScore, ОР: defect.score }))
+        //     }
+        // });
+
+    }
     return (
         <div className="analysed-segment">
             {
-                imageAnalysed ?
+                props.isHistoryRoute ?
                     <div className="analysed-segment__succ">
                         <div className="analysed-segment__square mb-3">
 
@@ -68,14 +85,39 @@ const AnalysedSegment = (props: IProps) => {
                                 </span>
                             </div>
                         }
-                    </div> :
-                    <div className="analysed-segment__wait">
-                        <Spinner animation='border' className='mb-3' />
-                        <div className="analysed-segment__gray">
-
-                        </div>
                     </div>
+                    : <>
+                        {
+                            imageAnalysed ?
+                                <div className="analysed-segment__succ">
+                                    <div className="analysed-segment__square mb-3">
+
+                                    </div>
+                                    {imageWithoutDefects ?
+                                        <div className="analysed-segment__without-def">
+
+                                        </div> :
+                                        <div className="analysed-segment__with-def">
+                                            <span className="analysed-segment__OX mb-3">
+                                                ОХ {defectsScore.ОР}
+                                            </span>
+                                            <span className="analysed-segment__OXN">
+                                                ОХН {defectsScore.ОХН}
+                                            </span>
+                                        </div>
+                                    }
+                                </div>
+                                :
+                                <div className="analysed-segment__wait">
+                                    <Spinner animation='border' className='mb-3' />
+                                    <div className="analysed-segment__gray">
+
+                                    </div>
+                                </div>
+                        }
+                    </>
             }
+
         </div>
     )
 }

@@ -6,6 +6,7 @@ import History from '../History'
 import Analysis from '../details/analysis/Analysis'
 import { createContext, useState } from 'react'
 import { AuthCtx } from '../../context/authContext'
+import RouteAnalysis from '../details/analysis/RouteAnalysis'
 
 const Layout = () => {
     return (
@@ -15,7 +16,7 @@ const Layout = () => {
                     <Route path='/auth' element={<Auth />} />
                     <Route path='/' element={<Main />} />
                     <Route path="/history" element={<History />} />
-                    {/* <Route path='/analysis' element={<Analysis />} /> */}
+                    <Route path="/history/:id" element={<RouteAnalysis/>}/>
                 </Routes>
 
         </div>

@@ -6,11 +6,11 @@ import axiosInstance from '../../helpers/axios'
 import { ISegment, ITest, ITypeOfPropduct } from '../../types/interfaces'
 import "./AnalysisControlPanel.css"
 interface IProps {
-  listOfDetails: Array<ISegment>,
   swiper: Swiper | null,
-  setUserClickedAnalysis: React.Dispatch<React.SetStateAction<boolean>>,
+  setUserClickedAnalysis?: React.Dispatch<React.SetStateAction<boolean>>,
   currentInfoAboutTest: ITest,
   setCurrentInfoAboutTest: React.Dispatch<React.SetStateAction<ITest>>,
+  isHistoryRoute: boolean
 }
 
 interface IGeneralRanges {
@@ -128,7 +128,7 @@ const AnalysisConrolPanel = (props: IProps) => {
 
           }} />
           <label htmlFor="choosing-part__input">
-            из {props.listOfDetails.length}
+            из {props.currentInfoAboutTest.segments.length}
           </label>
         </div>
       </div>
@@ -183,9 +183,13 @@ const AnalysisConrolPanel = (props: IProps) => {
 
       <div className='d-flex justify-content-center justify-content-between mb-3'>
         <Button variant="outline-primary " className='analysis-control-panel__save'>Сохранить отчет</Button>
-        <Button className="d-flex align-items-center analysis-control-panel__back" variant="primary" onClick={() => props.setUserClickedAnalysis(false)}>
-          Назад
-        </Button>
+        {
+          !props.isHistoryRoute &&
+          <Button className="d-flex align-items-center analysis-control-panel__back" variant="primary" onClick={() => props.setUserClickedAnalysis(false)}>
+            Назад
+          </Button>
+        }
+
       </div>
       <Button variant="outline-primary " className='analysis-control-panel__shape m-0' onClick={() => setShowModal(true)}>Просмотреть полное сечение</Button>
 
@@ -194,10 +198,10 @@ const AnalysisConrolPanel = (props: IProps) => {
 
       <Modal
         show={showModal}
-        onHide={()=>setShowModal(false)}
+        onHide={() => setShowModal(false)}
         backdrop="static"
         keyboard={false}
-        // className="analysis-control-panel__modal"
+      // className="analysis-control-panel__modal"
       >
         <Modal.Header closeButton>
           <Modal.Title>Полное сечение</Modal.Title>
@@ -210,16 +214,16 @@ const AnalysisConrolPanel = (props: IProps) => {
                 <Row>
                   {segment.images.map(img => {
                     if (img.light === "top") {
-                      if(showProcessedPhoto){
-                        console.log("Показываем фото обработанные",img.file_res_crop)
+                      if (showProcessedPhoto) {
+                        console.log("Показываем фото обработанные", img.file_res_crop)
                         return (
                           <Col md={'4'}>
                             <img src={`${img.file_res_crop}`} alt="" className="me-3"
                             />
                           </Col>
                         )
-                      }else{
-                        console.log("Показываем фото необработанные",img.file_crop)
+                      } else {
+                        console.log("Показываем фото необработанные", img.file_crop)
                         return (
                           <Col md={'4'}>
                             <img src={`${img.file_crop}`} alt="" className="me-3"
@@ -252,7 +256,7 @@ const AnalysisConrolPanel = (props: IProps) => {
               </span>
             </label>
           </div>
-          <Button variant="secondary" onClick={()=>setShowModal(false)}>
+          <Button variant="secondary" onClick={() => setShowModal(false)}>
             Close
           </Button>
 

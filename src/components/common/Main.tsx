@@ -21,7 +21,6 @@ const Main = () => {
     
     const [currentInfoAboutTest,setCurrentInfoAboutTest] = useState<ITest|any>(null)
 
-
     useEffect(() => {
         console.log("Йоу", sessionId)
         console.log(document.cookie)
