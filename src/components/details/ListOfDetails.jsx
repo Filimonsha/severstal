@@ -9,15 +9,12 @@ import { useEffect, useState } from "react";
 import axiosInstance from "../../helpers/axios";
 import { useForm } from "react-hook-form";
 const ListOfDetails = ({
-  listOfDetails,
   setListOfDetailsToAnalysis,
   setSwiper,
-  setCurrentTestId,
   currentInfoAboutTest,
   setCurrentInfoAboutTest,
   sideOfLighting,
 }) => {
-  // const [listOfDetails, setListOfDetails] = useState([]);
   const [showAddingTest, setShowAddingTest] = useState(false);
   const [showUpdateTest, setShowUpdateTest] = useState(false);
   const [rangeValue, setRangeValue] = useState(50);
@@ -65,7 +62,7 @@ const ListOfDetails = ({
             setListOfDetailsToAnalysis((prevArray) => [...prevArray, res.data]);
           })
           .catch((er) => console.log(er));
-      });
+      }).catch(er=>console.log(er))
   };
 
   useEffect(() => {
@@ -108,7 +105,7 @@ const ListOfDetails = ({
         setTestInfo(res.data);
         console.log(testInfo);
         createSegmentAndGetImages(res.data.id, data);
-        setCurrentTestId(res.data.id);
+        // setCurrentTestId(res.data.id);
 
         setCurrentInfoAboutTest(res.data);
 
@@ -153,8 +150,9 @@ const ListOfDetails = ({
         modules={[Scrollbar, Mousewheel]}
         className="mySwiper"
       >
-        {listOfDetails.length !== 0 &&
-          listOfDetails.map((el, index) => {
+        {currentInfoAboutTest.segments.length !== 0 &&
+          currentInfoAboutTest.segments.map((el, index) => {
+            console.log("Абобус",el)
             return (
               <SwiperSlide>
                 <Detail
@@ -169,7 +167,7 @@ const ListOfDetails = ({
           })}
         {!currentInfoAboutTest?.date && (
           <SwiperSlide>
-            {listOfDetails.length == 0 ? (
+            {currentInfoAboutTest.segments.length == 0 ? (
               <Col className="list-of-details__add-new-detail add-new-detail add-new-detail_list-is-pure">
                 <div className="add-new-detail__header text-start ">
                   Добавить сегмент и создать тест

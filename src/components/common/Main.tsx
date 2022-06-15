@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
-import { Route, Routes, useNavigate } from 'react-router-dom'
+import { Route, Routes, useNavigate, useParams } from 'react-router-dom'
 import { AuthCtx } from '../../context/authContext'
 import { sessionId } from '../../helpers/api'
+import axiosInstance from '../../helpers/axios'
 import { ISegment, ITest } from '../../types/interfaces'
 import Auth from '../auth/Auth'
 import Analysis from '../details/analysis/Analysis'
@@ -15,36 +16,49 @@ const Main = () => {
 
     const [listOfDetails, setListOfDetails] = useState<Array<ISegment>>([])
     const [userClickedAnalysis, setUserClickedAnalysis] = useState(false)
-    const [currentTestId,setCurrentTestId] = useState("")
-    const [sideOfLighting,setSideOfLighting] = useState(false)
+    const [currentTestId, setCurrentTestId] = useState("")
+    const [sideOfLighting, setSideOfLighting] = useState(false)
     const nav = useNavigate()
-    
-    const [currentInfoAboutTest,setCurrentInfoAboutTest] = useState<ITest|any>(null)
+    const { id } = useParams()
+    const [currentInfoAboutTest, setCurrentInfoAboutTest] = useState<ITest | any>({
+        "id": null,
+        "number": null,
+        "product_type": null,
+        "measurement_technique": null,
+        "melting_number": null,
+        "comment": "",
+        "date": null,
+        "segments": []
+    })
 
     useEffect(() => {
-        console.log("Йоу", sessionId)
-        console.log(document.cookie)
-        // if (getCookie("sessionid") === undefined) {
-        //     nav("/auth")
-        // }
+        console.log(id)
+        if (id) {
+            axiosInstance.get(`/api/imaging/test/${id}/`)
+            .then(res=>{
+                setCurrentInfoAboutTest(res.data)
+                console.log("ПИС",currentInfoAboutTest)
+            })
+        }
     }, [])
+
 
     return (
 
-        <AuthCtx.Provider value={{currentTestId, setCurrentTestId}}>
+        <AuthCtx.Provider value={{ currentTestId, setCurrentTestId }}>
 
-        {userClickedAnalysis ?
-                <Analysis listOfSegments={listOfDetails} setCurrentInfoAboutTest={setCurrentInfoAboutTest} setUserClickedAnalysis={setUserClickedAnalysis} currentInfoAboutTest={currentInfoAboutTest} />
-            :
-            <div className='d-flex'>
-                <Col md={9}
-                >
-                        <ListOfDetails sideOfLighting={sideOfLighting} currentInfoAboutTest={currentInfoAboutTest} setCurrentInfoAboutTest={setCurrentInfoAboutTest} setCurrentTestId={setCurrentTestId} setSwiper={setSwiper} listOfDetails={listOfDetails} setListOfDetailsToAnalysis={setListOfDetails} />
-                </Col>
-                <Col md={3}>
-                        <ControlPanel setSideOfLighting={setSideOfLighting} currentInfoAboutTest={currentInfoAboutTest} setCurrentInfoAboutTest={setCurrentInfoAboutTest}  currentTestId={currentTestId} listOfDetails={listOfDetails} swiper={swiper} setUserClickedAnalysis={setUserClickedAnalysis} />
-                </Col>
-            </div>}
+            {userClickedAnalysis ?
+                <Analysis setCurrentInfoAboutTest={setCurrentInfoAboutTest} setUserClickedAnalysis={setUserClickedAnalysis} currentInfoAboutTest={currentInfoAboutTest} />
+                :
+                <div className='d-flex'>
+                    <Col md={9}
+                    >
+                        <ListOfDetails sideOfLighting={sideOfLighting} currentInfoAboutTest={currentInfoAboutTest} setCurrentInfoAboutTest={setCurrentInfoAboutTest} setSwiper={setSwiper} setListOfDetailsToAnalysis={setListOfDetails} />
+                    </Col>
+                    <Col md={3}>
+                        <ControlPanel setSideOfLighting={setSideOfLighting} currentInfoAboutTest={currentInfoAboutTest} setCurrentInfoAboutTest={setCurrentInfoAboutTest} swiper={swiper} setUserClickedAnalysis={setUserClickedAnalysis} />
+                    </Col>
+                </div>}
 
 
         </AuthCtx.Provider>

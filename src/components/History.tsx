@@ -4,7 +4,6 @@ import { Link, useNavigate } from 'react-router-dom'
 import { AuthCtx } from '../context/authContext'
 import axiosInstance from '../helpers/axios'
 import { ITest } from '../types/interfaces'
-// import { getCookie } from '../helpers/api'
 import "./History.css"
 const History = () => {
     const [listOfTests, setListOfTests] = useState<Array<ITest | undefined>>([])
@@ -68,7 +67,9 @@ const History = () => {
                                 return (
                                     <tr>
                                         <th><p>
-                                            {el?.number}
+                                            <Link className='history__link' to={`/history/${el?.id}`}>
+                                                {el?.number}
+                                            </Link>
                                         </p>
                                         </th>
                                         <th><p>

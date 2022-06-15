@@ -16,8 +16,8 @@ const Header = () => {
       <Navbar>
         <a className='me-2 header__new-test' onClick={() => {
           // window.history.replaceState({}, document.title)
-          window.location.reload();
           nav("/")
+          window.location.reload();
         }}>
           Новый тест
         </a>

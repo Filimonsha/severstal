@@ -1,6 +1,6 @@
 import Ruler from "@scena/ruler";
 import { useEffect, useRef, useState } from "react"
-import { Button, Form, Modal } from "react-bootstrap"
+import { Button, Col, Form, Modal } from "react-bootstrap"
 import { Helmet } from "react-helmet";
 import ScrollContainer from "react-indiana-drag-scroll";
 import { Mousewheel, Scrollbar } from "swiper";
@@ -28,8 +28,10 @@ const Detail = (props: IProps) => {
   const [allowScrolling, setAllowScrolling] = useState(true)
   const [alert, setAlert] = useState(false)
   const [currentScale, setCurrentScale] = useState(1)
-  const [imageH, setImageH] = useState(559.59)
-  const [imageW, setImageW] = useState(394)
+  // const [imageH, setImageH] = useState(559.59)
+  // const [imageW, setImageW] = useState(394)
+  const [imageH, setImageH] = useState(1800)
+  const [imageW, setImageW] = useState(1800)
   const [clickedImage, setClickedImage] = useState<string>("")
   const swiper = useSwiper()
 
@@ -68,7 +70,7 @@ const Detail = (props: IProps) => {
                   if (el.light === "top") {
                     console.log("Покзываем фотки с top")
                     return (<SwiperSlide >
-                      <img src={`http://${process.env.REACT_APP_SERVER_SEVERSTAL}${el.file_crop}`} alt="" className="me-3" onClick={() => {
+                      <img src={`${el.file_crop}`} alt="" className="me-3" onClick={() => {
                         setShow(true)
                         setClickedImage(el.file_crop)
 
@@ -79,7 +81,7 @@ const Detail = (props: IProps) => {
                   if (el.light === "top") {
                     console.log("Показываем фотки с front")
                     return (<SwiperSlide >
-                      <img src={`http://${process.env.REACT_APP_SERVER_SEVERSTAL}${el.file_crop}`} alt="" className="me-3" onClick={() => {
+                      <img src={`${el.file_crop}`} alt="" className="me-3" onClick={() => {
                         setShow(true)
                         setClickedImage(el.file_crop)
 
@@ -118,7 +120,22 @@ const Detail = (props: IProps) => {
       var graphtype;
       trigger = "1";
       var text;
+      var switchRegime = document.getElementById("draw-switch")
+      switchRegime.value="off"
+      switchRegime.addEventListener("click",function (e){
+                        if (e.target.value !== "off") {
+                  e.target.value = "off"
 
+                } else {
+                  e.target.value = "on "
+                }
+                        console.log(e.target.value)
+
+      })
+      document.getElementById("removeAllLines").addEventListener("click",function (e){
+        console.log(canvas)
+        canvas.clear()
+      })
       var canvas = (this.__canvas = new fabric.Canvas("img", {
         hoverCursor: "pointer",
         selection: false,
@@ -126,7 +143,13 @@ const Detail = (props: IProps) => {
       fabric.Object.prototype.transparentCorners = false;
 
       canvas.on("mouse:down", function (o) {
+        if(switchRegime.value==="off"){
+          trigger= "0"
+        }else{
+          trigger = "1"
+        }
         if (trigger == "1") {
+          console.log("Бляяяя",switchRegime.value)
           isDown = true;
           var pointer = canvas.getPointer(o.e);
           canvas.width = 1000 
@@ -149,6 +172,7 @@ const Detail = (props: IProps) => {
       });
 
       canvas.on("mouse:move", function (o) {
+
         canvas.remove(text);
         canvas.renderAll();
         if (!isDown) return;
@@ -200,6 +224,9 @@ const Detail = (props: IProps) => {
           );
         },
       };
+
+
+      // Scroll
       var rulezH = new Rulez({
         element: document.getElementById("svgH"),
         layout: "horizontal",
@@ -263,24 +290,18 @@ const Detail = (props: IProps) => {
           if (event.deltaY > 0) {
             if (currentScale > 1) {currentScale = currentScale - 0.2;
             lineScale = lineScale + 0.3
-            
             }
-            console.log(currentScale)
           } else if (event.deltaY < 0) {
             currentScale = currentScale + 0.2;
             if(lineScale - 0.3 > 0){
             lineScale = lineScale - 0.3
-            // lineShift = lineShift / 2
             }
             console.log(currentScale)
-          }
-          // canvas.style.width
-          
-          console.log(canvas.style, "ААААААААААААААААААААААААААААААААААЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫ")
+          }          
           img.style.width = imgWidth * currentScale + "px";
           img.style.height = imgHeight * currentScale + "px";
           img.setAttribute('width',imgWidth * currentScale)
-                    img.setAttribute('height',imgHeight * currentScale)
+          img.setAttribute('height',imgHeight * currentScale)
 
           rulezH.setScale(1 / currentScale);
           rulezV.setScale(1 / currentScale);
@@ -294,69 +315,65 @@ const Detail = (props: IProps) => {
         <Modal.Header closeButton>
           <Modal.Title>Modal heading</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body className="d-flex">
 
-          <div className="measurement">
-
-
-            <div className="content">
-              <div id="scroll"
-              // onWheel={(e) =>
-              //   {if (e.deltaY > 0) {
-              //   if (currentScale > 1) {
-              //     setCurrentScale(prevCurrentScale=>prevCurrentScale - 0.2)
-              //     console.log("А это с реакта",currentScale)
-
-
-              //   }
-              //   console.log(currentScale)
-              // } else if (e.deltaY < 0) {
-              //   setCurrentScale(prevCurrentScale => prevCurrentScale - 0.2)
-              //   console.log("А это с реакта", currentScale)
-              // }}
-              // }
-              >
-                <ScrollContainer vertical={allowScrolling} horizontal={allowScrolling}>
-                  <div style={{ width: "394px", height: "559.59px" }} >
-                    <div>
-                      {/* <img id="img" src={props.srcOFImg}
+          <Col md="9">
+            <div className="measurement">
+              <div className="content">
+                <div id="scroll"
+                >
+                  {/* <ScrollContainer vertical={allowScrolling} horizontal={allowScrolling}> */}
+                    <div style={{ width: "394px", height: "559.59px" }} >
+                      <div>
+                        {/* <img id="img" src={props.srcOFImg}
 
                       /> */}
-                      <canvas id="img" width={imageW} height={imageH} style={{ background: `url(http://${process.env.REACT_APP_SERVER_SEVERSTAL! + clickedImage!})`, backgroundSize: "cover" }} ></canvas>
-                      {/* <canvas id="img" style={{ background: `url(http://${process.env.REACT_APP_SERVER_SEVERSTAL! + clickedImage!})`, backgroundSize: "cover" }} ></canvas> */}
+                        <canvas id="img" width={imageW} height={imageH} style={{ background: `url(${clickedImage!})`, backgroundSize: "cover" }} ></canvas>
+
+                        {/* <canvas id="img" width={imageW} height={imageH} style={{ background: `url(http://${process.env.REACT_APP_SERVER_SEVERSTAL! + clickedImage!})`, backgroundSize: "cover" }} ></canvas> */}
+                        {/* <canvas id="img" style={{ background: `url(http://${process.env.REACT_APP_SERVER_SEVERSTAL! + clickedImage!})`, backgroundSize: "cover" }} ></canvas> */}
+
+                      </div>
 
                     </div>
-
-                  </div>
-                </ScrollContainer>
+                  {/* </ScrollContainer> */}
+                </div>
+              </div>
+              <div className="ruler-horizontal">
+                <svg id="svgH" xmlns="http://www.w3.org/2000/svg"></svg>
+              </div>
+              <div className="ruler-vertical">
+                <svg id="svgV" xmlns="http://www.w3.org/2000/svg"></svg>
               </div>
             </div>
-            <div className="ruler-horizontal">
-              <svg id="svgH" xmlns="http://www.w3.org/2000/svg"></svg>
+          </Col>
+          <Col md="3">
+            {/* <Button variant="outline-primary " className='analysis-control-panel__shape m-0' onClick={() => setAllowScrolling(prevValue => !prevValue)}>Рисовать</Button> */}
+            {/* <Form.Check
+              type="switch"
+              id="draw-switch"
+              // label="Check this switch"
+              className="custom-control material-switch"
+              onChange={() => setAllowScrolling(prevValue => !prevValue)}
+            /> */}
+            <div className="control-panel__lighting d-flex align-items-center justify-content-between">
+              <span className="control-panel__label">
+                Освещение
+              </span>
+              <label className="custom-control material-switch" >
+                <input type="checkbox" className="material-switch-control-input"
+                  id="draw-switch"
+                  onChange={() => setAllowScrolling(prevValue => !prevValue)}
+
+                />
+                <span className="material-switch-control-indicator">
+                </span>
+              </label>
             </div>
-            <div className="ruler-vertical">
-              <svg id="svgV" xmlns="http://www.w3.org/2000/svg"></svg>
-            </div>
-          </div>
+            <Button id="removeAllLines" variant="outline-primary " className='analysis-control-panel__shape m-0'>Удалить все измерения</Button>
+          </Col>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="outline-primary " className='analysis-control-panel__shape m-0' onClick={() => setAllowScrolling(prevValue => !prevValue)}>Рисовать</Button>
-          <Form.Check
-            type="switch"
-            id="draw-switch"
-            label="Check this switch"
-            onChange={(e) => {
-              if (e.target.value !== "on") {
-                e.target.value = "on"
-                console.log(e.target.value)
-
-              } else {
-                e.target.value = "off "
-                console.log(e.target.value)
-
-              }
-            }}
-          />
         </Modal.Footer>
       </Modal>
     </>

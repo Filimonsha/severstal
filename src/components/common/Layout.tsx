@@ -16,7 +16,7 @@ const Layout = () => {
                     <Route path='/auth' element={<Auth />} />
                     <Route path='/' element={<Main />} />
                     <Route path="/history" element={<History />} />
-                    <Route path="/history/:id" element={<RouteAnalysis/>}/>
+                    <Route path="/history/:id" element={<Main/>}/>
                 </Routes>
 
         </div>

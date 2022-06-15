@@ -7,10 +7,9 @@ import axiosInstance from '../../helpers/axios'
 import { ITest } from '../../types/interfaces'
 import "./ControlPanel.css"
 interface IProps {
-    listOfDetails: {}[],
+    // listOfDetails: {}[],
     swiper: Swiper | null,
     setUserClickedAnalysis: React.Dispatch<React.SetStateAction<boolean>>,
-    currentTestId: string,
     currentInfoAboutTest: ITest,
     setCurrentInfoAboutTest: React.Dispatch<React.SetStateAction<ITest>>,
     setSideOfLighting: React.Dispatch<React.SetStateAction<boolean>>
@@ -20,21 +19,19 @@ const ControlPanel = (props: IProps) => {
     const [lightingActive, setLightingActive] = useState(false)
     console.log(props.swiper)
     const nav = useNavigate()
-    // const {currentTestId, setCurrentTestId} = useContext(AuthCtx)
     const handleAnalyse = () => {
         setAnalysed(true)
 
         const currentDate = new Date()
         const formatedCurrentDate = currentDate.getFullYear() + "-" + (currentDate.getMonth() + 1) + "-" + currentDate.getDate()
         console.log(formatedCurrentDate)
-        axiosInstance.put(`api/imaging/test/${props.currentTestId}/`, {
+        axiosInstance.put(`api/imaging/test/${props.currentInfoAboutTest.id}/`, {
             date: formatedCurrentDate
         }).then(res => {
             props.setCurrentInfoAboutTest((prevInfo: any) => ({ ...prevInfo, date: formatedCurrentDate }))
             console.log(props.currentInfoAboutTest)
             console.log("Была нажата анализировано", analysed)
         }).catch(er => console.log(er))
-        console.log([props.currentTestId], "Текущий айди теста")
         props.setUserClickedAnalysis(true)
     }
     return (
@@ -47,10 +44,10 @@ const ControlPanel = (props: IProps) => {
                     <span className="control-panel__label">
                         Освещение
                     </span>
-                    <label className="custom-control material-switch" style={{ opacity: props.listOfDetails.length === 0 ? 0.5 : 1 }}>
-                        <input type="checkbox" className="material-switch-control-input" disabled={props.listOfDetails.length === 0} onChange={(event) =>
-                            {props.setSideOfLighting((prevState) => !prevState)
-                            }
+                    <label className="custom-control material-switch" style={{ opacity: props.currentInfoAboutTest.segments.length === 0 ? 0.5 : 1 }}>
+                        <input type="checkbox" className="material-switch-control-input" disabled={props.currentInfoAboutTest.segments.length === 0} onChange={(event) => {
+                            props.setSideOfLighting((prevState) => !prevState)
+                        }
                         } />
                         <span className="material-switch-control-indicator">
                         </span>
@@ -58,7 +55,7 @@ const ControlPanel = (props: IProps) => {
                 </div>
             </div>
             {
-                props.listOfDetails.length !== 0 &&
+                props.currentInfoAboutTest.segments.length !== 0 &&
                 (<div className="choosing-part mb-4">
                     <p className='text-start mb-2'>
                         Часть
@@ -70,7 +67,7 @@ const ControlPanel = (props: IProps) => {
 
                         }} />
                         <label htmlFor="choosing-part__input">
-                            из {props.listOfDetails.length}
+                            из {props.currentInfoAboutTest.segments.length}
                         </label>
                     </div>
                 </div>
@@ -93,8 +90,8 @@ const ControlPanel = (props: IProps) => {
             </div>
             <div>
                 {props.currentInfoAboutTest?.date ?
-                    <Button variant="outline-primary" onClick={() => props.setUserClickedAnalysis(true)} disabled={props.listOfDetails.length === 0} className='w-100'>Просмотреть анализ</Button>
-                    : <Button variant="outline-primary" onClick={handleAnalyse} disabled={props.listOfDetails.length === 0} className='w-100'>АНАЛИЗИРОВАТЬ</Button>
+                    <Button variant="outline-primary" onClick={() => props.setUserClickedAnalysis(true)} disabled={props.currentInfoAboutTest.segments.length === 0} className='w-100'>Просмотреть анализ</Button>
+                    : <Button variant="outline-primary" onClick={handleAnalyse} disabled={props.currentInfoAboutTest.segments.length === 0} className='w-100'>АНАЛИЗИРОВАТЬ</Button>
 
                 }
             </div>

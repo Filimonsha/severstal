@@ -28,6 +28,14 @@
   margin-bottom: 24px;
 }
 
+.history__link {
+  color: black !important;
+}
+
+.history__link :hover {
+  border-bottom: 1px solid black !important;
+}
+
 .table-striped > tbody > tr:nth-child(2n) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
   background-color: white;
 }

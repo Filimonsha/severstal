@@ -4,7 +4,6 @@ import { ISegment, ITest } from '../../../types/interfaces'
 import AnalysisConrolPanel from '../../panels/AnalysisConrolPanel'
 import ListOfAnalysedParts from './ListOfAnalysedParts'
 interface IProps {
-  listOfSegments: Array<ISegment>,
   setUserClickedAnalysis: React.Dispatch<React.SetStateAction<boolean>>,
   currentInfoAboutTest: ITest,
   setCurrentInfoAboutTest: React.Dispatch<React.SetStateAction<ITest>>,

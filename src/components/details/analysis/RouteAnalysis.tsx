@@ -4,7 +4,6 @@ import { useParams } from 'react-router-dom'
 import axiosInstance from '../../../helpers/axios'
 import { ITest } from '../../../types/interfaces'
 import AnalysisConrolPanel from '../../panels/AnalysisConrolPanel'
-import "./Ana"
 import ListOfAnalysedParts from './ListOfAnalysedParts'
 const RouteAnalysis = () => {
     const [swiper, setSwiper] = useState(null)

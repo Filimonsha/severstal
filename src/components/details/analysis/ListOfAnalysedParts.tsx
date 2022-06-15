@@ -75,7 +75,7 @@ const ListOfAnalysedParts = (props: IProps) => {
                                             if (currentImage.light === "top") {
                                                 return (
                                                     <SwiperSlide>
-                                                        <AnalysedSegment setCurrentInfoAboutTest={props.setCurrentInfoAboutTest} currentInfoAboutTest={props.currentInfoAboutTest} imageId={currentImage.id} />
+                                                        <AnalysedSegment isHistoryRoute={props.isHistoryRoute} setCurrentInfoAboutTest={props.setCurrentInfoAboutTest} currentInfoAboutTest={props.currentInfoAboutTest} imageId={currentImage.id} />
                                                     </SwiperSlide>
                                                 )
                                             }
