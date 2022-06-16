@@ -32,7 +32,7 @@
   color: black !important;
 }
 
-.history__link :hover {
+.history__link:hover {
   border-bottom: 1px solid black !important;
 }
 

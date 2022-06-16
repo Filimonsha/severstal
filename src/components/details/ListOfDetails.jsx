@@ -34,11 +34,13 @@ const ListOfDetails = ({
     setError,
     formState: { errors },
   } = useForm();
-  useEffect(() => console.log(currentInfoAboutTest, "АААААААААААААААААА"));
+  useEffect(() => console.log(errors, "АААААААААААААААААА"));
   const createSegmentAndGetImages = (testId, data) => {
     console.log(testId, testInfo, length, width);
     axiosInstance
       .post("/api/imaging/segment/", {
+        // test: Number(currentInfoAboutTest.id),
+
         test: Number(testId),
         length: Number(data.length),
         width: Number(data.width),
@@ -62,7 +64,8 @@ const ListOfDetails = ({
             setListOfDetailsToAnalysis((prevArray) => [...prevArray, res.data]);
           })
           .catch((er) => console.log(er));
-      }).catch(er=>console.log(er))
+      })
+      .catch((er) => console.log(er));
   };
 
   useEffect(() => {
@@ -119,7 +122,7 @@ const ListOfDetails = ({
   };
 
   const handleUpdateTest = (data) => {
-    createSegmentAndGetImages(testInfo.id, data);
+    createSegmentAndGetImages(currentInfoAboutTest.id, data);
     axiosInstance
       .put(`api/imaging/test/${currentInfoAboutTest.id}/`, {
         comment: comment,
@@ -152,7 +155,7 @@ const ListOfDetails = ({
       >
         {currentInfoAboutTest.segments.length !== 0 &&
           currentInfoAboutTest.segments.map((el, index) => {
-            console.log("Абобус",el)
+            console.log("Абобус", el);
             return (
               <SwiperSlide>
                 <Detail
@@ -299,9 +302,6 @@ const ListOfDetails = ({
                   </Form.Text>
                   <Form.Select
                     className="mb-2"
-                    // onChange={(e) => {
-                    //   setTypeOfProduct(e.target.value);
-                    // }}
                     {...register("product_type", {
                       // required: "емае мама звонит",
                     })}
@@ -369,15 +369,17 @@ const ListOfDetails = ({
                     onChange={(e) => setComment(e.target.value)}
                   />
                   <Form.Text className="adding-image__error">
-                    {errors.product_type?.message}
+                    {errors.measurement_technique?.message}
                   </Form.Text>
                   <Form.Select
                     className="mb-2"
-                    {...register("measurement_technique", {})}
+                    {...register("measurement_technique", {
+                      // required: "емае мама звонит",
+                    })}
                   >
-                    {/* <option disabled value={1} selected>
+                    <option disabled selected>
                       Методика измерения
-                    </option> */}
+                    </option>
                     {methodicsList.map((el) => {
                       return (
                         <option key={el.id} value={el.id}>
@@ -386,6 +388,21 @@ const ListOfDetails = ({
                       );
                     })}
                   </Form.Select>
+                  {/* <Form.Select
+                    className="mb-2"
+                    {...register("measurement_technique", {})}
+                  >
+                    <option disabled selected>
+                      Методика измерения
+                    </option>
+                    {methodicsList.map((el) => {
+                      return (
+                        <option key={el.id} value={el.id}>
+                          {el.name}
+                        </option>
+                      );
+                    })}
+                  </Form.Select> */}
                 </Form.Group>
               </Form>
             </Col>

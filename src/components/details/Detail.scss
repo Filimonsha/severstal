@@ -11,18 +11,19 @@
         max-height: 559.59px;
     }
 }
-// #img{
-//     width: 394px;
-//     height: 559px;
+
+// .modal-dialog {
+//     max-width: 1113px !important;
 // }
 .modal-dialog {
-    max-width: 1113px !important;
+    max-width: 80% !important;
 }
 .measurement {
     position: relative;
     &__wrap {
-        position: relative;
+        position: relactive;
     }
-    max-width: 441px;
-    max-height: 791px;
+    // +65
+    max-width: 441px + 65px;
+    max-height: 791px + 65px;
 }

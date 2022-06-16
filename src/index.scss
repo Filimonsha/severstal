@@ -69,10 +69,44 @@ a {
     max-width: 100%;
 }
 #img {
-    border: 1px solid red;
+    // border: 1px solid red;
     // width: 500px;
     // height: 500px;
 }
 .upper-canvas {
     background: none !important;
+}
+.ruler-horizontal {
+    rect[x^="-"] {
+        display: none !important;
+    }
+    text[x^="-"] {
+        display: none !important;
+    }
+
+    rect {
+        width: 3px;
+        fill: black !important;
+    }
+}
+.ruler-vertical {
+    rect {
+        height: 3px;
+        fill: black !important;
+    }
+    rect[y^="-"] {
+        display: none !important;
+    }
+    text[y^="-"] {
+        display: none !important;
+    }
+    // rect[y^="600"] {
+    //     display: none !important;
+    // }
+    // text[y^="600"] {
+    //     display: none !important;
+    // }
+    text {
+        margin-right: 10px;
+    }
 }

@@ -5,6 +5,7 @@ import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 import * as ReactDOM from 'react-dom';
 import axios from 'axios';
+import { CookiesProvider } from 'react-cookie';
 axios.defaults.withCredentials = true
 // const root = ReactDOM.createRoot(
 //   document.getElementById('root') as HTMLElement
@@ -19,10 +20,15 @@ axios.defaults.withCredentials = true
 // );
 
 window.addEventListener('load', () => {
-  ReactDOM.render(<React.StrictMode>
-    <BrowserRouter>
-      <App />
+  ReactDOM.render(
+    <React.StrictMode>
+      <BrowserRouter>
+        <CookiesProvider>
+          <App />
+    
+        </CookiesProvider>
 
-    </BrowserRouter>
-  </React.StrictMode>, document.getElementById('root'))
+      </BrowserRouter>
+    </React.StrictMode>
+    , document.getElementById('root'))
 })

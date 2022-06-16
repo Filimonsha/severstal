@@ -11,16 +11,16 @@
 }
 
 .modal-dialog {
-  max-width: 1113px !important;
+  max-width: 80% !important;
 }
 
 .measurement {
   position: relative;
-  max-width: 441px;
-  max-height: 791px;
+  max-width: 506px;
+  max-height: 856px;
 }
 
 .measurement__wrap {
-  position: relative;
+  position: relactive;
 }
 /*# sourceMappingURL=Detail.css.map */

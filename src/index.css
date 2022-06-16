@@ -127,11 +127,37 @@ a {
   max-width: 100%;
 }
 
-#img {
-  border: 1px solid red;
-}
-
 .upper-canvas {
   background: none !important;
+}
+
+.ruler-horizontal rect[x^="-"] {
+  display: none !important;
+}
+
+.ruler-horizontal text[x^="-"] {
+  display: none !important;
+}
+
+.ruler-horizontal rect {
+  width: 3px;
+  fill: black !important;
+}
+
+.ruler-vertical rect {
+  height: 3px;
+  fill: black !important;
+}
+
+.ruler-vertical rect[y^="-"] {
+  display: none !important;
+}
+
+.ruler-vertical text[y^="-"] {
+  display: none !important;
+}
+
+.ruler-vertical text {
+  margin-right: 10px;
 }
 /*# sourceMappingURL=index.css.map */

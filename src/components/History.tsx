@@ -1,3 +1,4 @@
+import Cookies from 'js-cookie'
 import React, { useContext, useEffect, useState } from 'react'
 import { Alert, Spinner, Table } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
@@ -8,6 +9,11 @@ import "./History.css"
 const History = () => {
     const [listOfTests, setListOfTests] = useState<Array<ITest | undefined>>([])
     const nav = useNavigate()
+    useEffect(() => {
+        if (!Cookies.get("username")) {
+            nav('/auth')
+        }
+    }, [])
     useEffect(() => {
         axiosInstance.get('/api/imaging/test/').then((res) => {
             {
@@ -27,13 +33,13 @@ const History = () => {
     return (
         <div className="history">
             <div className="history__nav d-flex justify-content-between">
-                <Link to="/" className='history__back btn btn-outline-primary'>
+                <a onClick={()=>nav(-1)} className='history__back btn btn-outline-primary'>
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M19 12H5" stroke="#04306A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                         <path d="M12 19L5 12L12 5" stroke="#04306A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
                     Назад
-                </Link>
+                </a>
                 <Link to="/" className='history__back btn btn-primary '>
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M12 5V19" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />

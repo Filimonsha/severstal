@@ -30,17 +30,17 @@ const Detail = (props: IProps) => {
   const [currentScale, setCurrentScale] = useState(1)
   // const [imageH, setImageH] = useState(559.59)
   // const [imageW, setImageW] = useState(394)
-  const [imageH, setImageH] = useState(1800)
-  const [imageW, setImageW] = useState(1800)
+  const [imageH, setImageH] = useState(559.59)
+  const [imageW, setImageW] = useState(394)
   const [clickedImage, setClickedImage] = useState<string>("")
   const swiper = useSwiper()
 
   useEffect(() => {
     props.setSwiper(swiper)
-
   })
 
   useEffect(() => {
+    console.log("Поменяли !")
   }, [allowScrolling])
   return (
     <>
@@ -189,7 +189,9 @@ const Detail = (props: IProps) => {
             endx[temp],
             endy[temp]
           ).toFixed(2);
-          text = new fabric.Text("Length " + px, {
+          // text = new fabric.Text("Length " + px, {
+            text = new fabric.Text("Length " + px*(1/currentScale), {
+
             left: endx[temp],
             top: endy[temp],
             fontSize: 12,
@@ -232,7 +234,20 @@ const Detail = (props: IProps) => {
         layout: "horizontal",
         width: 441,
         height: 60,
-
+    divisions: [
+      {
+        pixelGap: 10,
+        lineLength: 5
+      },
+      {
+        pixelGap: 50,
+        lineLength: 10
+      },
+      {
+        pixelGap: 100,
+        lineLength: 20
+      }
+  ],
         alignment: "bottom",
         textDefaults: {
           rotation: -90,
@@ -244,7 +259,22 @@ const Detail = (props: IProps) => {
       var rulezV = new Rulez({
         element: document.getElementById("svgV"),
         layout: "vertical",
+        height: 480,
         alignment: "right",
+    divisions: [
+      {
+        pixelGap: 10,
+        lineLength: 5
+      },
+      {
+        pixelGap: 50,
+        lineLength: 10
+      },
+      {
+        pixelGap: 100,
+        lineLength: 20
+      }
+  ],
         textDefaults: {
           rotation: -90,
           centerText: {
@@ -263,17 +293,23 @@ const Detail = (props: IProps) => {
       rulezV.render();
       var scroll = document.getElementById("scroll");
       scroll.addEventListener("scroll", function () {
+        console.log("SSSSSSSSSSSSSSS")
         rulezH.scrollTo(scroll.scrollLeft);
         rulezV.scrollTo(scroll.scrollTop);
       });
 
 
       document.getElementById("scroll").addEventListener("deltaY", function () {
+                console.log("JJJJJJJ")
+
         rulezH.saveAsImage(function (imgs) {
           img.src = imgs;
         });
+
         rulezH.resize();
         rulezV.resize();
+
+
       });
       var img = document.getElementById("img");
       var imgWidth = 0;
@@ -303,6 +339,29 @@ const Detail = (props: IProps) => {
           img.setAttribute('width',imgWidth * currentScale)
           img.setAttribute('height',imgHeight * currentScale)
 
+          
+          // Фикс канваса
+          var upperCanvas = document.querySelector(".upper-canvas")
+          upperCanvas.width = imgWidth * currentScale 
+          upperCanvas.height = imgHeight * currentScale 
+          upperCanvas.style.width = imgWidth * currentScale + "px";
+          upperCanvas.style.height = imgHeight * currentScale + "px";
+
+
+          console.log("Было",canvas.width,canvas.height)
+          canvas.width = imgWidth * currentScale 
+          canvas.height = imgHeight * currentScale 
+          console.log("Стало",canvas.width,canvas.height)
+
+      //                             console.log("Канвас перед изменением",canvas)
+
+      //   canvas = (this.__canvas = new fabric.Canvas("img", {
+      //   hoverCursor: "pointer",
+      //   selection: false,
+      // }));
+      //         console.log("Канвас после изменением",canvas)
+
+
           rulezH.setScale(1 / currentScale);
           rulezV.setScale(1 / currentScale);
         });
@@ -312,17 +371,20 @@ const Detail = (props: IProps) => {
         `}
           </script>
         </Helmet>
-        <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
+        <Modal.Header className="border-0 pb-0 align-items-start" closeButton>
+          <Modal.Title>
+            <h3 className="mb-3">Тест {props.detailInfo.test}</h3>
+            <h4 className="m-0">Часть {Number(props.index) }</h4>
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body className="d-flex">
 
-          <Col md="9">
+          <Col >
             <div className="measurement">
               <div className="content">
                 <div id="scroll"
                 >
-                  {/* <ScrollContainer vertical={allowScrolling} horizontal={allowScrolling}> */}
+                  <ScrollContainer vertical={allowScrolling} horizontal={allowScrolling}>
                     <div style={{ width: "394px", height: "559.59px" }} >
                       <div>
                         {/* <img id="img" src={props.srcOFImg}
@@ -336,7 +398,7 @@ const Detail = (props: IProps) => {
                       </div>
 
                     </div>
-                  {/* </ScrollContainer> */}
+                  </ScrollContainer>
                 </div>
               </div>
               <div className="ruler-horizontal">
@@ -347,18 +409,10 @@ const Detail = (props: IProps) => {
               </div>
             </div>
           </Col>
-          <Col md="3">
-            {/* <Button variant="outline-primary " className='analysis-control-panel__shape m-0' onClick={() => setAllowScrolling(prevValue => !prevValue)}>Рисовать</Button> */}
-            {/* <Form.Check
-              type="switch"
-              id="draw-switch"
-              // label="Check this switch"
-              className="custom-control material-switch"
-              onChange={() => setAllowScrolling(prevValue => !prevValue)}
-            /> */}
-            <div className="control-panel__lighting d-flex align-items-center justify-content-between">
+          <Col className="d-flex flex-column justify-content-center">
+            <div className="control-panel__lighting d-flex align-items-center justify-content-between mb-4">
               <span className="control-panel__label">
-                Освещение
+                Включить измерение
               </span>
               <label className="custom-control material-switch" >
                 <input type="checkbox" className="material-switch-control-input"
@@ -370,11 +424,10 @@ const Detail = (props: IProps) => {
                 </span>
               </label>
             </div>
-            <Button id="removeAllLines" variant="outline-primary " className='analysis-control-panel__shape m-0'>Удалить все измерения</Button>
+            <Button id="removeAllLines" variant="outline-primary " className='analysis-control-panel__shape p-3 m-0'>Удалить все измерения</Button>
           </Col>
         </Modal.Body>
-        <Modal.Footer>
-        </Modal.Footer>
+
       </Modal>
     </>
 

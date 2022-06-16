@@ -9,6 +9,7 @@ import { AuthCtx } from '../../context/authContext'
 import RouteAnalysis from '../details/analysis/RouteAnalysis'
 
 const Layout = () => {
+    
     return (
         <div>
                 <Header />

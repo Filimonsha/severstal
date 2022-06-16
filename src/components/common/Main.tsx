@@ -1,3 +1,4 @@
+import Cookies from 'js-cookie'
 import React, { useContext, useEffect, useState } from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
 import { Route, Routes, useNavigate, useParams } from 'react-router-dom'
@@ -42,6 +43,11 @@ const Main = () => {
         }
     }, [])
 
+    useEffect(()=>{
+        if(!Cookies.get("username")){
+            nav('/auth')
+        }
+    },[])
 
     return (
 
