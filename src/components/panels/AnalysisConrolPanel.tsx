@@ -244,7 +244,7 @@ const AnalysisConrolPanel = (props: IProps) => {
         <Modal.Footer>
           <div className="control-panel__lighting d-flex align-items-center justify-content-between">
             <span className="control-panel__label">
-              Освещение
+              Показать анализированные изображения
             </span>
             <label className="custom-control material-switch" >
               <input type="checkbox" className="material-switch-control-input" onChange={(event) => {

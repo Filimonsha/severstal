@@ -84,7 +84,7 @@ const Detail = (props: IProps) => {
                       <img src={`${el.file_crop}`} alt="" className="me-3" onClick={() => {
                         setShow(true)
                         setClickedImage(el.file_crop)
-
+                        setAllowScrolling(true)
                       }} />
                     </SwiperSlide>)
                   }
@@ -409,7 +409,7 @@ const Detail = (props: IProps) => {
               </div>
             </div>
           </Col>
-          <Col className="d-flex flex-column justify-content-center">
+          <Col md='3' className="d-flex flex-column justify-content-center">
             <div className="control-panel__lighting d-flex align-items-center justify-content-between mb-4">
               <span className="control-panel__label">
                 Включить измерение

@@ -1,3 +1,4 @@
+import Cookies from 'js-cookie'
 import React from 'react'
 import { Container, Navbar } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
@@ -26,6 +27,7 @@ const Header = () => {
         </Link>
         <Link to="/auth" onClick={() => {
           axiosInstance.post("/api/auth/logout/")
+          Cookies.remove("username")
         }}>
           Выйти
         </Link>
