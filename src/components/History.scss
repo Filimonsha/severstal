@@ -4,36 +4,57 @@
     &__false {
         background: $main-red;
     }
-    &__nav{
+    &__nav {
         margin-bottom: 24px;
     }
-    &__back{
+    &__back {
         padding: 18px 32px !important;
     }
     &__table {
+        white-space: break-spaces;
         thead {
             background: $dark-blue;
             color: white;
         }
-        th{
+        th {
             text-align: center;
             vertical-align: top;
         }
     }
-    &__title{
+    &__head {
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 19px;
+    }
+    &__body {
+        th {
+            font-weight: 400;
+            box-shadow: none !important;
+        }
+        font-size: 16px;
+        line-height: 19px;
+        color: black !important;
+    }
+    &__title {
         margin-bottom: 24px;
     }
-    &__link{
+    &__link {
         color: black !important;
-        :hover{
+        :hover {
             border-bottom: 1px solid black !important;
         }
     }
 }
-.table-striped > tbody > tr:nth-child(2n) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
-   background-color: white;
+// .table-striped > tbody > tr:nth-child(2n) > td,
+// .table-striped > tbody > tr:nth-child(2n + 1) > th {
+//     background-color: white;
+// }
+.table-striped > tbody > tr:nth-child(odd) > td,
+.table-striped > tbody > tr:nth-child(odd) > th {
+    --bs-table-accent-bg: white;
+    //    background-color: red; // Choose your own color here
 }
 .table-striped > tbody > tr:nth-child(2n) > td,
 .table-striped > tbody > tr:nth-child(2n) > th {
-  background-color: #f1f7ff;
+    background-color: #f1f7ff;
 }

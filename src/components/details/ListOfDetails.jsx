@@ -10,6 +10,7 @@ import axiosInstance from "../../helpers/axios";
 import { useForm } from "react-hook-form";
 const ListOfDetails = ({
   setListOfDetailsToAnalysis,
+  swiper,
   setSwiper,
   currentInfoAboutTest,
   setCurrentInfoAboutTest,
@@ -64,6 +65,9 @@ const ListOfDetails = ({
             setListOfDetailsToAnalysis((prevArray) => [...prevArray, res.data]);
           })
           .catch((er) => console.log(er));
+        console.log(currentInfoAboutTest.segments.length - 1);
+        // swiper.slideTo(currentInfoAboutTest.segments.length-1)
+        swiper.slideToClosest();
       })
       .catch((er) => console.log(er));
   };
@@ -136,8 +140,6 @@ const ListOfDetails = ({
     setShowUpdateTest(false);
   };
 
-  const [img, setImg] = useState("");
-
   return (
     <div className="list-of-details p-4">
       <h2 className="list-of-details__title mb-3 text-start">Новый тест</h2>
@@ -159,6 +161,7 @@ const ListOfDetails = ({
             return (
               <SwiperSlide>
                 <Detail
+                  currentInfoAboutTest={currentInfoAboutTest}
                   sideOfLighting={sideOfLighting}
                   detailInfo={el}
                   srcOFImg={require("../assets/door.jpg")}
@@ -322,7 +325,8 @@ const ListOfDetails = ({
                     {errors.melting_number?.message}
                   </Form.Text>
                   <Form.Control
-                    type="number"
+                    type="text"
+                    pattern="[0-9 ]+"
                     placeholder="Номер плавки ручья"
                     className="mb-3"
                     {...register("melting_number", {})}

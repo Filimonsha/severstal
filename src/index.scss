@@ -1,7 +1,39 @@
 @import "./variables";
 @font-face {
-    font-family: "Heartless";
-    src: local("Heartless"), url(./fonts/Heartless.ttf) format("ttf");
+    font-family: "Roboto";
+    src: local("Roboto"), url(./fonts/Roboto-Black.ttf) format("ttf");
+}
+@font-face {
+    font-family: "Roboto";
+    src: local("Roboto"), url(./fonts/Roboto-BlackItalic.ttf) format("ttf");
+}
+@font-face {
+    font-family: "Roboto";
+    src: local("Roboto"), url(./fonts/Roboto-Bold.ttf) format("ttf");
+}
+@font-face {
+    font-family: "Roboto";
+    src: local("Roboto"), url(./fonts/Roboto-BoldItalic.ttf) format("ttf");
+}
+@font-face {
+    font-family: "Roboto";
+    src: local("Roboto"), url(./fonts/Roboto-Italic.ttf) format("ttf");
+}
+@font-face {
+    font-family: "Roboto";
+    src: local("Roboto"), url(./fonts/Roboto-Light.ttf) format("ttf");
+}
+@font-face {
+    font-family: "Roboto";
+    src: local("Roboto"), url(./fonts/Roboto-Medium.ttf) format("ttf");
+}
+@font-face {
+    font-family: "Roboto";
+    src: local("Roboto"), url(./fonts/Roboto-Regular.ttf) format("ttf");
+}
+@font-face {
+    font-family: "Roboto";
+    src: local("Roboto"), url(./fonts/Roboto-Thin.ttf) format("ttf");
 }
 p,
 div,
@@ -15,7 +47,7 @@ h4,
 ::placeholder,
 input,
 textarea {
-    font-family: "Heartless", Arial, Helvetica, sans-serif !important;
+    font-family: "Roboto", Arial, Helvetica, sans-serif !important;
 }
 *:focus {
     outline: none !important;
@@ -32,6 +64,19 @@ a {
     /* Main/Wight color */
 
     color: #ffffff !important;
+}
+body {
+    overflow: hidden;
+}
+.App {
+    height: calc(100vh - 93px);
+}
+.auth__form {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    // transform: translateX(-50%);
+    transform: translate(-50%, -50%);
 }
 .btn {
     display: flex !important;
@@ -109,4 +154,15 @@ a {
     text {
         margin-right: 10px;
     }
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+.accordion-body {
+    padding: 12px 16px !important;
+}
+.history {
+    max-height: 100%;
+    overflow: scroll;
 }

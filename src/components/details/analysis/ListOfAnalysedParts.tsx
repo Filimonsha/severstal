@@ -1,6 +1,6 @@
 import React, { lazy, Suspense, useEffect, useState } from 'react'
 import { Mousewheel, Scrollbar } from 'swiper';
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { Swiper, SwiperSlide, useSwiper } from 'swiper/react';
 import { ISegment, ITest } from '../../../types/interfaces';
 import AnalysedSegment from './AnalysedSegment';
 import "./ListOfAnalysedParts.css"
@@ -9,7 +9,7 @@ interface IProps {
     setSwiper: any,
     setCurrentInfoAboutTest: React.Dispatch<React.SetStateAction<ITest>>,
     currentInfoAboutTest: ITest,
-    isHistoryRoute:boolean,
+    isHistoryRoute: boolean,
 }
 
 const ListOfAnalysedParts = (props: IProps) => {
@@ -35,63 +35,68 @@ const ListOfAnalysedParts = (props: IProps) => {
                 spaceBetween={24}
                 modules={[Scrollbar, Mousewheel]}
                 className="mySwiper"
+                onSwiper={(swiper) => {
+                    console.log("AUUUUUUUUU", swiper)
+                    props.setSwiper(swiper)
+                }}
+
             >
-                {/* {props.listOfDetails.map((currentSegment, index) => { */}
-                {props.currentInfoAboutTest.segments.map((currentSegment, index) => {
+                {
 
-                    console.log("ЭЛЕМЕНТ LISTOFDETAILS", currentSegment, index)
-                    // const currentArrayAnalysedImages: Array<object> = []
-                    return (
-                        <SwiperSlide>
-                            <div className="detail__header text-start">
-                                {"Часть " + (Number(index) + 1)}
+                    props.currentInfoAboutTest.segments.map((currentSegment, index) => {
 
-
-                            </div>
-                            <Swiper
-                                scrollbar={{
-                                    hide: false,
-                                }}
-                                mousewheel
-                                breakpoints={{
-                                    900: {
-                                        slidesPerView: 2,
-                                    },
-                                    1680: {
-                                        slidesPerView: 4,
-                                    },
-                                }}
-                                spaceBetween={10}
-                                modules={[Scrollbar]}
-                                className="nestedSwiper_analysed"
-                                nested
-                            >
+                        console.log("ЭЛЕМЕНТ LISTOFDETAILS", currentSegment, index)
+                        // const currentArrayAnalysedImages: Array<object> = []
+                        return (
+                            <SwiperSlide>
+                                <div className="detail__header text-start">
+                                    {"Часть " + (Number(index) + 1)}
 
 
-                                {
-                                    currentSegment.images.map(
-                                        (currentImage, index) => {
+                                </div>
+                                <Swiper
+                                    scrollbar={{
+                                        hide: false,
+                                    }}
+                                    mousewheel
+                                    breakpoints={{
+                                        900: {
+                                            slidesPerView: 2,
+                                        },
+                                        1680: {
+                                            slidesPerView: 4,
+                                        },
+                                    }}
+                                    spaceBetween={10}
+                                    modules={[Scrollbar]}
+                                    className="nestedSwiper_analysed"
+                                    nested
+                                >
 
-                                            if (currentImage.light === "top") {
-                                                return (
-                                                    <SwiperSlide>
-                                                        <AnalysedSegment isHistoryRoute={props.isHistoryRoute} setCurrentInfoAboutTest={props.setCurrentInfoAboutTest} currentInfoAboutTest={props.currentInfoAboutTest} imageId={currentImage.id} />
-                                                    </SwiperSlide>
-                                                )
+
+                                    {
+                                        currentSegment.images.map(
+                                            (currentImage, index) => {
+                                                if (currentImage.light === "top") {
+                                                    return (
+                                                        <SwiperSlide>
+                                                            <AnalysedSegment setSwiper={props.setSwiper} isHistoryRoute={props.isHistoryRoute} setCurrentInfoAboutTest={props.setCurrentInfoAboutTest} currentInfoAboutTest={props.currentInfoAboutTest} imageId={currentImage.id} />
+                                                        </SwiperSlide>
+                                                    )
+                                                }
+
+
                                             }
+                                        )
+                                    }
 
-
-                                        }
-                                    )
-                                }
-
-                            </Swiper>
-                        </SwiperSlide>
-                    );
-                })}
+                                </Swiper>
+                            </SwiperSlide>
+                        );
+                    })}
 
             </Swiper>
-        </div>
+        </div >
     )
 }
 

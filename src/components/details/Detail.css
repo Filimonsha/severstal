@@ -11,7 +11,7 @@
 }
 
 .modal-dialog {
-  max-width: 95% !important;
+  max-width: 80% !important;
 }
 
 .measurement {
@@ -22,5 +22,16 @@
 
 .measurement__wrap {
   position: relactive;
+}
+
+.image-slide {
+  position: relative;
+}
+
+.image-slide__delete-image {
+  cursor: pointer;
+  position: absolute;
+  top: 16px;
+  right: 16px;
 }
 /*# sourceMappingURL=Detail.css.map */

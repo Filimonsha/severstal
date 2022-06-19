@@ -16,8 +16,7 @@ interface IProps {
 }
 const ControlPanel = (props: IProps) => {
     const [analysed, setAnalysed] = useState(false)
-    const [lightingActive, setLightingActive] = useState(false)
-    console.log(props.swiper)
+    const [valueOfSliderPart, setValueOfSliderPart] = useState("")
     const nav = useNavigate()
     const handleAnalyse = () => {
         setAnalysed(true)
@@ -61,9 +60,14 @@ const ControlPanel = (props: IProps) => {
                         Часть
                     </p>
                     <div className="choosing-part__control d-flex align-items-start mb-2">
-                        <input id="choosing-part__input" className='w-25 me-2' type="number" onChange={(event) => {
-                            console.log(Number(event.target.value as unknown as number) - 1)
-                            props.swiper?.slideTo(Number(event.target.value as unknown as number) - 1, 0)
+                        <input id="choosing-part__input" className='w-25 me-2' value={valueOfSliderPart} onChange={e => {
+                            if (e.target.value.trim() === "") {
+                                setValueOfSliderPart(e.target.value)
+                            }
+                            if (Number(e.target.value) > 0 && Number(e.target.value) <= props.currentInfoAboutTest.segments.length) {
+                                setValueOfSliderPart(e.target.value)
+                                props.swiper?.slideTo(Number(e.target.value as unknown as number) - 1, 0)
+                            }
 
                         }} />
                         <label htmlFor="choosing-part__input">

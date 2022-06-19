@@ -5,14 +5,16 @@ import { Helmet } from "react-helmet";
 import ScrollContainer from "react-indiana-drag-scroll";
 import { Mousewheel, Scrollbar } from "swiper";
 import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
-import { ISegment } from "../../types/interfaces";
+import axiosInstance from "../../helpers/axios";
+import { IImages, ISegment, ITest } from "../../types/interfaces";
+import DeleteSvg from "../assets/DeleteSvg";
 import "./Detail.css"
 import "./rulez-black.css"
 
 
-
 interface IProps {
   detailInfo: ISegment,
+  currentInfoAboutTest: ITest,
   srcOFImg: string,
   index: number,
   setSwiper: any,
@@ -28,8 +30,6 @@ const Detail = (props: IProps) => {
   const [allowScrolling, setAllowScrolling] = useState(true)
   const [alert, setAlert] = useState(false)
   const [currentScale, setCurrentScale] = useState(1)
-  // const [imageH, setImageH] = useState(559.59)
-  // const [imageW, setImageW] = useState(394)
   const [imageH, setImageH] = useState(559.59)
   const [imageW, setImageW] = useState(394)
   const [clickedImage, setClickedImage] = useState<string>("")
@@ -42,6 +42,12 @@ const Detail = (props: IProps) => {
   useEffect(() => {
     console.log("Поменяли !")
   }, [allowScrolling])
+
+
+  const handleDeleteImage = (el:IImages) => {
+    console.log(el)
+    // axiosInstance.delete()
+  }
   return (
     <>
 
@@ -78,9 +84,27 @@ const Detail = (props: IProps) => {
                     </SwiperSlide>)
                   }
                 } else if (!props.sideOfLighting) {
-                  if (el.light === "top") {
+                  if (el.light === "front") {
                     console.log("Показываем фотки с front")
-                    return (<SwiperSlide >
+                    return (<SwiperSlide className="image-slide">
+                      <svg className="image-slide__delete-image" onClick={event=>handleDeleteImage(el)} width="78" height="79" viewBox="0 0 78 79" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g filter="url(#filter0_d_5545_1167)">
+                          <rect x="26.9998" y="15.0171" width="32" height="32.0339" rx="3" fill="white" />
+                        </g>
+                        <defs>
+                          <filter id="filter0_d_5545_1167" x="-0.000244141" y="0.0170898" width="78" height="78.0337" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                            <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
+                            <feOffset dx="-4" dy="8" />
+                            <feGaussianBlur stdDeviation="11.5" />
+                            <feComposite in2="hardAlpha" operator="out" />
+                            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.05 0" />
+                            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_5545_1167" />
+                            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_5545_1167" result="shape" />
+                          </filter>
+                        </defs>
+                      </svg>
+
                       <img src={`${el.file_crop}`} alt="" className="me-3" onClick={() => {
                         setShow(true)
                         setClickedImage(el.file_crop)
@@ -325,13 +349,13 @@ const Detail = (props: IProps) => {
           }
           if (event.deltaY > 0) {
             if (currentScale > 1) {currentScale = currentScale - 0.2;
-            lineScale = lineScale + 0.3
+            // lineScale = lineScale + 0.3
             }
           } else if (event.deltaY < 0) {
             currentScale = currentScale + 0.2;
-            if(lineScale - 0.3 > 0){
-            lineScale = lineScale - 0.3
-            }
+            // if(lineScale - 0.3 > 0){
+            // lineScale = lineScale - 0.3
+            // }
             console.log(currentScale)
           }          
           img.style.width = imgWidth * currentScale + "px";
@@ -373,8 +397,8 @@ const Detail = (props: IProps) => {
         </Helmet>
         <Modal.Header className="border-0 pb-0 align-items-start" closeButton>
           <Modal.Title>
-            <h3 className="mb-3">Тест {props.detailInfo.test}</h3>
-            <h4 className="m-0">Часть {Number(props.index) }</h4>
+            <h3 className="mb-3">Тест {props.currentInfoAboutTest.number}</h3>
+            <h4 className="m-0">Часть {Number(props.index)}</h4>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body className="d-flex">

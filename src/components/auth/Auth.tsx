@@ -1,9 +1,7 @@
-import axios from 'axios'
 import Cookies from 'js-cookie'
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { Alert, Button, Container, Form, Row } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
-import { AuthCtx, BASE_URL } from '../../context/authContext'
 import axiosInstance from '../../helpers/axios'
 
 function Auth() {
@@ -27,7 +25,7 @@ function Auth() {
       })
   }
   return (
-    <Container className="w-25">
+    <Container className="w-25 auth__form">
       <Row className='mt-5'>
         <h4 className='text-start mb-2'>
           Вход

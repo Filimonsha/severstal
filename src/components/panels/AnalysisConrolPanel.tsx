@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { Accordion, Button, Col, Container, Form, Modal, Row } from 'react-bootstrap'
 import Swiper from 'swiper'
 import axiosInstance from '../../helpers/axios'
-import { ISegment, ITest, ITypeOfPropduct } from '../../types/interfaces'
+import { IRanges, ISegment, ITest, ITypeOfPropduct } from '../../types/interfaces'
 import "./AnalysisControlPanel.css"
 interface IProps {
   swiper: Swiper | null,
@@ -13,65 +13,24 @@ interface IProps {
   isHistoryRoute: boolean
 }
 
-interface IGeneralRanges {
-  name: string,
-  ranges: [
-    {
-      top: number | null,
-      bottom: number | null,
-      count: number
-    }
-  ] | []
-}
 
 const AnalysisConrolPanel = (props: IProps) => {
   const [currentSegment, setCurrentSegment] = useState(1)
   const [currentTest, setCurrentTest] = useState<ITest>()
   const [typeOfProductsList, setTypeOfProductsList] = useState<Array<ITypeOfPropduct>>([])
   const [currentComment, setCurrentComment] = useState(props.currentInfoAboutTest.comment)
-  const [defectsRangesOP, setDefectRangesOP] = useState<IGeneralRanges>(
-    {
-      name: "ОР",
-      ranges: []
-    },
-  )
+  const [ranges, setRanges] = useState<IRanges>()
   const [showModal, setShowModal] = useState(false)
   const [showProcessedPhoto, setShowProcessedPhoto] = useState(false)
+  const [valueOfSliderPart, setValueOfSliderPart] = useState("")
   useEffect(() => {
     // countRanges()
     axiosInstance.get("/api/choices/product_type/").then(res => setTypeOfProductsList(res.data))
-    axiosInstance.get(`/api/imaging/test/${props.currentInfoAboutTest.id}/`).then(res => setCurrentTest(res.data))
+    axiosInstance.get(`/api/imaging/test/${props.currentInfoAboutTest.id}/`).then(res => {
+      setCurrentTest(res.data)
+      setRanges(res.data.ranges)
+    })
   }, [])
-
-  // const countRanges = () => {
-  //   console.log("ааааааа",currentTest)
-  //   currentTest.segments.map(segment => {
-  //     segment.images.map(image => {
-  //       image.defects.map(currentDefect => {
-  //         console.log("CurrentDefect",currentDefect)
-  //         currentDefect.ranges.map(range => {
-
-  //           // ОР        
-  //           console.log("Range", range)
-  //           const prevRangesOP = defectsRangesOP.ranges
-  //           defectsRangesOP.ranges.forEach((defectRange, index) => {
-  //             console.log("DefectRange", defectRange)
-  //             if (range.bottom === defectRange?.bottom && range.top === defectRange?.top) {
-  //               console.log("Ебать они совпали")
-  //               prevRangesOP[index].count = prevRangesOP[index].count + range.amount
-  //               setDefectRangesOP(prevDefectRangesOP => ({ ...prevDefectRangesOP, ranges: prevRangesOP }))
-  //             } else {
-  //               console.log("Они не совпали")
-  //               prevRangesOP.push({ top: range.top, bottom: range.bottom, count: range.amount })
-
-  //               setDefectRangesOP(prevDefectRangesOP => ({ ...prevDefectRangesOP, ranges: prevRangesOP }))
-  //             }
-  //           })
-  //         })
-  //       })
-  //     })
-  //   })
-  // }
   const handleUpdateComment = (value: string) => {
     axiosInstance.put(`api/imaging/test/${props.currentInfoAboutTest.id}/`, {
       comment: value
@@ -104,7 +63,7 @@ const AnalysisConrolPanel = (props: IProps) => {
         Номер плавки/ручья: {props.currentInfoAboutTest.melting_number}
       </span>
       <span className='mb-2'>
-        Сечение, мм: {props.currentInfoAboutTest.segments[currentSegment]?.width}x{props.currentInfoAboutTest.segments[currentSegment]?.length}
+        Сечение, мм: {props.currentInfoAboutTest.segments[currentSegment]?.width} {props.currentInfoAboutTest.segments[currentSegment] && "x"}{props.currentInfoAboutTest.segments[currentSegment]?.length}
       </span>
       <Form.Text>Комментарий</Form.Text>
       <Form.Control
@@ -122,9 +81,16 @@ const AnalysisConrolPanel = (props: IProps) => {
           Деталь
         </p>
         <div className="choosing-part__control d-flex align-items-start mb-2">
-          <input id="choosing-part__input" className='w-25 me-2' type="number" onChange={(event) => {
-            setCurrentSegment(Number(event.target.value as unknown as number) - 1)
-            props.swiper?.slideTo(Number(event.target.value as unknown as number) - 1, 0)
+          <input id="choosing-part__input" className='w-25 me-2' type="number" defaultValue={props.currentInfoAboutTest.segments.length} value={valueOfSliderPart} placeholder="1" onChange={(event) => {
+            if (e.target.value.trim() === "") {
+              setValueOfSliderPart(e.target.value)
+            }
+            if (Number(event.target.value) > 0 && Number(event.target.value) <= props.currentInfoAboutTest.segments.length) {
+              setValueOfSliderPart(event.target.value)
+              setCurrentSegment(Number(event.target.value as unknown as number) - 1)
+              props.swiper.slideTo(Number(event.target.value as unknown as number) - 1, 0)
+            }
+
 
           }} />
           <label htmlFor="choosing-part__input">
@@ -137,46 +103,85 @@ const AnalysisConrolPanel = (props: IProps) => {
           Статистика
         </h4>
         <Accordion>
-          {/* {currentTest?.score.map(el=>{
-            return (
-              <Accordion.Item>
-                <Accordion.Header>
-                  {el.name},{el.score}
-                </Accordion.Header>
-                <Accordion.Body>
-            
-                </Accordion.Body>
-              </Accordion.Item>
-            )
-          })} */}
-        </Accordion>
-        <Accordion>
-          <Accordion.Item eventKey='0'>
-            <Accordion.Header>
-              ОР, {props.currentInfoAboutTest.score.ОР}
-            </Accordion.Header>
-            <Accordion.Body>
-              ff
-              {/* {
-                defectsRangesOP.ranges.map(range => {
-                  return (
-                    <div>
-                      {range.bottom} - {range.top}, количество {range.count}
-                    </div>
-                  )
-                })
-              } */}
-              Измерения, ММ.
-            </Accordion.Body>
-          </Accordion.Item>
-          <Accordion.Item eventKey='1'>
-            <Accordion.Header>
-              ОР, 0.5 Б {props.currentInfoAboutTest.score.ОХН}
-            </Accordion.Header>
-            <Accordion.Body>
-              Измерения, ММ.
-            </Accordion.Body>
-          </Accordion.Item>
+          {currentTest &&
+            Object.keys(currentTest?.score).map((el, index) => {
+              return (
+                <Accordion.Item eventKey={index}>
+                  <Accordion.Header>
+                    {Object.keys(currentTest?.score)[index]},
+                    {
+                      currentTest?.score[el] + " "
+                    }
+                    Б
+                  </Accordion.Header>
+                  <Accordion.Body>
+                    {/* <Row> */}
+                    <Row>
+                      <Col className='border-end border-dark p-0'>
+                        <span>
+                          Измерения, ММ.
+                        </span>
+                      </Col>
+                      <Col className='p-0'>
+                        <span>
+                          Найдено, шт.
+                        </span>
+                      </Col>
+                    </Row>
+                    {
+                      ranges &&
+                      ranges[el].map(el => {
+                        return (
+                          <Row>
+                            <Col className='border-end border-dark p-0'>
+                              {
+                                (!el.bottom) &&
+                                <span>
+                                  {"< " + el.top}
+                                </span>
+                              }
+                              {
+                                !el.top &&
+                                <span>
+                                  {el.bottom + " >"}
+                                </span>
+                              }
+                              {
+                                el.top && el.bottom &&
+                                <span>
+                                  {el.bottom + " - " + el.top}
+                                </span>
+                              }
+                            </Col>
+                            <Col className='p-0'>
+                              <span>
+                                {el.amount}
+                              </span>
+                            </Col>
+                          </Row>
+                        )
+                      })
+                    }
+                    {/* <Col className='d-flex flex-column border-end'>
+                      <span>
+                        Измерения
+                      </span>
+                      {
+                      }
+                    </Col>
+                    <Col >
+                      <span>
+                        Измерения
+                      </span>
+
+                    </Col> */}
+                    {/* </Row> */}
+
+                  </Accordion.Body>
+                </Accordion.Item>
+              )
+            })
+          }
         </Accordion>
       </div>
 
@@ -191,7 +196,7 @@ const AnalysisConrolPanel = (props: IProps) => {
         }
 
       </div>
-      <Button variant="outline-primary " className='analysis-control-panel__shape m-0' onClick={() => setShowModal(true)}>Просмотреть полное сечение</Button>
+      <Button variant="outline-primary " className='analysis-control-panel__shape mb-5' onClick={() => setShowModal(true)}>Просмотреть полное сечение</Button>
 
 
 
@@ -211,7 +216,7 @@ const AnalysisConrolPanel = (props: IProps) => {
           {
             currentTest?.segments.map(segment => {
               return (
-                <Row>
+                <Row className="mb-3">
                   {segment.images.map(img => {
                     if (img.light === "top") {
                       if (showProcessedPhoto) {
@@ -256,8 +261,11 @@ const AnalysisConrolPanel = (props: IProps) => {
               </span>
             </label>
           </div>
-          <Button variant="secondary" onClick={() => setShowModal(false)}>
-            Close
+          <Button
+            variant="outline-primary"
+            onClick={() => setShowModal(false)}
+          >
+            Назад
           </Button>
 
         </Modal.Footer>

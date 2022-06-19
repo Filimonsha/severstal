@@ -1,9 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { Spinner } from 'react-bootstrap'
+import Swiper from 'swiper'
+import { useSwiper } from 'swiper/react'
 import axiosInstance from '../../../helpers/axios'
 import { IScore, ITest } from '../../../types/interfaces'
 import "./AnalysedSegment.css"
 interface IProps {
+    setSwiper: React.Dispatch<React.SetStateAction<any>>,
     // string было
     imageId: number,
     currentInfoAboutTest: ITest,
@@ -24,7 +27,6 @@ const AnalysedSegment = (props: IProps) => {
         ОР: 0,
         ОХН: 0
     })
-
     useEffect(() => {
         console.log("ИзрБРАЖЕНИЕ ПОМЕНЯЛОСЬ ", props.imageId)
         if (!props.isHistoryRoute) {
@@ -50,20 +52,6 @@ const AnalysedSegment = (props: IProps) => {
             console.log(wasAnalysed)
         })
     }, [props.imageId])
-
-    const checkIsImageWithoutDefects = () => {
-        // res.data.defects.forEach((defect: IDefect) => {
-        //     if (defect.score !== 0) {
-        //         setImageWithoutDefects(false)
-        //     }
-        //     if (defect.name === "ОХН") {
-        //         setDefectsScore(prevDefectsScore => ({ ...prevDefectsScore, ОХН: defect.score }))
-        //     } else if (defect.name = "ОР") {
-        //         setDefectsScore(prevDefectsScore => ({ ...prevDefectsScore, ОР: defect.score }))
-        //     }
-        // });
-
-    }
     return (
         <div className="analysed-segment">
             {

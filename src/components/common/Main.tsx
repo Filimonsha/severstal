@@ -1,7 +1,7 @@
 import Cookies from 'js-cookie'
 import React, { useContext, useEffect, useState } from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
-import { Route, Routes, useNavigate, useParams } from 'react-router-dom'
+import { Navigate, Route, Routes, useNavigate, useParams } from 'react-router-dom'
 import { AuthCtx } from '../../context/authContext'
 import { sessionId } from '../../helpers/api'
 import axiosInstance from '../../helpers/axios'
@@ -13,8 +13,8 @@ import ControlPanel from '../panels/ControlPanel'
 import "./Main.css"
 
 const Main = () => {
+    const userName = Cookies.get("username")
     const [swiper, setSwiper] = useState(null)
-
     const [listOfDetails, setListOfDetails] = useState<Array<ISegment>>([])
     const [userClickedAnalysis, setUserClickedAnalysis] = useState(false)
     const [currentTestId, setCurrentTestId] = useState("")
@@ -36,19 +36,17 @@ const Main = () => {
         console.log(id)
         if (id) {
             axiosInstance.get(`/api/imaging/test/${id}/`)
-            .then(res=>{
-                setCurrentInfoAboutTest(res.data)
-                console.log("ПИС",currentInfoAboutTest)
-            })
+                .then(res => {
+                    setCurrentInfoAboutTest(res.data)
+                    console.log("ПИС", currentInfoAboutTest)
+                })
         }
     }, [])
 
-    useEffect(()=>{
-        if(!Cookies.get("username")){
-            nav('/auth')
-        }
-    },[])
 
+    if (!userName) {
+        return <Navigate to="/auth" replace />
+    }
     return (
 
         <AuthCtx.Provider value={{ currentTestId, setCurrentTestId }}>
@@ -59,7 +57,7 @@ const Main = () => {
                 <div className='d-flex'>
                     <Col md={9}
                     >
-                        <ListOfDetails sideOfLighting={sideOfLighting} currentInfoAboutTest={currentInfoAboutTest} setCurrentInfoAboutTest={setCurrentInfoAboutTest} setSwiper={setSwiper} setListOfDetailsToAnalysis={setListOfDetails} />
+                        <ListOfDetails swiper={swiper} sideOfLighting={sideOfLighting} currentInfoAboutTest={currentInfoAboutTest} setCurrentInfoAboutTest={setCurrentInfoAboutTest} setSwiper={setSwiper} setListOfDetailsToAnalysis={setListOfDetails} />
                     </Col>
                     <Col md={3}>
                         <ControlPanel setSideOfLighting={setSideOfLighting} currentInfoAboutTest={currentInfoAboutTest} setCurrentInfoAboutTest={setCurrentInfoAboutTest} swiper={swiper} setUserClickedAnalysis={setUserClickedAnalysis} />

@@ -8,6 +8,7 @@ export interface ITest {
   date: string | null;
   segments: Array<ISegment>;
   score: IScore;
+  ranges: IRanges;
 }
 export interface IScore {
   ОР: number;
@@ -20,15 +21,15 @@ export interface ISegment {
   width: string;
   images: Array<IImages>;
 }
-export interface IImages{
-    id:number,
-    number:number,
-    light:string,
-    file_full:string,
-    file_crop:string,
-    file_res_full:string,
-    file_res_crop:string,
-    defects:Array<IDefects>,
+export interface IImages {
+  id: number;
+  number: number;
+  light: string;
+  file_full: string;
+  file_crop: string;
+  file_res_full: string;
+  file_res_crop: string;
+  defects: Array<IDefects>;
 }
 
 export interface ITypeOfPropduct {
@@ -36,15 +37,20 @@ export interface ITypeOfPropduct {
   name: string;
 }
 
-export interface IDefects{
-    name:string,
-    ranges:Array<IRanges>,
-    score:number,
+export interface IDefects {
+  name: string;
+  ranges: Array<IRange>;
+  score: number;
 }
 
-export interface IRanges{
-    bottom:number|null,
-    top:number|null,
-    amount:number,
-    score:number,
+export interface IRange {
+  bottom: number | null;
+  top: number | null;
+  amount: number;
+  score: number;
+}
+
+export interface IRanges {
+  ОР: Array<IRange>;
+  ОХН: Array<IRange>;
 }

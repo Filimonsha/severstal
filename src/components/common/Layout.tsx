@@ -7,18 +7,19 @@ import Analysis from '../details/analysis/Analysis'
 import { createContext, useState } from 'react'
 import { AuthCtx } from '../../context/authContext'
 import RouteAnalysis from '../details/analysis/RouteAnalysis'
+import Cookies from 'js-cookie'
 
 const Layout = () => {
-    
+    const userName = Cookies.get("username")
     return (
-        <div>
-                <Header />
-                <Routes>
-                    <Route path='/auth' element={<Auth />} />
-                    <Route path='/' element={<Main />} />
-                    <Route path="/history" element={<History />} />
-                    <Route path="/history/:id" element={<Main/>}/>
-                </Routes>
+        <div className='h-100 position-relative'>
+            <Header />
+            <Routes>
+                <Route path='/auth' element={<Auth />} />
+                <Route path='/' element={<Main />} />
+                <Route path="/history" element={<History />} />
+                <Route path="/history/:id" element={<Main />} />
+            </Routes>
 
         </div>
     )
