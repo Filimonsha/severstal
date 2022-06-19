@@ -36,21 +36,18 @@ const ListOfAnalysedParts = (props: IProps) => {
                 modules={[Scrollbar, Mousewheel]}
                 className="mySwiper"
                 onSwiper={(swiper) => {
-                    console.log("AUUUUUUUUU", swiper)
                     props.setSwiper(swiper)
                 }}
 
             >
                 {
 
-                    props.currentInfoAboutTest.segments.map((currentSegment, index) => {
+                    props.currentInfoAboutTest.segments.map((currentSegment, segmentIndex) => {
 
-                        console.log("ЭЛЕМЕНТ LISTOFDETAILS", currentSegment, index)
-                        // const currentArrayAnalysedImages: Array<object> = []
                         return (
                             <SwiperSlide>
                                 <div className="detail__header text-start">
-                                    {"Часть " + (Number(index) + 1)}
+                                    {"Часть " + (Number(segmentIndex) + 1)}
 
 
                                 </div>
@@ -76,11 +73,11 @@ const ListOfAnalysedParts = (props: IProps) => {
 
                                     {
                                         currentSegment.images.map(
-                                            (currentImage, index) => {
+                                            (currentImage, imageIndex) => {
                                                 if (currentImage.light === "top") {
                                                     return (
                                                         <SwiperSlide>
-                                                            <AnalysedSegment setSwiper={props.setSwiper} isHistoryRoute={props.isHistoryRoute} setCurrentInfoAboutTest={props.setCurrentInfoAboutTest} currentInfoAboutTest={props.currentInfoAboutTest} imageId={currentImage.id} />
+                                                            <AnalysedSegment imageIndex={imageIndex} segmentIndex={segmentIndex} setSwiper={props.setSwiper} imageWasAnalysed={!props.currentInfoAboutTest.date ? false : true} setCurrentInfoAboutTest={props.setCurrentInfoAboutTest} currentInfoAboutTest={props.currentInfoAboutTest} imageId={currentImage.id} />
                                                         </SwiperSlide>
                                                     )
                                                 }

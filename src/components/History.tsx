@@ -16,11 +16,9 @@ const History = () => {
             {
                 res.data.forEach((test: any) => {
                     axiosInstance.get(`/api/imaging/test/${test.id}/`).then(res => {
-                        console.log(res.data)
                         setListOfTests(prevListOfTests => ([...prevListOfTests, res.data]))
-                        // setListOfTests(prevListOfTests=>prevListOfTests.sort((a,b)=>a?.number - b?.number))
 
-                    }).catch(er => console.log(er))
+                    })
                 })
             }
             res.data.lenght === 0 && setListOfTestsIsEmpty(true)
@@ -72,7 +70,6 @@ const History = () => {
 
                             <tbody className='history__body'>
                                 {listOfTests?.sort((a, b) => {
-                                    console.log(a, b, Number(a?.number) - Number(b?.number))
                                     return Number(b?.id) - Number(a?.id)
                                 }).map((el) => {
                                     return (

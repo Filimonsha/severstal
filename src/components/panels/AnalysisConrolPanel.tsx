@@ -35,7 +35,6 @@ const AnalysisConrolPanel = (props: IProps) => {
     axiosInstance.put(`api/imaging/test/${props.currentInfoAboutTest.id}/`, {
       comment: value
     }).then(res => {
-      console.log("Комм обновлен", res.data)
       props.setCurrentInfoAboutTest((prevInfo) => ({
         ...prevInfo,
         comment: value,
@@ -220,7 +219,6 @@ const AnalysisConrolPanel = (props: IProps) => {
                   {segment.images.map(img => {
                     if (img.light === "top") {
                       if (showProcessedPhoto) {
-                        console.log("Показываем фото обработанные", img.file_res_crop)
                         return (
                           <Col md={'4'}>
                             <img src={`${img.file_res_crop}`} alt="" className="me-3"
@@ -228,7 +226,6 @@ const AnalysisConrolPanel = (props: IProps) => {
                           </Col>
                         )
                       } else {
-                        console.log("Показываем фото необработанные", img.file_crop)
                         return (
                           <Col md={'4'}>
                             <img src={`${img.file_crop}`} alt="" className="me-3"
@@ -254,7 +251,6 @@ const AnalysisConrolPanel = (props: IProps) => {
             <label className="custom-control material-switch" >
               <input type="checkbox" className="material-switch-control-input" onChange={(event) => {
                 setShowProcessedPhoto(prevValue => !prevValue)
-                console.log(showProcessedPhoto)
               }
               } />
               <span className="material-switch-control-indicator">

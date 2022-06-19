@@ -12,13 +12,12 @@
 }
 
 .analysed-segment__without-def {
-  height: 383px;
+  height: 100%;
   width: 100%;
   background: #d6e4ff;
 }
 
 .analysed-segment__with-def {
-  height: 383px;
   height: 100%;
   width: 100%;
   display: -webkit-box;

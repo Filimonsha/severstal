@@ -33,7 +33,7 @@ function Auth() {
         <Form onSubmit={handleAuth} className="mb-2">
 
           <Form.Control value={login} onChange={(e) => setLogin(e.target.value)} type='text' className="mb-2" placeholder='Логин' />
-          <Form.Control value={password} onChange={(e) => setPassword(e.target.value)} type="text" className='mb-2' placeholder='Пароль' />
+          <Form.Control value={password} onChange={(e) => setPassword(e.target.value)} type="password" className='mb-2' placeholder='Пароль' />
           <Button className="d-flex align-items-center analysis-control-panel__back" variant="primary" type="submit"  >
             Войти
           </Button>

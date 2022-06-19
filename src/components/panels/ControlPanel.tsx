@@ -23,13 +23,10 @@ const ControlPanel = (props: IProps) => {
 
         const currentDate = new Date()
         const formatedCurrentDate = currentDate.getFullYear() + "-" + (currentDate.getMonth() + 1) + "-" + currentDate.getDate()
-        console.log(formatedCurrentDate)
         axiosInstance.put(`api/imaging/test/${props.currentInfoAboutTest.id}/`, {
             date: formatedCurrentDate
         }).then(res => {
             props.setCurrentInfoAboutTest((prevInfo: any) => ({ ...prevInfo, date: formatedCurrentDate }))
-            console.log(props.currentInfoAboutTest)
-            console.log("Была нажата анализировано", analysed)
         }).catch(er => console.log(er))
         props.setUserClickedAnalysis(true)
     }
@@ -60,7 +57,7 @@ const ControlPanel = (props: IProps) => {
                         Часть
                     </p>
                     <div className="choosing-part__control d-flex align-items-start mb-2">
-                        <input id="choosing-part__input" className='w-25 me-2' value={valueOfSliderPart} onChange={e => {
+                        <input id="choosing-part__input" className='w-25 me-2' placeholder='1' value={valueOfSliderPart} onChange={e => {
                             if (e.target.value.trim() === "") {
                                 setValueOfSliderPart(e.target.value)
                             }

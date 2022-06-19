@@ -14,6 +14,7 @@ import "./rulez-black.css"
 
 interface IProps {
   detailInfo: ISegment,
+  setCurrentInfoAboutTest: React.Dispatch<React.SetStateAction<ITest>>,
   currentInfoAboutTest: ITest,
   srcOFImg: string,
   index: number,
@@ -33,20 +34,37 @@ const Detail = (props: IProps) => {
   const [imageH, setImageH] = useState(559.59)
   const [imageW, setImageW] = useState(394)
   const [clickedImage, setClickedImage] = useState<string>("")
+  const [imageDeleted, setImageDeleted] = useState(false)
   const swiper = useSwiper()
 
   useEffect(() => {
     props.setSwiper(swiper)
   })
 
-  useEffect(() => {
-    console.log("Поменяли !")
-  }, [allowScrolling])
 
 
-  const handleDeleteImage = (el:IImages) => {
-    console.log(el)
-    // axiosInstance.delete()
+  const handleDeleteImage = (el: IImages) => {
+    axiosInstance.post(`/api/imaging/segment/${Number(props.detailInfo.id)}/delete_images_by_number/`, {
+      number: el.number
+    }).then(res => {
+      let segments = props.currentInfoAboutTest.segments
+      if (!res.data.deleted_segment) {
+        segments.forEach((segment, index) => {
+          if (segment.id === props.detailInfo.id) {
+            segments[index].images = segments[index].images.filter(image => {
+              return image.number !== el.number
+            })
+          }
+        })
+      } else {
+        segments = segments.filter(segment => segment.id !== props.detailInfo.id)
+      }
+
+
+      props.setCurrentInfoAboutTest(prevInfo => ({ ...prevInfo, segments: segments }))
+    }
+    )
+      .catch(er => console.log(er))
   }
   return (
     <>
@@ -71,10 +89,8 @@ const Detail = (props: IProps) => {
 
             {
               props.detailInfo.images.map(el => {
-                console.log(el)
                 if (props.sideOfLighting) {
                   if (el.light === "top") {
-                    console.log("Покзываем фотки с top")
                     return (<SwiperSlide >
                       <img src={`${el.file_crop}`} alt="" className="me-3" onClick={() => {
                         setShow(true)
@@ -85,29 +101,22 @@ const Detail = (props: IProps) => {
                   }
                 } else if (!props.sideOfLighting) {
                   if (el.light === "front") {
-                    console.log("Показываем фотки с front")
                     return (<SwiperSlide className="image-slide">
-                      <svg className="image-slide__delete-image" onClick={event=>handleDeleteImage(el)} width="78" height="79" viewBox="0 0 78 79" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <g filter="url(#filter0_d_5545_1167)">
-                          <rect x="26.9998" y="15.0171" width="32" height="32.0339" rx="3" fill="white" />
-                        </g>
-                        <defs>
-                          <filter id="filter0_d_5545_1167" x="-0.000244141" y="0.0170898" width="78" height="78.0337" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-                            <feFlood flood-opacity="0" result="BackgroundImageFix" />
-                            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
-                            <feOffset dx="-4" dy="8" />
-                            <feGaussianBlur stdDeviation="11.5" />
-                            <feComposite in2="hardAlpha" operator="out" />
-                            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.05 0" />
-                            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_5545_1167" />
-                            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_5545_1167" result="shape" />
-                          </filter>
-                        </defs>
-                      </svg>
+                      {
+                        !props.currentInfoAboutTest.date &&
+                        <svg className="image-slide__delete-image" onClick={event => handleDeleteImage(el)} width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M0 4C0 1.79086 1.79086 0 4 0H28C30.2091 0 32 1.79086 32 4V28C32 30.2091 30.2091 32 28 32H4C1.79086 32 0 30.2091 0 28V4Z" fill="white" />
+                          <path d="M7 10H9H25" stroke="#121212" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                          <path d="M12 10V8C12 7.46957 12.2107 6.96086 12.5858 6.58579C12.9609 6.21071 13.4696 6 14 6H18C18.5304 6 19.0391 6.21071 19.4142 6.58579C19.7893 6.96086 20 7.46957 20 8V10M23 10V24C23 24.5304 22.7893 25.0391 22.4142 25.4142C22.0391 25.7893 21.5304 26 21 26H11C10.4696 26 9.96086 25.7893 9.58579 25.4142C9.21071 25.0391 9 24.5304 9 24V10H23Z" stroke="#121212" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                          <path d="M14 15V21" stroke="#121212" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                          <path d="M18 15V21" stroke="#121212" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                      }
+
 
                       <img src={`${el.file_crop}`} alt="" className="me-3" onClick={() => {
                         setShow(true)
-                        setClickedImage(el.file_crop)
+                        setClickedImage(el.file_full)
                         setAllowScrolling(true)
                       }} />
                     </SwiperSlide>)
@@ -153,11 +162,9 @@ const Detail = (props: IProps) => {
                 } else {
                   e.target.value = "on "
                 }
-                        console.log(e.target.value)
 
       })
       document.getElementById("removeAllLines").addEventListener("click",function (e){
-        console.log(canvas)
         canvas.clear()
       })
       var canvas = (this.__canvas = new fabric.Canvas("img", {
@@ -173,11 +180,9 @@ const Detail = (props: IProps) => {
           trigger = "1"
         }
         if (trigger == "1") {
-          console.log("Бляяяя",switchRegime.value)
           isDown = true;
           var pointer = canvas.getPointer(o.e);
-          canvas.width = 1000 
-          console.log(pointer.x,pointer.y, "ЫЫЫЫЫЫЫЫЫ")
+          // canvas.width = 1000 
           var points = [pointer.x, pointer.y -lineShift, pointer.x, pointer.y -lineShift];
           startx[temp] = pointer.x;
           starty[temp] = pointer.y - lineShift;
@@ -227,11 +232,25 @@ const Detail = (props: IProps) => {
       });
 
       canvas.on("mouse:up", function (o) {
+                          var px = Calculate.lineLength(
+            startx[temp],
+            starty[temp],
+            endx[temp],
+            endy[temp]
+          ).toFixed(2);
+text = new fabric.Text("Length " + px*(1/currentScale), {
+            left: endx[temp],
+            top: endy[temp],
+            fontSize: 12,
+          });
+          canvas.add(text);
         var pointer = canvas.getPointer(o.e);
+        
         isDown = false;
       });
 
       canvas.on("mouse:over", function (e) {
+
         e.target.setStroke("blue");
         canvas.renderAll();
       });
@@ -317,14 +336,12 @@ const Detail = (props: IProps) => {
       rulezV.render();
       var scroll = document.getElementById("scroll");
       scroll.addEventListener("scroll", function () {
-        console.log("SSSSSSSSSSSSSSS")
         rulezH.scrollTo(scroll.scrollLeft);
         rulezV.scrollTo(scroll.scrollTop);
       });
 
 
       document.getElementById("scroll").addEventListener("deltaY", function () {
-                console.log("JJJJJJJ")
 
         rulezH.saveAsImage(function (imgs) {
           img.src = imgs;
@@ -343,47 +360,40 @@ const Detail = (props: IProps) => {
       document
         .getElementById("scroll")
         .addEventListener("wheel", function (event) {
+                  canvas.clear()
+
           if (!imgWidth) {
             imgWidth = img.width;
             imgHeight = img.height;
           }
           if (event.deltaY > 0) {
-            if (currentScale > 1) {currentScale = currentScale - 0.2;
-            // lineScale = lineScale + 0.3
+            if (currentScale > 1) {currentScale = currentScale - 0.5;
             }
           } else if (event.deltaY < 0) {
-            currentScale = currentScale + 0.2;
-            // if(lineScale - 0.3 > 0){
-            // lineScale = lineScale - 0.3
-            // }
-            console.log(currentScale)
+            currentScale = currentScale + 0.5;
           }          
-          img.style.width = imgWidth * currentScale + "px";
-          img.style.height = imgHeight * currentScale + "px";
-          img.setAttribute('width',imgWidth * currentScale)
-          img.setAttribute('height',imgHeight * currentScale)
+          img.style.width = Math.round(imgWidth * currentScale) + "px";
+          img.style.height = Math.round(imgHeight * currentScale) + "px";
+          img.setAttribute('width',Math.round(imgWidth * currentScale))
+          img.setAttribute('height',Math.round(imgHeight * currentScale))
 
           
           // Фикс канваса
           var upperCanvas = document.querySelector(".upper-canvas")
-          upperCanvas.width = imgWidth * currentScale 
-          upperCanvas.height = imgHeight * currentScale 
-          upperCanvas.style.width = imgWidth * currentScale + "px";
-          upperCanvas.style.height = imgHeight * currentScale + "px";
+          upperCanvas.width = Math.round(imgWidth * currentScale )
+          upperCanvas.height = Math.round(imgHeight * currentScale) 
+          upperCanvas.style.width = Math.round(imgWidth * currentScale) + "px";
+          upperCanvas.style.height = Math.round(imgHeight * currentScale) + "px";
 
 
-          console.log("Было",canvas.width,canvas.height)
-          canvas.width = imgWidth * currentScale 
-          canvas.height = imgHeight * currentScale 
-          console.log("Стало",canvas.width,canvas.height)
+          canvas.width = Math.round(imgWidth * currentScale) 
+          canvas.height = Math.round(imgHeight * currentScale)
 
-      //                             console.log("Канвас перед изменением",canvas)
 
       //   canvas = (this.__canvas = new fabric.Canvas("img", {
       //   hoverCursor: "pointer",
       //   selection: false,
       // }));
-      //         console.log("Канвас после изменением",canvas)
 
 
           rulezH.setScale(1 / currentScale);

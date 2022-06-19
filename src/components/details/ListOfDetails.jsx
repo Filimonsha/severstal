@@ -22,7 +22,6 @@ const ListOfDetails = ({
   const [length, setLength] = useState("");
   const [width, setWidth] = useState("");
   const [comment, setComment] = useState("");
-  const [testWasAnalysed, setTestWasAnalysed] = useState(false);
 
   const [testInfo, setTestInfo] = useState({});
 
@@ -35,9 +34,7 @@ const ListOfDetails = ({
     setError,
     formState: { errors },
   } = useForm();
-  useEffect(() => console.log(errors, "АААААААААААААААААА"));
   const createSegmentAndGetImages = (testId, data) => {
-    console.log(testId, testInfo, length, width);
     axiosInstance
       .post("/api/imaging/segment/", {
         // test: Number(currentInfoAboutTest.id),
@@ -47,7 +44,6 @@ const ListOfDetails = ({
         width: Number(data.width),
       })
       .then((res) => {
-        console.log("/api/imaging/segment/", res);
 
         axiosInstance
           .post(
@@ -56,17 +52,13 @@ const ListOfDetails = ({
             )}/make_images/?offset=${Number(rangeValue)}`
           )
           .then((res) => {
-            console.log("/api/imaging/segment/{id}/make_images/", res);
             setCurrentInfoAboutTest((prevTestInfo) => ({
               ...prevTestInfo,
               segments: [...prevTestInfo.segments, res.data],
             }));
-            console.log("currentInfoTest", currentInfoAboutTest);
             setListOfDetailsToAnalysis((prevArray) => [...prevArray, res.data]);
           })
           .catch((er) => console.log(er));
-        console.log(currentInfoAboutTest.segments.length - 1);
-        // swiper.slideTo(currentInfoAboutTest.segments.length-1)
         swiper.slideToClosest();
       })
       .catch((er) => console.log(er));
@@ -76,14 +68,12 @@ const ListOfDetails = ({
     axiosInstance
       .get("/api/choices/product_type/")
       .then((res) => {
-        console.log(res);
         setTypeOfProductsList(res.data);
       })
       .catch((er) => console.log(er));
     axiosInstance
       .get("/api/choices/measurement_technique/")
       .then((res) => {
-        console.log(res);
         setMethodicsList(res.data);
       })
       .catch((er) => console.log(er));
@@ -92,12 +82,10 @@ const ListOfDetails = ({
   function setErrors(errors) {
     Object.keys(errors).forEach((key) => {
       setError(key, { message: errors[key].join(","), type: "required" });
-      console.log(key, errors[key].join(","));
     });
   }
 
   const handleAddTest = (data) => {
-    console.log("ЭТО ДАННЫЕ АА", data);
 
     axiosInstance
       .post("/api/imaging/test/", {
@@ -108,9 +96,7 @@ const ListOfDetails = ({
         date: null,
       })
       .then((res) => {
-        console.log(res);
         setTestInfo(res.data);
-        console.log(testInfo);
         createSegmentAndGetImages(res.data.id, data);
         // setCurrentTestId(res.data.id);
 
@@ -119,7 +105,6 @@ const ListOfDetails = ({
         setShowAddingTest(false);
       })
       .catch((er) => {
-        console.log(er, er.response.data);
         setErrors(er.response.data);
       });
     // setComment(data.comment);
@@ -157,10 +142,10 @@ const ListOfDetails = ({
       >
         {currentInfoAboutTest.segments.length !== 0 &&
           currentInfoAboutTest.segments.map((el, index) => {
-            console.log("Абобус", el);
             return (
               <SwiperSlide>
                 <Detail
+                  setCurrentInfoAboutTest={setCurrentInfoAboutTest}
                   currentInfoAboutTest={currentInfoAboutTest}
                   sideOfLighting={sideOfLighting}
                   detailInfo={el}

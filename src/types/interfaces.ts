@@ -30,6 +30,7 @@ export interface IImages {
   file_res_full: string;
   file_res_crop: string;
   defects: Array<IDefects>;
+  anylysed: boolean;
 }
 
 export interface ITypeOfPropduct {

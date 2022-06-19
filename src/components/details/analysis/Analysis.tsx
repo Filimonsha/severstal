@@ -13,8 +13,8 @@ interface IProps {
 const Analysis = (props: IProps) => {
   const [swiper, setSwiper] = useState(null)
   return (
-    <div className="analysis d-flex">
-      <Col md="9">
+    <div className="analysis d-flex h-100">
+      <Col md="9" className="overflow-scroll">
         <ListOfAnalysedParts isHistoryRoute={false} currentInfoAboutTest={props.currentInfoAboutTest} setCurrentInfoAboutTest={props.setCurrentInfoAboutTest} setSwiper={setSwiper} />
       </Col>
       <Col md="3">

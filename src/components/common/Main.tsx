@@ -33,12 +33,10 @@ const Main = () => {
     })
 
     useEffect(() => {
-        console.log(id)
         if (id) {
             axiosInstance.get(`/api/imaging/test/${id}/`)
                 .then(res => {
                     setCurrentInfoAboutTest(res.data)
-                    console.log("ПИС", currentInfoAboutTest)
                 })
         }
     }, [])
@@ -54,8 +52,8 @@ const Main = () => {
             {userClickedAnalysis ?
                 <Analysis setCurrentInfoAboutTest={setCurrentInfoAboutTest} setUserClickedAnalysis={setUserClickedAnalysis} currentInfoAboutTest={currentInfoAboutTest} />
                 :
-                <div className='d-flex'>
-                    <Col md={9}
+                <div className='d-flex h-100'>
+                    <Col md={9} className="overflow-scroll"
                     >
                         <ListOfDetails swiper={swiper} sideOfLighting={sideOfLighting} currentInfoAboutTest={currentInfoAboutTest} setCurrentInfoAboutTest={setCurrentInfoAboutTest} setSwiper={setSwiper} setListOfDetailsToAnalysis={setListOfDetails} />
                     </Col>
