@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React, { useCallback, useEffect, useState } from 'react'
-import { Accordion, Button, Col, Container, Form, Modal, Row } from 'react-bootstrap'
+import { Accordion, Button, Col, Container, Form, Modal, Row, Spinner } from 'react-bootstrap'
 import Swiper from 'swiper'
 import axiosInstance from '../../helpers/axios'
 import { IRanges, ISegment, ITest, ITypeOfPropduct } from '../../types/interfaces'
@@ -23,16 +23,38 @@ const AnalysisConrolPanel = (props: IProps) => {
   const [showModal, setShowModal] = useState(false)
   const [showProcessedPhoto, setShowProcessedPhoto] = useState(false)
   const [valueOfSliderPart, setValueOfSliderPart] = useState("")
+  const [imagesAnalysed, setImagesAnalysed] = useState(false)
   useEffect(() => {
     // countRanges()
+    setRanges(props.currentInfoAboutTest.ranges)
+
     axiosInstance.get("/api/choices/product_type/").then(res => setTypeOfProductsList(res.data))
     axiosInstance.get(`/api/imaging/test/${props.currentInfoAboutTest.id}/`).then(res => {
+      console.log("Абобааааа", res.data)
       setCurrentTest(res.data)
-      setRanges(res.data.ranges)
+      console.log("ойх", currentTest)
+
     })
   }, [])
+
+  useEffect(()=>{
+    setCurrentTest(props.currentInfoAboutTest)
+  },[props.currentInfoAboutTest])
+  useEffect(() => {
+    // let fAllImageAnalysed
+    // props.currentInfoAboutTest.segments.forEach((segment, sIndex) => {
+    //   segment.images.forEach((image, iIndex) => {
+    //     if (!image.needToAnylyse) {
+    //       // fAllImageAnalysed=true
+    //       setImagesAnalysed(true)
+
+    //     }
+    //   })
+    // })
+
+  }, [])
   const handleUpdateComment = (value: string) => {
-    axiosInstance.put(`api/imaging/test/${props.currentInfoAboutTest.id}/`, {
+    axiosInstance.put(`/api/imaging/test/${props.currentInfoAboutTest.id}/`, {
       comment: value
     }).then(res => {
       props.setCurrentInfoAboutTest((prevInfo) => ({
@@ -81,8 +103,8 @@ const AnalysisConrolPanel = (props: IProps) => {
         </p>
         <div className="choosing-part__control d-flex align-items-start mb-2">
           <input id="choosing-part__input" className='w-25 me-2' type="number" defaultValue={props.currentInfoAboutTest.segments.length} value={valueOfSliderPart} placeholder="1" onChange={(event) => {
-            if (e.target.value.trim() === "") {
-              setValueOfSliderPart(e.target.value)
+            if (event.target.value.trim() === "") {
+              setValueOfSliderPart(event.target.value)
             }
             if (Number(event.target.value) > 0 && Number(event.target.value) <= props.currentInfoAboutTest.segments.length) {
               setValueOfSliderPart(event.target.value)
@@ -97,19 +119,21 @@ const AnalysisConrolPanel = (props: IProps) => {
           </label>
         </div>
       </div>
-      <div className='analysis-control-panel__statistics mb-4'>
+      <div className='analysis-control-panel__statistics mb-4 w-100'>
         <h4 className='text-start'>
           Статистика
         </h4>
-        <Accordion>
-          {currentTest &&
-            Object.keys(currentTest?.score).map((el, index) => {
+        {/* {
+          !props.currentInfoAboutTest.stillAnalysing ? */}
+        <Accordion className='w-100'>
+          {props.currentInfoAboutTest && props.currentInfoAboutTest.score &&
+            Object.keys(props.currentInfoAboutTest.score).map((el, index) => {
               return (
-                <Accordion.Item eventKey={index}>
+                <Accordion.Item eventKey={index} className="w-100">
                   <Accordion.Header>
-                    {Object.keys(currentTest?.score)[index]},
+                    {Object.keys(props.currentInfoAboutTest?.score)[index]},
                     {
-                      currentTest?.score[el] + " "
+                      props.currentInfoAboutTest?.score[el] + " "
                     }
                     Б
                   </Accordion.Header>
@@ -128,8 +152,8 @@ const AnalysisConrolPanel = (props: IProps) => {
                       </Col>
                     </Row>
                     {
-                      ranges &&
-                      ranges[el].map(el => {
+                      props.currentInfoAboutTest.ranges &&
+                      props.currentInfoAboutTest.ranges[el].map(el => {
                         return (
                           <Row>
                             <Col className='border-end border-dark p-0'>
@@ -161,32 +185,21 @@ const AnalysisConrolPanel = (props: IProps) => {
                         )
                       })
                     }
-                    {/* <Col className='d-flex flex-column border-end'>
-                      <span>
-                        Измерения
-                      </span>
-                      {
-                      }
-                    </Col>
-                    <Col >
-                      <span>
-                        Измерения
-                      </span>
-
-                    </Col> */}
-                    {/* </Row> */}
-
                   </Accordion.Body>
                 </Accordion.Item>
               )
             })
           }
         </Accordion>
+        {/* :
+            <Spinner animation='border' className="analysis-control-panel__spinner" />
+        } */}
+
       </div>
 
 
-      <div className='d-flex justify-content-center justify-content-between mb-3'>
-        <Button variant="outline-primary " className='analysis-control-panel__save'>Сохранить отчет</Button>
+      <div className='d-flex w-100 justify-content-center justify-content-between mb-3'>
+        <a download href={`http://${process.env.REACT_APP_SERVER_SEVERSTAL}/api/imaging/test/${props.currentInfoAboutTest.id}/download_report/`} className='analysis-control-panel__save btn btn-outline-primary'>Сохранить отчет</a>
         {
           !props.isHistoryRoute &&
           <Button className="d-flex align-items-center analysis-control-panel__back" variant="primary" onClick={() => props.setUserClickedAnalysis(false)}>
@@ -203,8 +216,7 @@ const AnalysisConrolPanel = (props: IProps) => {
       <Modal
         show={showModal}
         onHide={() => setShowModal(false)}
-        backdrop="static"
-        keyboard={false}
+
       // className="analysis-control-panel__modal"
       >
         <Modal.Header closeButton>
@@ -215,20 +227,20 @@ const AnalysisConrolPanel = (props: IProps) => {
           {
             currentTest?.segments.map(segment => {
               return (
-                <Row className="mb-3">
+                <Row className="mb-3 justify-content-center">
                   {segment.images.map(img => {
                     if (img.light === "top") {
                       if (showProcessedPhoto) {
                         return (
-                          <Col md={'4'}>
-                            <img src={`${img.file_res_crop}`} alt="" className="me-3"
+                          <Col md={'2'}>
+                            <img src={`${img.file_res_crop}`} alt="" className="w-100 h-100 me-3"
                             />
                           </Col>
                         )
                       } else {
                         return (
-                          <Col md={'4'}>
-                            <img src={`${img.file_crop}`} alt="" className="me-3"
+                          <Col md={'2'}>
+                            <img src={`${img.file_crop}`} alt="" className="w-100 h-100 me-3"
                             />
                           </Col>
                         )

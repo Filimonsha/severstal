@@ -26,9 +26,29 @@ const ControlPanel = (props: IProps) => {
         axiosInstance.put(`api/imaging/test/${props.currentInfoAboutTest.id}/`, {
             date: formatedCurrentDate
         }).then(res => {
-            props.setCurrentInfoAboutTest((prevInfo: any) => ({ ...prevInfo, date: formatedCurrentDate }))
+            let newSegmentsWithAnalyse = props.currentInfoAboutTest.segments
+            newSegmentsWithAnalyse.forEach((segment, sIndex) => {
+                segment.images.forEach((image, IIndex) => {
+                    newSegmentsWithAnalyse[sIndex].images[IIndex].needToAnylyse = true
+                    // image.needToAnylyse = true
+                })
+            })
+            // newSegmentsWithAnalyse =  newSegmentsWithAnalyse.map(segment => {
+            //     segment.images.map(image => {
+            //         return {
+            //             ...segment,images:{...segment.images,}
+            //         }
+            //         image.needToAnylyse = true
+            //     })
+            // })
+            console.log("Гыга", newSegmentsWithAnalyse)
+            props.setCurrentInfoAboutTest((prevInfo: any) => ({ ...prevInfo, date: formatedCurrentDate, segments: newSegmentsWithAnalyse }))
+            console.log("тута", props.currentInfoAboutTest.segments)
+
+            props.setUserClickedAnalysis(true)
+
         }).catch(er => console.log(er))
-        props.setUserClickedAnalysis(true)
+        // props.setUserClickedAnalysis(true)
     }
     return (
         <div className="control-panel">

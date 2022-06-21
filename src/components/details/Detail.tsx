@@ -1,13 +1,12 @@
 import Ruler from "@scena/ruler";
 import { useEffect, useRef, useState } from "react"
-import { Button, Col, Form, Modal } from "react-bootstrap"
+import { Button, Col, Form, Modal, Row } from "react-bootstrap"
 import { Helmet } from "react-helmet";
 import ScrollContainer from "react-indiana-drag-scroll";
 import { Mousewheel, Scrollbar } from "swiper";
 import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
 import axiosInstance from "../../helpers/axios";
 import { IImages, ISegment, ITest } from "../../types/interfaces";
-import DeleteSvg from "../assets/DeleteSvg";
 import "./Detail.css"
 import "./rulez-black.css"
 
@@ -31,8 +30,8 @@ const Detail = (props: IProps) => {
   const [allowScrolling, setAllowScrolling] = useState(true)
   const [alert, setAlert] = useState(false)
   const [currentScale, setCurrentScale] = useState(1)
-  const [imageH, setImageH] = useState(559.59)
-  const [imageW, setImageW] = useState(394)
+  const [imageH, setImageH] = useState(839.385)
+  const [imageW, setImageW] = useState(591)
   const [clickedImage, setClickedImage] = useState<string>("")
   const [imageDeleted, setImageDeleted] = useState(false)
   const swiper = useSwiper()
@@ -91,10 +90,20 @@ const Detail = (props: IProps) => {
               props.detailInfo.images.map(el => {
                 if (props.sideOfLighting) {
                   if (el.light === "top") {
-                    return (<SwiperSlide >
+                    return (<SwiperSlide className="image-slide">
+                      {
+                        !props.currentInfoAboutTest.date &&
+                        <svg className="image-slide__delete-image" onClick={event => handleDeleteImage(el)} width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M0 4C0 1.79086 1.79086 0 4 0H28C30.2091 0 32 1.79086 32 4V28C32 30.2091 30.2091 32 28 32H4C1.79086 32 0 30.2091 0 28V4Z" fill="white" />
+                          <path d="M7 10H9H25" stroke="#121212" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                          <path d="M12 10V8C12 7.46957 12.2107 6.96086 12.5858 6.58579C12.9609 6.21071 13.4696 6 14 6H18C18.5304 6 19.0391 6.21071 19.4142 6.58579C19.7893 6.96086 20 7.46957 20 8V10M23 10V24C23 24.5304 22.7893 25.0391 22.4142 25.4142C22.0391 25.7893 21.5304 26 21 26H11C10.4696 26 9.96086 25.7893 9.58579 25.4142C9.21071 25.0391 9 24.5304 9 24V10H23Z" stroke="#121212" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                          <path d="M14 15V21" stroke="#121212" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                          <path d="M18 15V21" stroke="#121212" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                      }
                       <img src={`${el.file_crop}`} alt="" className="me-3" onClick={() => {
                         setShow(true)
-                        setClickedImage(el.file_crop)
+                        setClickedImage(el.file_full)
 
                       }} />
                     </SwiperSlide>)
@@ -218,12 +227,14 @@ const Detail = (props: IProps) => {
             endx[temp],
             endy[temp]
           ).toFixed(2);
-          // text = new fabric.Text("Length " + px, {
-            text = new fabric.Text("Length " + px*(1/currentScale), {
 
-            left: endx[temp],
+            text = new fabric.Text((px*(1/currentScale)).toFixed(3), {
+              // Обнова
+            // left: endx[temp],
+            left:(Math.round((endx[temp] + startx[temp])/2) - 20),
             top: endy[temp],
-            fontSize: 12,
+            fontSize: 18,
+            fill:'white',
           });
           canvas.add(text);
         }
@@ -302,7 +313,7 @@ text = new fabric.Text("Length " + px*(1/currentScale), {
       var rulezV = new Rulez({
         element: document.getElementById("svgV"),
         layout: "vertical",
-        height: 480,
+        height: 650,
         alignment: "right",
     divisions: [
       {
@@ -370,7 +381,8 @@ text = new fabric.Text("Length " + px*(1/currentScale), {
             if (currentScale > 1) {currentScale = currentScale - 0.5;
             }
           } else if (event.deltaY < 0) {
-            currentScale = currentScale + 0.5;
+            if(currentScale <=10){currentScale = currentScale + 0.5}
+            
           }          
           img.style.width = Math.round(imgWidth * currentScale) + "px";
           img.style.height = Math.round(imgHeight * currentScale) + "px";
@@ -390,12 +402,7 @@ text = new fabric.Text("Length " + px*(1/currentScale), {
           canvas.height = Math.round(imgHeight * currentScale)
 
 
-      //   canvas = (this.__canvas = new fabric.Canvas("img", {
-      //   hoverCursor: "pointer",
-      //   selection: false,
-      // }));
-
-
+          console.log(currentScale)
           rulezH.setScale(1 / currentScale);
           rulezV.setScale(1 / currentScale);
         });
@@ -406,12 +413,12 @@ text = new fabric.Text("Length " + px*(1/currentScale), {
           </script>
         </Helmet>
         <Modal.Header className="border-0 pb-0 align-items-start" closeButton>
-          <Modal.Title>
+          {/* <Modal.Title>
             <h3 className="mb-3">Тест {props.currentInfoAboutTest.number}</h3>
             <h4 className="m-0">Часть {Number(props.index)}</h4>
-          </Modal.Title>
+          </Modal.Title> */}
         </Modal.Header>
-        <Modal.Body className="d-flex">
+        <Modal.Body className="d-flex pt-0 h-100">
 
           <Col >
             <div className="measurement">
@@ -419,7 +426,9 @@ text = new fabric.Text("Length " + px*(1/currentScale), {
                 <div id="scroll"
                 >
                   <ScrollContainer vertical={allowScrolling} horizontal={allowScrolling}>
-                    <div style={{ width: "394px", height: "559.59px" }} >
+                    {/* <div style={{ width: "394px", height: "559.59px" }} > */}
+                    <div style={{ width: "591px", height: "839.385px" }} >
+
                       <div>
                         {/* <img id="img" src={props.srcOFImg}
 
@@ -443,22 +452,30 @@ text = new fabric.Text("Length " + px*(1/currentScale), {
               </div>
             </div>
           </Col>
-          <Col md='3' className="d-flex flex-column justify-content-center">
-            <div className="control-panel__lighting d-flex align-items-center justify-content-between mb-4">
-              <span className="control-panel__label">
-                Включить измерение
-              </span>
-              <label className="custom-control material-switch" >
-                <input type="checkbox" className="material-switch-control-input"
-                  id="draw-switch"
-                  onChange={() => setAllowScrolling(prevValue => !prevValue)}
-
-                />
-                <span className="material-switch-control-indicator">
+          <Col md="4"  className="d-flex flex-column justify-content-start pb-5 pt-5">
+            <Row className="p-0 mb-5">
+              <h3 className="p-0 mb-3">Тест {props.currentInfoAboutTest.number}</h3>
+              <h4 className="p-0 m-0">Часть {Number(props.index)}</h4>
+            </Row>
+            <Row className="p-0 mt-5">
+              <div className="control-panel__lighting d-flex align-items-center justify-content-between p-0 mb-4">
+                <span className="control-panel__label">
+                  Включить измерение
                 </span>
-              </label>
-            </div>
-            <Button id="removeAllLines" variant="outline-primary " className='analysis-control-panel__shape p-3 m-0'>Удалить все измерения</Button>
+                <label className="custom-control material-switch" >
+                  <input type="checkbox" className="material-switch-control-input"
+                    id="draw-switch"
+                    onChange={() => setAllowScrolling(prevValue => !prevValue)}
+
+                  />
+                  <span className="material-switch-control-indicator">
+                  </span>
+                </label>
+              </div>
+              <Button id="removeAllLines" variant="outline-primary " className='analysis-control-panel__shape p-3 m-0'>Удалить все измерения</Button>
+
+            </Row>
+
           </Col>
         </Modal.Body>
 

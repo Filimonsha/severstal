@@ -7,8 +7,10 @@
         margin-bottom: 24px;
     }
     &__slider-image {
-        max-width: 394px;
-        max-height: 559.59px;
+        // max-width: 394px;
+        // max-height: 559.59px;
+        max-width: 591px;
+        max-height: 839.385px;
     }
 }
 
@@ -16,16 +18,21 @@
 //     max-width: 1113px !important;
 // }
 .modal-dialog {
-    max-width: 80% !important;
+    max-width: 60% !important;
 }
+// .modal-body {
+//     align-self: self-start;
+// }
 .measurement {
     position: relative;
     &__wrap {
         position: relactive;
     }
     // +65
-    max-width: 441px + 65px;
-    max-height: 791px + 65px;
+    // max-width: 441px + 65px;
+    // max-height: 791px + 65px;
+    max-width: 591px + 65px;
+    // max-height: 791px + 65px;
 }
 
 .image-slide {

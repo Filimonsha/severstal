@@ -19,8 +19,7 @@ const ListOfDetails = ({
   const [showAddingTest, setShowAddingTest] = useState(false);
   const [showUpdateTest, setShowUpdateTest] = useState(false);
   const [rangeValue, setRangeValue] = useState(50);
-  const [length, setLength] = useState("");
-  const [width, setWidth] = useState("");
+  const [dropRangeValue, setDropRangeValue] = useState(50);
   const [comment, setComment] = useState("");
 
   const [testInfo, setTestInfo] = useState({});
@@ -44,7 +43,6 @@ const ListOfDetails = ({
         width: Number(data.width),
       })
       .then((res) => {
-
         axiosInstance
           .post(
             `/api/imaging/segment/${Number(
@@ -86,7 +84,6 @@ const ListOfDetails = ({
   }
 
   const handleAddTest = (data) => {
-
     axiosInstance
       .post("/api/imaging/test/", {
         product_type: Number(data.product_type),
@@ -272,7 +269,10 @@ const ListOfDetails = ({
                 <Col xs="9">
                   <Form.Range
                     value={rangeValue}
-                    onChange={(e) => setRangeValue(e.target.value)}
+                    // onDrag={(e) => console.log("Абоба")}
+                    onChange={(e) => {
+                      setRangeValue(e.target.value);
+                    }}
                     className=""
                   />
                 </Col>
@@ -377,21 +377,6 @@ const ListOfDetails = ({
                       );
                     })}
                   </Form.Select>
-                  {/* <Form.Select
-                    className="mb-2"
-                    {...register("measurement_technique", {})}
-                  >
-                    <option disabled selected>
-                      Методика измерения
-                    </option>
-                    {methodicsList.map((el) => {
-                      return (
-                        <option key={el.id} value={el.id}>
-                          {el.name}
-                        </option>
-                      );
-                    })}
-                  </Form.Select> */}
                 </Form.Group>
               </Form>
             </Col>

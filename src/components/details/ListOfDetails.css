@@ -47,11 +47,11 @@
 .adding-image__screen {
   width: 720px;
   height: 470px;
-  border: 1px solid black;
 }
 
-.adding-image__range {
-  max-width: 598px;
+.adding-image__screen img {
+  -o-object-fit: contain;
+     object-fit: contain;
 }
 
 .adding-image__form option,
@@ -133,17 +133,17 @@
   height: 100px;
 }
 
-.modal-header {
+.modal-header, .modal-content {
   border: none !important;
 }
 
-.modal-header h3 {
+.modal-header h3, .modal-content h3 {
   font-weight: 500;
   font-size: 24px;
   line-height: 29px;
 }
 
-.modal-header h4 {
+.modal-header h4, .modal-content h4 {
   font-weight: 400;
   font-size: 20px;
   line-height: 24px;

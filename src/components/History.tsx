@@ -4,25 +4,18 @@ import { Alert, Spinner, Table } from 'react-bootstrap'
 import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { AuthCtx } from '../context/authContext'
 import axiosInstance from '../helpers/axios'
-import { ITest } from '../types/interfaces'
+import { ITest, ITypeOfPropduct } from '../types/interfaces'
 import "./History.css"
 const History = () => {
     const userName = Cookies.get("username")
-    const [listOfTests, setListOfTests] = useState<Array<ITest | undefined>>([])
-    const [listOfTestsIsEmpty, setListOfTestsIsEmpty] = useState(false)
+    const [listOfTests, setListOfTests] = useState<Array<ITest | undefined>>()
+    const [listOfTypes, setListOfTypes] = useState<Array<ITypeOfPropduct>>([])
     const nav = useNavigate()
     useEffect(() => {
         axiosInstance.get('/api/imaging/test/').then((res) => {
-            {
-                res.data.forEach((test: any) => {
-                    axiosInstance.get(`/api/imaging/test/${test.id}/`).then(res => {
-                        setListOfTests(prevListOfTests => ([...prevListOfTests, res.data]))
-
-                    })
-                })
-            }
-            res.data.lenght === 0 && setListOfTestsIsEmpty(true)
+            setListOfTests(res.data)
         })
+        axiosInstance.get(`/api/choices/product_type/`).then(res => setListOfTypes(res.data))
     }, [])
 
     if (!userName) {
@@ -50,8 +43,8 @@ const History = () => {
                 История тестов
             </h2>
             {
-                listOfTests.length !== 1 ?
-                    listOfTestsIsEmpty ?
+                listOfTests ?
+                    !listOfTests.length ?
                         <h1>Данных нет</h1> :
                         <Table bordered striped className='history__table w-100'>
                             <thead className='history__head'>
@@ -81,7 +74,7 @@ const History = () => {
                                             </p>
                                             </th>
                                             <th><p>
-                                                {el?.product_type}
+                                                {listOfTypes?.map(type => (type.id === el?.product_type) && type.name)}
                                             </p>
                                             </th>
                                             <th>
@@ -91,15 +84,15 @@ const History = () => {
                                             </th>
                                             <th>
                                                 <p>
-                                                    {el?.score.ОР}
+                                                    {el?.score?.ОР}
                                                 </p>
                                             </th>
                                             <th>
                                                 <p>
-                                                    {el?.score.ОХН}
+                                                    {el?.score?.ОХН}
                                                 </p>
                                             </th>
-                                            <th>{el?.segments?.map(segment => (<p>{segment.width}x{segment.length}</p>))}</th>
+                                            <th>{el?.sizes.map(size => (<p>{size}</p>))}</th>
 
 
                                             <th>

@@ -27,20 +27,20 @@ function Auth() {
   return (
     <Container className="w-25 auth__form">
       <Row className='mt-5'>
-        <h4 className='text-start mb-2'>
+        <h4 className='text-start mb-3'>
           Вход
         </h4>
         <Form onSubmit={handleAuth} className="mb-2">
 
-          <Form.Control value={login} onChange={(e) => setLogin(e.target.value)} type='text' className="mb-2" placeholder='Логин' />
-          <Form.Control value={password} onChange={(e) => setPassword(e.target.value)} type="password" className='mb-2' placeholder='Пароль' />
+          <Form.Control value={login} onChange={(e) => setLogin(e.target.value)} type='text' className="auth__control mb-3" placeholder='Логин' />
+          <Form.Control value={password} onChange={(e) => setPassword(e.target.value)} type="password" className='auth__control mb-3' placeholder='Пароль' />
           <Button className="d-flex align-items-center analysis-control-panel__back" variant="primary" type="submit"  >
-            Войти
+            ВОЙТИ
           </Button>
 
         </Form>
         {authError &&
-          <Alert variant="danger">
+          <Alert variant="danger" className='rounded-0'>
             Неверный логин или пароль.
           </Alert>
         }

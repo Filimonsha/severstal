@@ -1,28 +1,20 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Spinner } from 'react-bootstrap'
-import Swiper from 'swiper'
-import { useSwiper } from 'swiper/react'
-import axiosInstance from '../../../helpers/axios'
 import { IScore, ITest } from '../../../types/interfaces'
 import "./AnalysedSegment.css"
-interface IProps {
-    // setSwiper: React.Dispatch<React.SetStateAction<any>>,
-    // string было
-    // imageId: number,
+interface INewAnalyseSegment {
+    needToAnalyse: boolean,
     imageIndex: number,
     segmentIndex: number,
     currentInfoAboutTest: ITest,
     setCurrentInfoAboutTest: React.Dispatch<React.SetStateAction<ITest>>,
-    imageWasAnalysed: boolean
 }
 interface IDefect {
     name: string,
     ranges: Array<any>,
     score: number,
 }
-
-const AnalysedSegment = (props: IProps) => {
-    const [imageAnalysed, setImageAnalysed] = useState(false)
+const NewAnalyseSegment = (props: INewAnalyseSegment) => {
     const [imageWithoutDefects, setImageWithoutDefects] = useState(true)
     const [defectsScore, setDefectsScore] = useState<IScore>({
         ОР: 0,
@@ -43,12 +35,14 @@ const AnalysedSegment = (props: IProps) => {
         // }
     }, [props.currentInfoAboutTest])
 
+
     return (
         <div className="analysed-segment">
             {
-                props.imageWasAnalysed ?
+                !props.needToAnalyse ?
                     <div className="analysed-segment__succ">
                         <div className="analysed-segment__square mb-3">
+
                         </div>
                         {imageWithoutDefects ?
                             <div className="analysed-segment__without-def">
@@ -63,41 +57,22 @@ const AnalysedSegment = (props: IProps) => {
                                 </span>
                             </div>
                         }
+
                     </div>
-                    : <>
-                        {
-                            imageAnalysed ?
-                                <div className="analysed-segment__succ">
-                                    <div className="analysed-segment__square mb-3">
 
-                                    </div>
-                                    {imageWithoutDefects ?
-                                        <div className="analysed-segment__without-def">
+                    :
+                    <div className="analysed-segment__wait">
+                        <Spinner animation='border' className='mb-3' />
+                        <div className="analysed-segment__gray">
+                            Аууууу
+                        </div>
+                    </div>
 
-                                        </div> :
-                                        <div className="analysed-segment__with-def">
-                                            <span className="analysed-segment__OX mb-3">
-                                                ОХ {defectsScore.ОР}
-                                            </span>
-                                            <span className="analysed-segment__OXN">
-                                                ОХН {defectsScore.ОХН}
-                                            </span>
-                                        </div>
-                                    }
-                                </div>
-                                :
-                                <div className="analysed-segment__wait">
-                                    <Spinner animation='border' className='mb-3' />
-                                    <div className="analysed-segment__gray">
 
-                                    </div>
-                                </div>
-                        }
-                    </>
             }
 
         </div>
     )
 }
 
-export default AnalysedSegment
+export default NewAnalyseSegment

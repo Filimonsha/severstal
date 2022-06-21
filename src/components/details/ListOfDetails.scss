@@ -46,10 +46,14 @@
     &__screen {
         width: 720px;
         height: 470px;
-        border: 1px solid black;
+        // border: 1px solid black;
+        // max-height: 100%;
+        img{
+            object-fit: contain;
+        }
     }
     &__range {
-        max-width: 598px;
+        // max-width: 598px;
     }
     &__form {
         option,
@@ -98,7 +102,7 @@
         height: 100px;
     }
 }
-.modal-header {
+.modal-header,.modal-content {
     h3 {
         font-weight: 500;
         font-size: 24px;

@@ -166,3 +166,12 @@ input::-webkit-inner-spin-button {
     max-height: 100%;
     overflow: scroll;
 }
+// .modal-content{
+//     height: 90vh;
+// }
+.auth{
+    &__control{
+        padding: 14px 16px !important;
+        border-radius:0 !important;
+    }
+}

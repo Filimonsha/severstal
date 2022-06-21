@@ -9,6 +9,8 @@ export interface ITest {
   segments: Array<ISegment>;
   score: IScore;
   ranges: IRanges;
+  sizes: Array<string>;
+  stillAnalysing: boolean;
 }
 export interface IScore {
   ОР: number;
@@ -30,7 +32,7 @@ export interface IImages {
   file_res_full: string;
   file_res_crop: string;
   defects: Array<IDefects>;
-  anylysed: boolean;
+  needToAnylyse: boolean;
 }
 
 export interface ITypeOfPropduct {

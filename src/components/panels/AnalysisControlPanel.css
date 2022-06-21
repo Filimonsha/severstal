@@ -29,10 +29,6 @@
   line-height: 18px !important;
 }
 
-.analysis-control-panel div {
-  width: 100%;
-}
-
 .analysis-control-panel__shape {
   width: 100%;
 }
@@ -50,6 +46,7 @@
 
 .analysis-control-panel__back {
   max-width: 123px !important;
+  padding: 18px 32px !important;
 }
 
 .analysis-control-panel h4 {
