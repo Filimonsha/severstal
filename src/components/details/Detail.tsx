@@ -30,8 +30,8 @@ const Detail = (props: IProps) => {
   const [allowScrolling, setAllowScrolling] = useState(true)
   const [alert, setAlert] = useState(false)
   const [currentScale, setCurrentScale] = useState(1)
-  const [imageH, setImageH] = useState(839.385)
-  const [imageW, setImageW] = useState(591)
+  const [imageH, setImageH] = useState(727.467)
+  const [imageW, setImageW] = useState(512.2)
   const [clickedImage, setClickedImage] = useState<string>("")
   const [imageDeleted, setImageDeleted] = useState(false)
   const swiper = useSwiper()
@@ -249,10 +249,16 @@ const Detail = (props: IProps) => {
             endx[temp],
             endy[temp]
           ).toFixed(2);
-text = new fabric.Text("Length " + px*(1/currentScale), {
-            left: endx[temp],
+// text = new fabric.Text("Length " + px*(1/currentScale), {
+//             left: endx[temp],
+//             top: endy[temp],
+//             fontSize: 12,
+//           });
+            text = new fabric.Text((px*(1/currentScale)).toFixed(3), {
+            left:(Math.round((endx[temp] + startx[temp])/2) - 20),
             top: endy[temp],
-            fontSize: 12,
+            fontSize: 18,
+            fill:'white',
           });
           canvas.add(text);
         var pointer = canvas.getPointer(o.e);
@@ -286,7 +292,7 @@ text = new fabric.Text("Length " + px*(1/currentScale), {
       var rulezH = new Rulez({
         element: document.getElementById("svgH"),
         layout: "horizontal",
-        width: 441,
+        width: 360,
         height: 60,
     divisions: [
       {
@@ -313,7 +319,7 @@ text = new fabric.Text("Length " + px*(1/currentScale), {
       var rulezV = new Rulez({
         element: document.getElementById("svgV"),
         layout: "vertical",
-        height: 650,
+        height: 550,
         alignment: "right",
     divisions: [
       {
@@ -427,7 +433,7 @@ text = new fabric.Text("Length " + px*(1/currentScale), {
                 >
                   <ScrollContainer vertical={allowScrolling} horizontal={allowScrolling}>
                     {/* <div style={{ width: "394px", height: "559.59px" }} > */}
-                    <div style={{ width: "591px", height: "839.385px" }} >
+                    <div style={{ width: "512.2px", height: "727.467px" }} >
 
                       <div>
                         {/* <img id="img" src={props.srcOFImg}

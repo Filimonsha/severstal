@@ -254,12 +254,12 @@ const ListOfDetails = ({
         </Modal.Header>
         <Modal.Body>
           <Row>
-            <Col>
-              <div className="adding-image__screen">
+            <Col md="5" className="me-2">
+              <div className="adding-image__screen mb-3">
                 <img
                   src={`http://${process.env.REACT_APP_SERVER_SEVERSTAL}/api/imaging/current_image/?offset=${rangeValue}`}
                   alt="camera-img"
-                  className="w-100 h-100"
+                  className=""
                 />
               </div>
               <Form.Group

@@ -6,17 +6,17 @@
 }
 
 .detail__slider-image {
-  max-width: 591px;
-  max-height: 839.385px;
+  max-width: 512.2px;
+  max-height: 727.467px;
 }
 
 .modal-dialog {
-  max-width: 60% !important;
+  max-width: 65% !important;
 }
 
 .measurement {
   position: relative;
-  max-width: 656px;
+  max-width: 577px;
 }
 
 .measurement__wrap {

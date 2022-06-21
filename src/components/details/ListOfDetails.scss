@@ -44,16 +44,17 @@
 
 .adding-image {
     &__screen {
-        width: 720px;
-        height: 470px;
+        width: 366px;
+height: 515px;
         // border: 1px solid black;
         // max-height: 100%;
         img{
-            object-fit: contain;
+            width: 100%;
+            height: 100%;
         }
     }
     &__range {
-        // max-width: 598px;
+        max-width: 598px;
     }
     &__form {
         option,

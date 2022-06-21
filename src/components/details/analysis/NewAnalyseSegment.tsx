@@ -64,7 +64,6 @@ const NewAnalyseSegment = (props: INewAnalyseSegment) => {
                     <div className="analysed-segment__wait">
                         <Spinner animation='border' className='mb-3' />
                         <div className="analysed-segment__gray">
-                            Аууууу
                         </div>
                     </div>
 

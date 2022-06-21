@@ -63,17 +63,18 @@ const ListOfAnalysedParts = (props: IProps) => {
             <Swiper
                 scrollbar={{
                     hide: false,
+                    draggable:true,
                 }}
                 slidesPerView={1}
                 mousewheel
-                breakpoints={{
-                    900: {
-                        slidesPerView: 2,
-                    },
-                    1680: {
-                        slidesPerView: 3,
-                    },
-                }}
+                // breakpoints={{
+                //     900: {
+                //         slidesPerView: 2,
+                //     },
+                //     1680: {
+                //         slidesPerView: 3,
+                //     },
+                // }}
                 spaceBetween={24}
                 modules={[Scrollbar, Mousewheel]}
                 className="mySwiper"
@@ -98,14 +99,15 @@ const ListOfAnalysedParts = (props: IProps) => {
                                             hide: false,
                                         }}
                                         mousewheel
-                                        breakpoints={{
-                                            900: {
-                                                slidesPerView: 2,
-                                            },
-                                            1680: {
-                                                slidesPerView: 4,
-                                            },
-                                        }}
+                                        slidesPerView={4}
+                                        // breakpoints={{
+                                        //     900: {
+                                        //         slidesPerView: 2,
+                                        //     },
+                                        //     1680: {
+                                        //         slidesPerView: 4,
+                                        //     },
+                                        // }}
                                         spaceBetween={10}
                                         modules={[Scrollbar, Mousewheel]}
                                         className="nestedSwiper_analysed"
