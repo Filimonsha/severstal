@@ -26,9 +26,12 @@ export interface ISegment {
 export interface IImages {
   id: number;
   number: number;
-  light: string;
-  file_full: string;
-  file_crop: string;
+  // light: string;
+
+  file_top_full: string;
+  file_top_crop: string;
+  file_front_full: string;
+  file_front_crop: string;
   file_res_full: string;
   file_res_crop: string;
   defects: Array<IDefects>;

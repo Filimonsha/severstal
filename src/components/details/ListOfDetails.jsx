@@ -132,7 +132,9 @@ const ListOfDetails = ({
         }}
         mousewheel
         draggable
-        slidesPerView={1}
+        // slidesPerView={1}
+        // slidesPerView={"auto"}
+        slidesPerView={1.5}
         spaceBetween={24}
         modules={[Scrollbar, Mousewheel]}
         className="mySwiper"
@@ -155,7 +157,8 @@ const ListOfDetails = ({
           })}
         {!currentInfoAboutTest?.date && (
           <SwiperSlide>
-            {currentInfoAboutTest.segments.length == 0 ? (
+            {/* {currentInfoAboutTest.segments.length == 0 ? ( */}
+            {!currentInfoAboutTest.id ? (
               <Col className="list-of-details__add-new-detail add-new-detail add-new-detail_list-is-pure">
                 <div className="add-new-detail__header text-start ">
                   Добавить сегмент и создать тест
@@ -254,7 +257,7 @@ const ListOfDetails = ({
         </Modal.Header>
         <Modal.Body>
           <Row>
-            <Col md="5" className="me-2">
+            <Col md="6" className="me-2">
               <div className="adding-image__screen mb-3">
                 <img
                   src={`http://${process.env.REACT_APP_SERVER_SEVERSTAL}/api/imaging/current_image/?offset=${rangeValue}`}

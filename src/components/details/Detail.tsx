@@ -30,8 +30,8 @@ const Detail = (props: IProps) => {
   const [allowScrolling, setAllowScrolling] = useState(true)
   const [alert, setAlert] = useState(false)
   const [currentScale, setCurrentScale] = useState(1)
-  const [imageH, setImageH] = useState(727.467)
-  const [imageW, setImageW] = useState(512.2)
+  const [imageH, setImageH] = useState(782)
+  const [imageW, setImageW] = useState(521)
   const [clickedImage, setClickedImage] = useState<string>("")
   const [imageDeleted, setImageDeleted] = useState(false)
   const swiper = useSwiper()
@@ -43,15 +43,15 @@ const Detail = (props: IProps) => {
 
 
   const handleDeleteImage = (el: IImages) => {
-    axiosInstance.post(`/api/imaging/segment/${Number(props.detailInfo.id)}/delete_images_by_number/`, {
-      number: el.number
-    }).then(res => {
+    axiosInstance.delete(`/api/imaging/image/${el.id}/autodelete/`).then(res => {
       let segments = props.currentInfoAboutTest.segments
       if (!res.data.deleted_segment) {
         segments.forEach((segment, index) => {
           if (segment.id === props.detailInfo.id) {
             segments[index].images = segments[index].images.filter(image => {
-              return image.number !== el.number
+              // return image.number !== el.number
+              return image.id !== el.id
+
             })
           }
         })
@@ -81,7 +81,7 @@ const Detail = (props: IProps) => {
             }}
             nested
             mousewheel
-            slidesPerView={3}
+            slidesPerView={3} 
             modules={[Scrollbar, Mousewheel]}
             className=""
           >
@@ -89,47 +89,47 @@ const Detail = (props: IProps) => {
             {
               props.detailInfo.images.map(el => {
                 if (props.sideOfLighting) {
-                  if (el.light === "top") {
-                    return (<SwiperSlide className="image-slide">
-                      {
-                        !props.currentInfoAboutTest.date &&
-                        <svg className="image-slide__delete-image" onClick={event => handleDeleteImage(el)} width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M0 4C0 1.79086 1.79086 0 4 0H28C30.2091 0 32 1.79086 32 4V28C32 30.2091 30.2091 32 28 32H4C1.79086 32 0 30.2091 0 28V4Z" fill="white" />
-                          <path d="M7 10H9H25" stroke="#121212" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                          <path d="M12 10V8C12 7.46957 12.2107 6.96086 12.5858 6.58579C12.9609 6.21071 13.4696 6 14 6H18C18.5304 6 19.0391 6.21071 19.4142 6.58579C19.7893 6.96086 20 7.46957 20 8V10M23 10V24C23 24.5304 22.7893 25.0391 22.4142 25.4142C22.0391 25.7893 21.5304 26 21 26H11C10.4696 26 9.96086 25.7893 9.58579 25.4142C9.21071 25.0391 9 24.5304 9 24V10H23Z" stroke="#121212" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                          <path d="M14 15V21" stroke="#121212" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                          <path d="M18 15V21" stroke="#121212" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
-                      }
-                      <img src={`${el.file_crop}`} alt="" className="me-3" onClick={() => {
-                        setShow(true)
-                        setClickedImage(el.file_full)
+                  // if (el.light === "top") {
+                  return (<SwiperSlide className="image-slide">
+                    {
+                      !props.currentInfoAboutTest.date &&
+                      <svg className="image-slide__delete-image" onClick={event => handleDeleteImage(el)} width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M0 4C0 1.79086 1.79086 0 4 0H28C30.2091 0 32 1.79086 32 4V28C32 30.2091 30.2091 32 28 32H4C1.79086 32 0 30.2091 0 28V4Z" fill="white" />
+                        <path d="M7 10H9H25" stroke="#121212" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M12 10V8C12 7.46957 12.2107 6.96086 12.5858 6.58579C12.9609 6.21071 13.4696 6 14 6H18C18.5304 6 19.0391 6.21071 19.4142 6.58579C19.7893 6.96086 20 7.46957 20 8V10M23 10V24C23 24.5304 22.7893 25.0391 22.4142 25.4142C22.0391 25.7893 21.5304 26 21 26H11C10.4696 26 9.96086 25.7893 9.58579 25.4142C9.21071 25.0391 9 24.5304 9 24V10H23Z" stroke="#121212" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M14 15V21" stroke="#121212" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M18 15V21" stroke="#121212" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+                    }
+                    <img src={`${el.file_top_crop}`} alt="" className="me-3" onClick={() => {
+                      setShow(true)
+                      setClickedImage(el.file_top_full)
 
-                      }} />
-                    </SwiperSlide>)
-                  }
+                    }} />
+                  </SwiperSlide>)
+                  // }
                 } else if (!props.sideOfLighting) {
-                  if (el.light === "front") {
-                    return (<SwiperSlide className="image-slide">
-                      {
-                        !props.currentInfoAboutTest.date &&
-                        <svg className="image-slide__delete-image" onClick={event => handleDeleteImage(el)} width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M0 4C0 1.79086 1.79086 0 4 0H28C30.2091 0 32 1.79086 32 4V28C32 30.2091 30.2091 32 28 32H4C1.79086 32 0 30.2091 0 28V4Z" fill="white" />
-                          <path d="M7 10H9H25" stroke="#121212" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                          <path d="M12 10V8C12 7.46957 12.2107 6.96086 12.5858 6.58579C12.9609 6.21071 13.4696 6 14 6H18C18.5304 6 19.0391 6.21071 19.4142 6.58579C19.7893 6.96086 20 7.46957 20 8V10M23 10V24C23 24.5304 22.7893 25.0391 22.4142 25.4142C22.0391 25.7893 21.5304 26 21 26H11C10.4696 26 9.96086 25.7893 9.58579 25.4142C9.21071 25.0391 9 24.5304 9 24V10H23Z" stroke="#121212" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                          <path d="M14 15V21" stroke="#121212" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                          <path d="M18 15V21" stroke="#121212" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
-                      }
+                  // if (el.light === "front") {
+                  return (<SwiperSlide className="image-slide">
+                    {
+                      !props.currentInfoAboutTest.date &&
+                      <svg className="image-slide__delete-image" onClick={event => handleDeleteImage(el)} width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M0 4C0 1.79086 1.79086 0 4 0H28C30.2091 0 32 1.79086 32 4V28C32 30.2091 30.2091 32 28 32H4C1.79086 32 0 30.2091 0 28V4Z" fill="white" />
+                        <path d="M7 10H9H25" stroke="#121212" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M12 10V8C12 7.46957 12.2107 6.96086 12.5858 6.58579C12.9609 6.21071 13.4696 6 14 6H18C18.5304 6 19.0391 6.21071 19.4142 6.58579C19.7893 6.96086 20 7.46957 20 8V10M23 10V24C23 24.5304 22.7893 25.0391 22.4142 25.4142C22.0391 25.7893 21.5304 26 21 26H11C10.4696 26 9.96086 25.7893 9.58579 25.4142C9.21071 25.0391 9 24.5304 9 24V10H23Z" stroke="#121212" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M14 15V21" stroke="#121212" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M18 15V21" stroke="#121212" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+                    }
 
 
-                      <img src={`${el.file_crop}`} alt="" className="me-3" onClick={() => {
-                        setShow(true)
-                        setClickedImage(el.file_full)
-                        setAllowScrolling(true)
-                      }} />
-                    </SwiperSlide>)
-                  }
+                    <img src={`${el.file_front_crop}`} alt="" className="me-3" onClick={() => {
+                      setShow(true)
+                      setClickedImage(el.file_front_full)
+                      setAllowScrolling(true)
+                    }} />
+                  </SwiperSlide>)
+                  // }
                 }
               })
 
@@ -243,6 +243,12 @@ const Detail = (props: IProps) => {
       });
 
       canvas.on("mouse:up", function (o) {
+
+          // console.log("Кринж",           startx,
+          //   starty[temp],
+          //   endx[temp],
+          //   endy)
+
                           var px = Calculate.lineLength(
             startx[temp],
             starty[temp],
@@ -260,7 +266,10 @@ const Detail = (props: IProps) => {
             fontSize: 18,
             fill:'white',
           });
+          if(!startx.length===0){
           canvas.add(text);
+
+          }
         var pointer = canvas.getPointer(o.e);
         
         isDown = false;
@@ -433,7 +442,7 @@ const Detail = (props: IProps) => {
                 >
                   <ScrollContainer vertical={allowScrolling} horizontal={allowScrolling}>
                     {/* <div style={{ width: "394px", height: "559.59px" }} > */}
-                    <div style={{ width: "512.2px", height: "727.467px" }} >
+                    <div style={{ width: "521px", height: "782px" }} >
 
                       <div>
                         {/* <img id="img" src={props.srcOFImg}
@@ -458,7 +467,7 @@ const Detail = (props: IProps) => {
               </div>
             </div>
           </Col>
-          <Col md="4"  className="d-flex flex-column justify-content-start pb-5 pt-5">
+          <Col md="4" className="d-flex flex-column justify-content-start pb-5 pt-5">
             <Row className="p-0 mb-5">
               <h3 className="p-0 mb-3">Тест {props.currentInfoAboutTest.number}</h3>
               <h4 className="p-0 m-0">Часть {Number(props.index)}</h4>

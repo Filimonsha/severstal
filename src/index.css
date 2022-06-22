@@ -235,4 +235,8 @@ input::-webkit-inner-spin-button {
   padding: 14px 16px !important;
   border-radius: 0 !important;
 }
+
+.modal {
+  overflow: hidden;
+}
 /*# sourceMappingURL=index.css.map */

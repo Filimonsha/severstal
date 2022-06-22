@@ -229,7 +229,7 @@ const AnalysisConrolPanel = (props: IProps) => {
               return (
                 <Row className="mb-3 justify-content-center">
                   {segment.images.map(img => {
-                    if (img.light === "top") {
+                    // if (img.light === "top") {
                       if (showProcessedPhoto) {
                         return (
                           <Col md={'2'}>
@@ -246,7 +246,7 @@ const AnalysisConrolPanel = (props: IProps) => {
                         )
                       }
 
-                    }
+                    // }
 
                   })}
                 </Row>

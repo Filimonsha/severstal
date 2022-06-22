@@ -118,13 +118,13 @@ const ListOfAnalysedParts = (props: IProps) => {
                                         {
                                             currentSegment.images.map(
                                                 (currentImage, imageIndex) => {
-                                                    if (currentImage.light === "top") {
+                                                    // if (currentImage.light === "top") {
                                                         return (
                                                             <SwiperSlide>
                                                                 <AnalysedSegment imageIndex={imageIndex} segmentIndex={segmentIndex} imageWasAnalysed={!props.currentInfoAboutTest.date ? false : true} setCurrentInfoAboutTest={props.setCurrentInfoAboutTest} currentInfoAboutTest={props.currentInfoAboutTest} />
                                                             </SwiperSlide>
                                                         )
-                                                    }
+                                                    // }
 
                                                 }
                                             )
@@ -168,13 +168,13 @@ const ListOfAnalysedParts = (props: IProps) => {
                                         {
                                             currentSegment.images.map(
                                                 (currentImage, imageIndex) => {
-                                                    if (currentImage.light === "top") {
+                                                    // if (currentImage.light === "top") {
                                                         return (
                                                             <SwiperSlide>
                                                                 <NewAnalyseSegment imageIndex={imageIndex} segmentIndex={segmentIndex} needToAnalyse={currentImage.needToAnylyse} setCurrentInfoAboutTest={props.setCurrentInfoAboutTest} currentInfoAboutTest={props.currentInfoAboutTest} />
                                                             </SwiperSlide>
                                                         )
-                                                    }
+                                                    // }
 
                                                 }
                                             )

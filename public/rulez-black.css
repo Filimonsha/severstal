@@ -74,7 +74,7 @@
   height: 100%;
   bottom: 0px;
   padding-top: 65px;
-  padding-bottom: 60px;
+  /* padding-bottom: 60px; */
   padding-left: 65px;
   position: relative;
 }
