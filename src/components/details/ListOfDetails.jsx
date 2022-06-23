@@ -18,8 +18,8 @@ const ListOfDetails = ({
 }) => {
   const [showAddingTest, setShowAddingTest] = useState(false);
   const [showUpdateTest, setShowUpdateTest] = useState(false);
-  const [rangeValue, setRangeValue] = useState(50);
-  const [dropRangeValue, setDropRangeValue] = useState(50);
+  const [rangeValue, setRangeValue] = useState(0);
+  const [dropRangeValue, setDropRangeValue] = useState(0);
   const [comment, setComment] = useState("");
 
   const [testInfo, setTestInfo] = useState({});
@@ -133,8 +133,8 @@ const ListOfDetails = ({
         mousewheel
         draggable
         // slidesPerView={1}
-        // slidesPerView={"auto"}
-        slidesPerView={1.5}
+        slidesPerView={"auto"}
+        // slidesPerView={1.5}
         spaceBetween={24}
         modules={[Scrollbar, Mousewheel]}
         className="mySwiper"

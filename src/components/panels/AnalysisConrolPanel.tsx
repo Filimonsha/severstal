@@ -240,7 +240,7 @@ const AnalysisConrolPanel = (props: IProps) => {
                       } else {
                         return (
                           <Col md={'2'}>
-                            <img src={`${img.file_crop}`} alt="" className="w-100 h-100 me-3"
+                            <img src={`${img.file_top_crop}`} alt="" className="w-100 h-100 me-3"
                             />
                           </Col>
                         )

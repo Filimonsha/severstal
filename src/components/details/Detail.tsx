@@ -39,7 +39,10 @@ const Detail = (props: IProps) => {
   useEffect(() => {
     props.setSwiper(swiper)
   })
+  useEffect(() => {
+    console.log(allowScrolling)
 
+  }, [])
 
 
   const handleDeleteImage = (el: IImages) => {
@@ -81,7 +84,7 @@ const Detail = (props: IProps) => {
             }}
             nested
             mousewheel
-            slidesPerView={3} 
+            slidesPerView={3}
             modules={[Scrollbar, Mousewheel]}
             className=""
           >
@@ -143,7 +146,10 @@ const Detail = (props: IProps) => {
 
 
 
-      <Modal show={show} onHide={() => setShow(false)}>
+      <Modal show={show} onHide={() => {
+        setShow(false)
+        setAllowScrolling(true)
+      }}>
         <Helmet>
           <script>
             {`
