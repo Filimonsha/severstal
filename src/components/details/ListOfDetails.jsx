@@ -110,7 +110,7 @@ const ListOfDetails = ({
   const handleUpdateTest = (data) => {
     createSegmentAndGetImages(currentInfoAboutTest.id, data);
     axiosInstance
-      .put(`api/imaging/test/${currentInfoAboutTest.id}/`, {
+      .put(`/api/imaging/test/${currentInfoAboutTest.id}/`, {
         comment: comment,
       })
       .then((res) =>
@@ -132,9 +132,7 @@ const ListOfDetails = ({
         }}
         mousewheel
         draggable
-        // slidesPerView={1}
-        // slidesPerView={"auto"}
-        slidesPerView={1.5}
+        slidesPerView={"auto"}
         spaceBetween={24}
         modules={[Scrollbar, Mousewheel]}
         className="mySwiper"
@@ -260,7 +258,7 @@ const ListOfDetails = ({
             <Col md="6" className="me-2">
               <div className="adding-image__screen mb-3">
                 <img
-                  src={`http://${process.env.REACT_APP_SERVER_SEVERSTAL}/api/imaging/current_image/?offset=${rangeValue}`}
+                  src={`/api/imaging/current_image/?offset=${rangeValue}`}
                   alt="camera-img"
                   className=""
                 />
@@ -423,7 +421,7 @@ const ListOfDetails = ({
             <Col>
               <div className="adding-image__screen">
                 <img
-                  src={`http://${process.env.REACT_APP_SERVER_SEVERSTAL}/api/imaging/current_image/?offset=${rangeValue}`}
+                  src={`/api/imaging/current_image/?offset=${rangeValue}`}
                   alt="camera-img"
                   className="w-100 h-100"
                 />

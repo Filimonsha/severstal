@@ -30,9 +30,7 @@ const AnalysisConrolPanel = (props: IProps) => {
 
     axiosInstance.get("/api/choices/product_type/").then(res => setTypeOfProductsList(res.data))
     axiosInstance.get(`/api/imaging/test/${props.currentInfoAboutTest.id}/`).then(res => {
-      console.log("Абобааааа", res.data)
       setCurrentTest(res.data)
-      console.log("ойх", currentTest)
 
     })
   }, [])
@@ -199,7 +197,7 @@ const AnalysisConrolPanel = (props: IProps) => {
 
 
       <div className='d-flex w-100 justify-content-center justify-content-between mb-3'>
-        <a download href={`http://${process.env.REACT_APP_SERVER_SEVERSTAL}/api/imaging/test/${props.currentInfoAboutTest.id}/download_report/`} className='analysis-control-panel__save btn btn-outline-primary'>Сохранить отчет</a>
+        <a download href={`/api/imaging/test/${props.currentInfoAboutTest.id}/download_report/`} className='analysis-control-panel__save btn btn-outline-primary'>Сохранить отчет</a>
         {
           !props.isHistoryRoute &&
           <Button className="d-flex align-items-center analysis-control-panel__back" variant="primary" onClick={() => props.setUserClickedAnalysis(false)}>
@@ -240,7 +238,7 @@ const AnalysisConrolPanel = (props: IProps) => {
                       } else {
                         return (
                           <Col md={'2'}>
-                            <img src={`${img.file_crop}`} alt="" className="w-100 h-100 me-3"
+                            <img src={`${img.file_top_crop}`} alt="" className="w-100 h-100 me-3"
                             />
                           </Col>
                         )

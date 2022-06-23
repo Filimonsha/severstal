@@ -23,7 +23,6 @@ const ListOfAnalysedParts = (props: IProps) => {
 
     }, [])
     const analyseImages = async () => {
-        console.log(props.currentInfoAboutTest.segments)
         let fImagesNeedToAnalyse
         for (const [segmentIndex, segmentValue] of Array.from(props.currentInfoAboutTest.segments.entries())) {
             for (const [imageIndex, imageValue] of Array.from(segmentValue.images.entries())) {
@@ -31,13 +30,10 @@ const ListOfAnalysedParts = (props: IProps) => {
                     fImagesNeedToAnalyse = true
                     props.setCurrentInfoAboutTest(prevInfo => ({ ...prevInfo, stillAnalysing: true }))
                     setFOneOfNeedToAnalyse(true)
-                    console.log("Этому изобжраение надо анализ", imageValue)
                     const resOfAnalyseImage = await axiosInstance.post(`/api/imaging/image/${imageValue.id}/analyze/`)
                     const updateTest = await axiosInstance.get(`/api/imaging/test/${props.currentInfoAboutTest.id}/`)
-                    console.log("Обновляем тест", updateTest.data)
                     props.setCurrentInfoAboutTest(updateTest.data)
 
-                    console.log("Изображение проанализировалось", resOfAnalyseImage.data)
                     // Вытсавляем флаг анализировано у изображения
                     let copyOfAnalsedParts = analsedParts.slice(0)
                     copyOfAnalsedParts[segmentIndex].images[imageIndex].needToAnylyse = false
@@ -46,9 +42,7 @@ const ListOfAnalysedParts = (props: IProps) => {
 
             }
         }
-        console.log("Все было проанализировано!")
         if (fImagesNeedToAnalyse) {
-            console.log("Обновляем тест!")
             props.setCurrentInfoAboutTest(prevInfo => ({ ...prevInfo, stillAnalysing: true }))
 
             // axiosInstance.get(`/api/imaging/test/${props.currentInfoAboutTest.id}/`).then(res => props.setCurrentInfoAboutTest(res.data))
