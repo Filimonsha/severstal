@@ -50,7 +50,7 @@ const NewAnalyseSegment = (props: INewAnalyseSegment) => {
                             </div> :
                             <div className="analysed-segment__with-def">
                                 <span className="analysed-segment__OX mb-3">
-                                    ОХ {defectsScore.ОР}
+                                    ОP {defectsScore.ОР}
                                 </span>
                                 <span className="analysed-segment__OXN">
                                     ОХН {defectsScore.ОХН}

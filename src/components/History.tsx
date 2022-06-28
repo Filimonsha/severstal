@@ -49,7 +49,7 @@ const History = () => {
                         <Table bordered striped className='history__table w-100'>
                             <thead className='history__head'>
                                 <tr >
-                                    <th style={{ width: "78px" }}>Номер теста</th>
+                                    <th style={{ width: "155px" }}>Номер теста</th>
                                     <th style={{ width: "200px" }}>Вид/профиль продукции</th>
                                     <th style={{ width: "200px" }}>Номер плавки/ручья</th>
                                     <th style={{ width: "80px" }}>ОР</th>
@@ -101,6 +101,7 @@ const History = () => {
                                                 </p>
                                             </th>
                                             <th
+                                                className='overflow-scroll'
                                             >
                                                 <p
 

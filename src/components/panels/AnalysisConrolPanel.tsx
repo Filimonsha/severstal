@@ -23,7 +23,8 @@ const AnalysisConrolPanel = (props: IProps) => {
   const [showModal, setShowModal] = useState(false)
   const [showProcessedPhoto, setShowProcessedPhoto] = useState(false)
   const [valueOfSliderPart, setValueOfSliderPart] = useState("")
-  const [imagesAnalysed, setImagesAnalysed] = useState(false)
+  const [srcClickedImg, setSrcClickedImg] = useState("")
+  const [showModalClickedImg, setShowModalClickedImg] = useState(false)
   useEffect(() => {
     // countRanges()
     setRanges(props.currentInfoAboutTest.ranges)
@@ -37,9 +38,9 @@ const AnalysisConrolPanel = (props: IProps) => {
     })
   }, [])
 
-  useEffect(()=>{
+  useEffect(() => {
     setCurrentTest(props.currentInfoAboutTest)
-  },[props.currentInfoAboutTest])
+  }, [props.currentInfoAboutTest])
   useEffect(() => {
     // let fAllImageAnalysed
     // props.currentInfoAboutTest.segments.forEach((segment, sIndex) => {
@@ -215,7 +216,10 @@ const AnalysisConrolPanel = (props: IProps) => {
 
       <Modal
         show={showModal}
-        onHide={() => setShowModal(false)}
+        onHide={() => {
+          setShowModal(false)
+          setShowProcessedPhoto(false)
+        }}
 
       // className="analysis-control-panel__modal"
       >
@@ -223,37 +227,49 @@ const AnalysisConrolPanel = (props: IProps) => {
           <Modal.Title>Полное сечение</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          <Row>
 
-          {
-            currentTest?.segments.map(segment => {
-              return (
-                <Row className="mb-3 justify-content-center">
-                  {segment.images.map(img => {
-                    // if (img.light === "top") {
+
+            {
+              currentTest?.segments.map(segment => {
+                return (
+                  // <Row className="mb-3 justify-content-center">
+                  <>
+                    {segment.images.map(img => {
+                      // if (img.light === "top") {
                       if (showProcessedPhoto) {
                         return (
-                          <Col md={'2'}>
+                          <Col md={'2'} className="mb-3">
                             <img src={`${img.file_res_crop}`} alt="" className="w-100 h-100 me-3"
+                              onClick={() => {
+                                setSrcClickedImg(img.file_res_full)
+                                setShowModalClickedImg(true)
+                              }}
                             />
                           </Col>
                         )
                       } else {
                         return (
-                          <Col md={'2'}>
+                          <Col md={'2'} className="mb-3">
                             <img src={`${img.file_top_crop}`} alt="" className="w-100 h-100 me-3"
+                              onClick={() => {
+                                setSrcClickedImg(img.file_top_full)
+                                setShowModalClickedImg(true)
+                              }}
                             />
                           </Col>
                         )
                       }
 
-                    // }
+                      // }
 
-                  })}
-                </Row>
-              )
-            })
-          }
-
+                    })}
+                  </>
+                  // </Row>
+                )
+              })
+            }
+          </Row>
         </Modal.Body>
         <Modal.Footer>
           <div className="control-panel__lighting d-flex align-items-center justify-content-between">
@@ -271,12 +287,31 @@ const AnalysisConrolPanel = (props: IProps) => {
           </div>
           <Button
             variant="outline-primary"
-            onClick={() => setShowModal(false)}
+            onClick={() => {
+              setShowModal(false)
+              setShowProcessedPhoto(false)
+            }}
           >
             Назад
           </Button>
 
         </Modal.Footer>
+      </Modal >
+      <Modal
+        // size="lg"
+        show={showModalClickedImg}
+        onHide={() => { setShowModalClickedImg(false) }}
+        aria-labelledby="example-modal-sizes-title-lg"
+      >
+        <Modal.Header closeButton>
+          {/* <Modal.Title id="example-modal-sizes-title-lg">
+            Large Modal
+          </Modal.Title> */}
+        </Modal.Header>
+        <Modal.Body className="d-flex justify-content-center">
+          <img src={srcClickedImg} alt="" className="w-50 h-50 me-3" />
+
+        </Modal.Body>
       </Modal>
 
     </div >

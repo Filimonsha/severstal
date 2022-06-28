@@ -15,6 +15,7 @@
 }
 
 .history__table {
+  table-layout: fixed;
   white-space: break-spaces;
 }
 

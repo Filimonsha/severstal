@@ -11,6 +11,7 @@
         padding: 18px 32px !important;
     }
     &__table {
+        table-layout: fixed;
         white-space: break-spaces;
         thead {
             background: $dark-blue;
