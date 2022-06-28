@@ -110,7 +110,7 @@ const ListOfDetails = ({
   const handleUpdateTest = (data) => {
     createSegmentAndGetImages(currentInfoAboutTest.id, data);
     axiosInstance
-      .put(`api/imaging/test/${currentInfoAboutTest.id}/`, {
+      .put(`/api/imaging/test/${currentInfoAboutTest.id}/`, {
         comment: comment,
       })
       .then((res) =>

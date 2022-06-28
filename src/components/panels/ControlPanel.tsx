@@ -23,7 +23,7 @@ const ControlPanel = (props: IProps) => {
 
         const currentDate = new Date()
         const formatedCurrentDate = currentDate.getFullYear() + "-" + (currentDate.getMonth() + 1) + "-" + currentDate.getDate()
-        axiosInstance.put(`api/imaging/test/${props.currentInfoAboutTest.id}/`, {
+        axiosInstance.put(`/api/imaging/test/${props.currentInfoAboutTest.id}/`, {
             date: formatedCurrentDate
         }).then(res => {
             let newSegmentsWithAnalyse = props.currentInfoAboutTest.segments
