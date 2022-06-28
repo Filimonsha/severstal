@@ -152,7 +152,7 @@ const ListOfDetails = ({
                   index={index + 1}
                   setSwiper={setSwiper}
                 />
-              </SwiperSlide>
+               </SwiperSlide>
             );
           })}
         {!currentInfoAboutTest?.date && (
@@ -197,7 +197,7 @@ const ListOfDetails = ({
                 </div>
               </Col>
             ) : (
-              <Col className="list-of-details__add-new-detail add-new-detail">
+              <Col className="list-of-details__add-new-detail add-new-detail add-new-detail_list-have-details">
                 <div className="add-new-detail__header text-start">
                   Новая часть
                 </div>

@@ -37,6 +37,9 @@
 
 .image-slide {
     position: relative;
+    width: 608px !important;
+    height: 912px !important;
+    // flex-shrink: unset !important;
     &__delete-image {
         cursor: pointer;
         position: absolute;

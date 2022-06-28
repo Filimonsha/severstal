@@ -15,17 +15,17 @@ const Header = () => {
         </svg>
       </Navbar.Brand>
       <Navbar>
-        <a className='me-2 header__new-test' onClick={() => {
+        <a className='me-4 header__new-test' onClick={() => {
           // window.history.replaceState({}, document.title)
           nav("/")
           window.location.reload();
         }}>
           Новый тест
         </a>
-        <Link to="/history" className='me-2'>
+        <Link to="/history" className='me-4'>
           История тестов
         </Link>
-        <Link to="/auth" onClick={() => {
+        <Link to="/auth" className='me-2' onClick={() => {
           axiosInstance.post("/api/auth/logout/")
           Cookies.remove("username")
         }}>

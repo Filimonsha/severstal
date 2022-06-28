@@ -25,6 +25,8 @@
 
 .image-slide {
   position: relative;
+  width: 608px !important;
+  height: 912px !important;
 }
 
 .image-slide__delete-image {

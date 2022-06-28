@@ -61,20 +61,26 @@ const ListOfAnalysedParts = (props: IProps) => {
                 Анализ
             </h2>
             <Swiper
+                // scrollbar={{
+                //     hide: false,
+                //     draggable: true,
+                // }}
+                // slidesPerView={"auto"}
+
+                // mousewheel
+
+                // spaceBetween={24}
+                // modules={[Scrollbar, Mousewheel]}
+                // className="mySwiper"
                 scrollbar={{
                     hide: false,
-                    draggable:true,
+                    draggable: true,
                 }}
-                slidesPerView={1}
                 mousewheel
-                // breakpoints={{
-                //     900: {
-                //         slidesPerView: 2,
-                //     },
-                //     1680: {
-                //         slidesPerView: 3,
-                //     },
-                // }}
+                draggable
+                // slidesPerView={1}
+                slidesPerView={"auto"}
+                // slidesPerView={1.5}
                 spaceBetween={24}
                 modules={[Scrollbar, Mousewheel]}
                 className="mySwiper"
@@ -99,7 +105,9 @@ const ListOfAnalysedParts = (props: IProps) => {
                                             hide: false,
                                         }}
                                         mousewheel
-                                        slidesPerView={4}
+                                        // slidesPerView={4}
+                                        slidesPerView={"auto"}
+
                                         // breakpoints={{
                                         //     900: {
                                         //         slidesPerView: 2,
@@ -119,11 +127,11 @@ const ListOfAnalysedParts = (props: IProps) => {
                                             currentSegment.images.map(
                                                 (currentImage, imageIndex) => {
                                                     // if (currentImage.light === "top") {
-                                                        return (
-                                                            <SwiperSlide>
-                                                                <AnalysedSegment imageIndex={imageIndex} segmentIndex={segmentIndex} imageWasAnalysed={!props.currentInfoAboutTest.date ? false : true} setCurrentInfoAboutTest={props.setCurrentInfoAboutTest} currentInfoAboutTest={props.currentInfoAboutTest} />
-                                                            </SwiperSlide>
-                                                        )
+                                                    return (
+                                                        <SwiperSlide>
+                                                            <AnalysedSegment imageIndex={imageIndex} segmentIndex={segmentIndex} imageWasAnalysed={!props.currentInfoAboutTest.date ? false : true} setCurrentInfoAboutTest={props.setCurrentInfoAboutTest} currentInfoAboutTest={props.currentInfoAboutTest} />
+                                                        </SwiperSlide>
+                                                    )
                                                     // }
 
                                                 }
@@ -169,11 +177,11 @@ const ListOfAnalysedParts = (props: IProps) => {
                                             currentSegment.images.map(
                                                 (currentImage, imageIndex) => {
                                                     // if (currentImage.light === "top") {
-                                                        return (
-                                                            <SwiperSlide>
-                                                                <NewAnalyseSegment imageIndex={imageIndex} segmentIndex={segmentIndex} needToAnalyse={currentImage.needToAnylyse} setCurrentInfoAboutTest={props.setCurrentInfoAboutTest} currentInfoAboutTest={props.currentInfoAboutTest} />
-                                                            </SwiperSlide>
-                                                        )
+                                                    return (
+                                                        <SwiperSlide>
+                                                            <NewAnalyseSegment imageIndex={imageIndex} segmentIndex={segmentIndex} needToAnalyse={currentImage.needToAnylyse} setCurrentInfoAboutTest={props.setCurrentInfoAboutTest} currentInfoAboutTest={props.currentInfoAboutTest} />
+                                                        </SwiperSlide>
+                                                    )
                                                     // }
 
                                                 }

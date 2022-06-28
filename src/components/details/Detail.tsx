@@ -34,14 +34,15 @@ const Detail = (props: IProps) => {
   const [imageW, setImageW] = useState(521)
   const [clickedImage, setClickedImage] = useState<string>("")
   const [imageDeleted, setImageDeleted] = useState(false)
+  const [pixNum, setPixNum] = useState(1)
+
   const swiper = useSwiper()
 
   useEffect(() => {
     props.setSwiper(swiper)
   })
   useEffect(() => {
-    console.log(allowScrolling)
-
+    axiosInstance.get("/api/imaging/stand_settings/").then((res => setPixNum(res.data.pix_num)))
   }, [])
 
 
@@ -84,7 +85,9 @@ const Detail = (props: IProps) => {
             }}
             nested
             mousewheel
-            slidesPerView={3}
+            // slidesPerView={3}
+            slidesPerView={"auto"}
+
             modules={[Scrollbar, Mousewheel]}
             className=""
           >
@@ -234,7 +237,7 @@ const Detail = (props: IProps) => {
             endy[temp]
           ).toFixed(2);
 
-            text = new fabric.Text((px*(1/currentScale)).toFixed(3), {
+            text = new fabric.Text(((px*(1/currentScale))*${pixNum}).toFixed(3), {
               // Обнова
             // left: endx[temp],
             left:(Math.round((endx[temp] + startx[temp])/2) - 20),
@@ -266,7 +269,7 @@ const Detail = (props: IProps) => {
 //             top: endy[temp],
 //             fontSize: 12,
 //           });
-            text = new fabric.Text((px*(1/currentScale)).toFixed(3), {
+            text = new fabric.Text(((px*(1/currentScale))*${pixNum}).toFixed(3), {
             left:(Math.round((endx[temp] + startx[temp])/2) - 20),
             top: endy[temp],
             fontSize: 18,
@@ -309,6 +312,12 @@ const Detail = (props: IProps) => {
         layout: "horizontal",
         width: 360,
         height: 60,
+        texts: [
+          {
+            pixelGap: 100,
+            offset: 40,
+          },
+        ],
     divisions: [
       {
         pixelGap: 10,
@@ -334,8 +343,11 @@ const Detail = (props: IProps) => {
       var rulezV = new Rulez({
         element: document.getElementById("svgV"),
         layout: "vertical",
+        // units: 'mm',
         height: 550,
         alignment: "right",
+
+          
     divisions: [
       {
         pixelGap: 10,
@@ -360,7 +372,7 @@ const Detail = (props: IProps) => {
         texts: [
           {
             pixelGap: 100,
-            offset: 20,
+            offset: 30,
           },
         ],
 
