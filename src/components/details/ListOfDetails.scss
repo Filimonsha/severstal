@@ -22,7 +22,9 @@
     }
     &_list-is-pure {
         width: 913px;
-        height: 515px;
+        // height: 515px;
+        // height: 100%;
+        height: 640px !important;
     }
 }
 // Slider
@@ -85,12 +87,14 @@
 }
 .add-new-detail_list-have-details {
     width: 609px;
+    // height: 100%;
 }
 
 .list-of-details {
     padding-right: 0 !important;
     &__add-new-detail {
-        height: 456px;
+        // height: 456px;
+        height: 547px;
     }
     &__title {
         font-style: normal;
