@@ -85,7 +85,7 @@ const AnalysisConrolPanel = (props: IProps) => {
         Номер плавки/ручья: {props.currentInfoAboutTest.melting_number}
       </span>
       <span className='mb-2'>
-        Сечение, мм: {props.currentInfoAboutTest.segments[currentSegment]?.width} {props.currentInfoAboutTest.segments[currentSegment] && "x"}{props.currentInfoAboutTest.segments[currentSegment]?.length}
+        Сечение, мм: {props.currentInfoAboutTest.segments[currentSegment]?.width} {props.currentInfoAboutTest.segments[currentSegment] && "x "}{props.currentInfoAboutTest.segments[currentSegment]?.length}
       </span>
       <Form.Text>Комментарий</Form.Text>
       <Form.Control
