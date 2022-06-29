@@ -414,7 +414,8 @@ const Detail = (props: IProps) => {
             if (currentScale > 1) {currentScale = currentScale - 0.5;
             }
           } else if (event.deltaY < 0) {
-            if(currentScale <=10){currentScale = currentScale + 0.5}
+            if(currentScale <=10){currentScale = currentScale + 0.5
+            }
             
           }          
           img.style.width = Math.round(imgWidth * currentScale) + "px";
@@ -438,10 +439,12 @@ const Detail = (props: IProps) => {
           console.log(currentScale)
           rulezH.setScale(1 / currentScale);
           rulezV.setScale(1 / currentScale);
+                      document.querySelectorAll(".rulez-text").forEach(el=>el.innerHTML= el.innerHTML*${pixNum})
+
         });
 
+document.querySelectorAll(".rulez-text").forEach(el=>el.innerHTML= el.innerHTML*${pixNum})
 
-       
         `}
           </script>
         </Helmet>
