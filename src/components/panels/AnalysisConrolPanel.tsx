@@ -200,7 +200,7 @@ const AnalysisConrolPanel = (props: IProps) => {
 
 
       <div className='d-flex w-100 justify-content-center justify-content-between mb-3'>
-        <a download href={`http://${process.env.REACT_APP_SERVER_SEVERSTAL}/api/imaging/test/${props.currentInfoAboutTest.id}/download_report/`} className='analysis-control-panel__save btn btn-outline-primary'>Сохранить отчет</a>
+        <a download href={`/api/imaging/test/${props.currentInfoAboutTest.id}/download_report/`} className='analysis-control-panel__save btn btn-outline-primary'>Сохранить отчет</a>
         {
           !props.isHistoryRoute &&
           <Button className="d-flex align-items-center analysis-control-panel__back" variant="primary" onClick={() => props.setUserClickedAnalysis(false)}>

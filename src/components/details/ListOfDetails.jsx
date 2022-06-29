@@ -260,7 +260,7 @@ const ListOfDetails = ({
             <Col md="6" className="me-2">
               <div className="adding-image__screen mb-3">
                 <img
-                  src={`http://${process.env.REACT_APP_SERVER_SEVERSTAL}/api/imaging/current_image/?offset=${rangeValue}`}
+                  src={`/api/imaging/current_image/?offset=${rangeValue}`}
                   alt="camera-img"
                   className=""
                 />
@@ -423,7 +423,7 @@ const ListOfDetails = ({
             <Col>
               <div className="adding-image__screen">
                 <img
-                  src={`http://${process.env.REACT_APP_SERVER_SEVERSTAL}/api/imaging/current_image/?offset=${rangeValue}`}
+                  src={`/api/imaging/current_image/?offset=${rangeValue}`}
                   alt="camera-img"
                   className="w-100 h-100"
                 />
