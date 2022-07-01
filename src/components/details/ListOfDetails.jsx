@@ -8,6 +8,7 @@ import Detail from "./Detail";
 import { useEffect, useState } from "react";
 import axiosInstance from "../../helpers/axios";
 import { useForm } from "react-hook-form";
+import { getTrackBackground, Range } from "react-range";
 const ListOfDetails = ({
   setListOfDetailsToAnalysis,
   swiper,
@@ -21,7 +22,7 @@ const ListOfDetails = ({
   const [rangeValue, setRangeValue] = useState(0);
   const [dropRangeValue, setDropRangeValue] = useState(0);
   const [comment, setComment] = useState("");
-
+  const [values, setValues] = useState([0]);
   const [testInfo, setTestInfo] = useState({});
 
   const [typeOfProductsList, setTypeOfProductsList] = useState([]);
@@ -152,7 +153,7 @@ const ListOfDetails = ({
                   index={index + 1}
                   setSwiper={setSwiper}
                 />
-               </SwiperSlide>
+              </SwiperSlide>
             );
           })}
         {!currentInfoAboutTest?.date && (
@@ -269,19 +270,70 @@ const ListOfDetails = ({
                 as={Row}
                 className="d-flex align-items-center adding-image__range"
               >
-                <Col xs="9">
-                  <Form.Range
-                    value={rangeValue}
-                    // onDrag={(e) => console.log("Абоба")}
-                    onChange={(e) => {
-                      setRangeValue(e.target.value);
-                    }}
-                    className=""
-                  />
-                </Col>
-                <Col xs="3">
-                  <Form.Label>{rangeValue + "ед.смещения"}</Form.Label>
-                </Col>
+              <Col xs="9">
+                <Range
+                  values={values}
+                  step={1}
+                  min={0}
+                  max={400}
+                  onChange={(values) => setValues(values)}
+                  renderTrack={({ props, children }) => (
+                    <div
+                      style={{
+                        ...props.style,
+                        height: "36px",
+                        display: "flex",
+                        width: "100%",
+                      }}
+                    >
+                      <div
+                        ref={props.ref}
+                        style={{
+                          height: "5px",
+                          width: "100%",
+                          borderRadius: "4px",
+                          background: getTrackBackground({
+                            values: values,
+                            colors: ["#548BF4", "#ccc"],
+                            min: 0,
+                            max: 400,
+                          }),
+                          alignSelf: "center",
+                        }}
+                      >
+                        {children}
+                      </div>
+                    </div>
+                  )}
+                  renderThumb={({ props, isDragged }) => (
+                    <div
+                      {...props}
+                      style={{
+                        ...props.style,
+                        height: "42px",
+                        width: "42px",
+                        borderRadius: "4px",
+                        backgroundColor: "#FFF",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        boxShadow: "0px 2px 6px #AAA",
+                      }}
+                    >
+                      <div
+                        style={{
+                          height: "16px",
+                          width: "5px",
+                          backgroundColor: isDragged ? "#548BF4" : "#CCC",
+                        }}
+                      />
+                    </div>
+                  )}
+                ></Range>
+              </Col>
+              <Col xs="3">
+                <Form.Label>{values[0] + "ед.смещения"}</Form.Label>
+              </Col>
               </Form.Group>
             </Col>
             {/* Панель */}
