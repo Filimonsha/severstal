@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React, { useCallback, useEffect, useState } from 'react'
-import { Accordion, Button, Col, Container, Form, Modal, Row, Spinner } from 'react-bootstrap'
+import { Accordion, Alert, Button, Col, Container, Form, Modal, Row, Spinner } from 'react-bootstrap'
 import Swiper from 'swiper'
 import axiosInstance from '../../helpers/axios'
 import { IRanges, ISegment, ITest, ITypeOfPropduct } from '../../types/interfaces'
@@ -25,6 +25,7 @@ const AnalysisConrolPanel = (props: IProps) => {
   const [valueOfSliderPart, setValueOfSliderPart] = useState("")
   const [srcClickedImg, setSrcClickedImg] = useState("")
   const [showModalClickedImg, setShowModalClickedImg] = useState(false)
+  const [showSaveReport, setShowSaveReport] = useState(false)
   useEffect(() => {
     // countRanges()
     setRanges(props.currentInfoAboutTest.ranges)
@@ -200,8 +201,15 @@ const AnalysisConrolPanel = (props: IProps) => {
 
 
       <div className='d-flex w-100 justify-content-center justify-content-between mb-3'>
-        <a download href={`http://${process.env.REACT_APP_SERVER_SEVERSTAL}/api/imaging/test/${props.currentInfoAboutTest.id}/download_report/`} className='analysis-control-panel__save btn btn-outline-primary'>Сохранить отчет</a>
-        {
+        <Button
+          variant="primary"
+          type="submit"
+          onClick={() => {
+            setShowSaveReport(true)
+          }}
+        >
+          Сохранить отчет
+        </Button>        {
           !props.isHistoryRoute &&
           <Button className="d-flex align-items-center analysis-control-panel__back" variant="primary" onClick={() => props.setUserClickedAnalysis(false)}>
             Назад
@@ -313,7 +321,30 @@ const AnalysisConrolPanel = (props: IProps) => {
 
         </Modal.Body>
       </Modal>
+      <Modal
+        size="sm"
+        show={showSaveReport}
+        onHide={() => { setShowSaveReport(false) }}
+        className="save-report-modal"
+      >
+        <Modal.Header closeButton className='pb-0'>
+        </Modal.Header>
+        <Modal.Body className="d-flex flex-column justify-content-center">
+          <Col className=''>
+            <Alert variant='secondary'>
+              Сохранить отчет с изображениями ?
+            </Alert>
+            <Row className="d-flex justify-content-between me-0">
 
+            <a download href={`http://${process.env.REACT_APP_SERVER_SEVERSTAL}/api/imaging/test/${props.currentInfoAboutTest.id}/download_report/`} className='analysis-control-panel__save btn btn-outline-primary me-2'>Да</a>
+
+            <a download href={`http://${process.env.REACT_APP_SERVER_SEVERSTAL}/api/imaging/test/${props.currentInfoAboutTest.id}/download_report/`} className='analysis-control-panel__save btn btn-outline-primary me-2'>Нет</a>
+
+            </Row>
+          </Col>
+
+        </Modal.Body>
+      </Modal>
     </div >
   )
 }

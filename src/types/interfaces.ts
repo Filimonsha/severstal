@@ -1,7 +1,11 @@
 export interface ITest {
-  id: number;
   number: string;
+  chemicals: Array<IChemical>;
+  id: number;
+  protocol: string;
   product_type: number;
+  department: number;
+  steel_grade: string;
   measurement_technique: 0;
   melting_number: string;
   comment: string;
@@ -11,6 +15,11 @@ export interface ITest {
   ranges: IRanges;
   sizes: Array<string>;
   stillAnalysing: boolean;
+  sizes_sum: string;
+}
+export interface IChemical {
+  name: string;
+  percentage: number;
 }
 export interface IScore {
   ОР: number;

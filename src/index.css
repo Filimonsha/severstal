@@ -239,4 +239,8 @@ input::-webkit-inner-spin-button {
 .modal {
   overflow: hidden;
 }
+
+.save-report-modal .modal-dialog {
+  max-width: 30% !important;
+}
 /*# sourceMappingURL=index.css.map */

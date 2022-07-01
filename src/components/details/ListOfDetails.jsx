@@ -9,6 +9,8 @@ import { useEffect, useState } from "react";
 import axiosInstance from "../../helpers/axios";
 import { useForm } from "react-hook-form";
 import { getTrackBackground, Range } from "react-range";
+import { IChemical } from "../../types/interfaces";
+import Cookies from "js-cookie";
 const ListOfDetails = ({
   setListOfDetailsToAnalysis,
   swiper,
@@ -20,14 +22,27 @@ const ListOfDetails = ({
   const [showAddingTest, setShowAddingTest] = useState(false);
   const [showUpdateTest, setShowUpdateTest] = useState(false);
   const [rangeValue, setRangeValue] = useState(0);
-  const [dropRangeValue, setDropRangeValue] = useState(0);
   const [comment, setComment] = useState("");
   const [values, setValues] = useState([0]);
   const [testInfo, setTestInfo] = useState({});
-
   const [typeOfProductsList, setTypeOfProductsList] = useState([]);
   const [methodicsList, setMethodicsList] = useState([]);
+  const [typeOfDepartment, setTypeOfDepartment] = useState([]);
+  const [defaultPList, setDefaultPList] = useState();
+  const [defaultDList, setDefaultDList] = useState();
+  const [defaultMList, setDefaultMList] = useState();
 
+  useEffect(() => {
+    if (Cookies.get("typeOfProductsList")) {
+      setDefaultPList(Cookies.get("typeOfProductsList"));
+    }
+    if (Cookies.get("typeOfDepartment")) {
+      setDefaultDList(Cookies.get("typeOfDepartment"));
+    }
+    if (Cookies.get("methodicsList")) {
+      setDefaultMList(Cookies.get("methodicsList"));
+    }
+  }, []);
   const {
     register,
     handleSubmit,
@@ -76,6 +91,12 @@ const ListOfDetails = ({
         setMethodicsList(res.data);
       })
       .catch((er) => console.log(er));
+    axiosInstance
+      .get("/api/choices/department/")
+      .then((res) => {
+        setTypeOfDepartment(res.data);
+      })
+      .catch((er) => console.log(er));
   }, []);
 
   function setErrors(errors) {
@@ -87,13 +108,46 @@ const ListOfDetails = ({
   const handleAddTest = (data) => {
     axiosInstance
       .post("/api/imaging/test/", {
+        chemicals: [
+          {
+            name: "carbon",
+            percentage: Number(data.carbon),
+          },
+          {
+            name: "scandium",
+            percentage: Number(data.scandium),
+          },
+          {
+            name: "manganese",
+            percentage: Number(data.manganese),
+          },
+          {
+            name: "phosphorus",
+            percentage: Number(data.phosphorus),
+          },
+          {
+            name: "sulfur",
+            percentage: Number(data.sulfur),
+          },
+          {
+            name: "aluminum",
+            percentage: Number(data.aluminum),
+          },
+        ],
+        number: data.number,
         product_type: Number(data.product_type),
         measurement_technique: Number(data.measurement_technique),
+        department: Number(data.department),
+        steel_grade: data.steel_grade,
         melting_number: data.melting_number,
         comment: comment,
         date: null,
       })
       .then((res) => {
+        Cookies.set("typeOfProductsList", Number(data.product_type));
+        Cookies.set("typeOfDepartment", Number(data.department));
+        Cookies.set("methodicsList", Number(data.measurement_technique));
+
         setTestInfo(res.data);
         createSegmentAndGetImages(res.data.id, data);
         // setCurrentTestId(res.data.id);
@@ -103,13 +157,15 @@ const ListOfDetails = ({
         setShowAddingTest(false);
       })
       .catch((er) => {
+        console.log(er);
         setErrors(er.response.data);
       });
-    // setComment(data.comment);
   };
 
   const handleUpdateTest = (data) => {
+    console.log(data);
     createSegmentAndGetImages(currentInfoAboutTest.id, data);
+    console.log("Вы тут");
     axiosInstance
       .put(`/api/imaging/test/${currentInfoAboutTest.id}/`, {
         comment: comment,
@@ -268,72 +324,71 @@ const ListOfDetails = ({
               </div>
               <Form.Group
                 as={Row}
-                className="d-flex align-items-center adding-image__range"
+                className="d-flex align-items-center  adding-image__range"
               >
-              <Col xs="9">
-                <Range
-                  values={values}
-                  step={1}
-                  min={0}
-                  max={400}
-                  onChange={(values) => setValues(values)}
-                  renderTrack={({ props, children }) => (
-                    <div
-                      style={{
-                        ...props.style,
-                        height: "36px",
-                        display: "flex",
-                        width: "100%",
-                      }}
-                    >
+                <Col xs="9">
+                  <Range
+                    values={values}
+                    step={1}
+                    min={0}
+                    max={400}
+                    onChange={(values) => {
+                      setValues(values);
+                    }}
+                    onFinalChange={(values) => {
+                      setRangeValue(values[0]);
+                    }}
+                    renderTrack={({ props, children }) => (
                       <div
-                        ref={props.ref}
                         style={{
-                          height: "5px",
+                          ...props.style,
+                          height: "36px",
+                          display: "flex",
                           width: "100%",
-                          borderRadius: "4px",
-                          background: getTrackBackground({
-                            values: values,
-                            colors: ["#548BF4", "#ccc"],
-                            min: 0,
-                            max: 400,
-                          }),
-                          alignSelf: "center",
                         }}
                       >
-                        {children}
+                        <div
+                          ref={props.ref}
+                          style={{
+                            height: "6px",
+                            width: "100%",
+                            borderRadius: "0px",
+                            background: getTrackBackground({
+                              values: values,
+                              colors: ["rgba(4, 48, 106, 1)", "#ccc"],
+                              min: 0,
+                              max: 400,
+                            }),
+                            alignSelf: "center",
+                          }}
+                        >
+                          {children}
+                        </div>
                       </div>
-                    </div>
-                  )}
-                  renderThumb={({ props, isDragged }) => (
-                    <div
-                      {...props}
-                      style={{
-                        ...props.style,
-                        height: "42px",
-                        width: "42px",
-                        borderRadius: "4px",
-                        backgroundColor: "#FFF",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        boxShadow: "0px 2px 6px #AAA",
-                      }}
-                    >
+                    )}
+                    renderThumb={({ props, isDragged }) => (
                       <div
+                        {...props}
                         style={{
+                          ...props.style,
                           height: "16px",
-                          width: "5px",
-                          backgroundColor: isDragged ? "#548BF4" : "#CCC",
+                          width: "16px",
+                          borderRadius: "44px",
+                          backgroundColor: "rgba(4, 48, 106, 1)",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          boxShadow: "0px 2px 6px #AAA",
                         }}
-                      />
-                    </div>
-                  )}
-                ></Range>
-              </Col>
-              <Col xs="3">
-                <Form.Label>{values[0] + "ед.смещения"}</Form.Label>
-              </Col>
+                      ></div>
+                    )}
+                  ></Range>
+                </Col>
+                <Col xs="3">
+                  <Form.Label className="mb-0">
+                    {values[0] + "ед.смещения"}
+                  </Form.Label>
+                </Col>
               </Form.Group>
             </Col>
             {/* Панель */}
@@ -341,13 +396,21 @@ const ListOfDetails = ({
               <Form className="adding-image__form">
                 <Form.Group>
                   <Form.Text className="adding-image__error">
+                    {errors.number?.message}
+                  </Form.Text>
+                  <Form.Control
+                    type="number"
+                    placeholder="Номер теста"
+                    className="mb-2"
+                    {...register("number", {})}
+                  />
+                  <Form.Text className="adding-image__error">
                     {errors.product_type?.message}
                   </Form.Text>
                   <Form.Select
+                    defaultValue={defaultPList && defaultPList}
                     className="mb-2"
-                    {...register("product_type", {
-                      // required: "емае мама звонит",
-                    })}
+                    {...register("product_type", {})}
                   >
                     <option disabled selected>
                       Вид продукции
@@ -360,7 +423,25 @@ const ListOfDetails = ({
                       );
                     })}
                   </Form.Select>
-
+                  <Form.Text className="adding-image__error">
+                    {errors.department?.message}
+                  </Form.Text>
+                  <Form.Select
+                    defaultValue={defaultDList && defaultDList}
+                    className="mb-2"
+                    {...register("department", {})}
+                  >
+                    <option disabled selected>
+                      Цех
+                    </option>
+                    {typeOfDepartment.map((el) => {
+                      return (
+                        <option key={el.id} value={el.id}>
+                          {el.name}
+                        </option>
+                      );
+                    })}
+                  </Form.Select>
                   <Form.Text className="adding-image__error">
                     {errors.melting_number?.message}
                   </Form.Text>
@@ -370,6 +451,99 @@ const ListOfDetails = ({
                     placeholder="Номер плавки ручья"
                     className="mb-3"
                     {...register("melting_number", {})}
+                  />
+                  <Row className="d-flex justify-content-center">
+                    <Col md="3" className="me-2">
+                      <Form.Text className="adding-image__error">
+                        {errors.carbon?.message}
+                      </Form.Text>
+                      <Form.Text>С</Form.Text>
+                      <Form.Control
+                        type="number"
+                        placeholder="C"
+                        className="mb-3 "
+                        {...register("carbon", {
+                        })}
+                      />
+                    </Col>
+                    <Col md="3" className="me-2">
+                      <Form.Text className="adding-image__error">
+                        {errors.scandium?.message}
+                      </Form.Text>
+                      <Form.Text>Si</Form.Text>
+                      <Form.Control
+                        type="number"
+                        placeholder="Si"
+                        className="mb-3"
+                        {...register("scandium", {
+                        })}
+                      />
+                    </Col>
+                    <Col md="3" className="me-2">
+                      <Form.Text className="adding-image__error">
+                        {errors.manganese?.message}
+                      </Form.Text>
+                      <Form.Text>Mn</Form.Text>
+                      <Form.Control
+                        type="number"
+                        placeholder="Mn"
+                        className="mb-3"
+                        {...register("manganese", {
+                        })}
+                      />
+                    </Col>
+                  </Row>
+                  <Row className="d-flex justify-content-center">
+                    <Col md="3" className="me-2">
+                      <Form.Text className="adding-image__error">
+                        {errors.phosphorus?.message}
+                      </Form.Text>
+                      <Form.Text>P</Form.Text>
+                      <Form.Control
+                        type="number"
+                        placeholder="P"
+                        className="mb-3"
+                        {...register("phosphorus", {
+                        })}
+                      />
+                    </Col>
+                    <Col md="3" className="me-2">
+                      <Form.Text className="adding-image__error">
+                        {errors.sulfur?.message}
+                      </Form.Text>
+                      <Form.Text>S</Form.Text>
+                      <Form.Control
+                        type="number"
+                        placeholder="S"
+                        className="mb-3"
+                        {...register("sulfur", {
+                        })}
+                      />
+                    </Col>
+                    <Col md="3" className="me-2">
+                      <Form.Text className="adding-image__error">
+                        {errors.aluminum?.message}
+                      </Form.Text>
+                      <Form.Text>Al</Form.Text>
+                      <Form.Control
+                        type="number"
+                        placeholder="Al"
+                        className="mb-3"
+                        {...register("aluminum", {
+                        })}
+                      />
+                    </Col>
+                  </Row>
+
+                  <Form.Text className="">
+                    Марка стали <br />
+                  </Form.Text>
+                  <Form.Control
+                    type="text"
+                    pattern="[0-9 ]+"
+                    placeholder="Марка стали, если необходимо"
+                    className="mb-3"
+                    {...register("steel_grade", {})}
                   />
                   <Form.Text className="">
                     Сечение, мм <br />
@@ -416,10 +590,9 @@ const ListOfDetails = ({
                     {errors.measurement_technique?.message}
                   </Form.Text>
                   <Form.Select
+                    defaultValue={defaultMList && defaultMList}
                     className="mb-2"
-                    {...register("measurement_technique", {
-                      // required: "емае мама звонит",
-                    })}
+                    {...register("measurement_technique", {})}
                   >
                     <option disabled selected>
                       Методика измерения
@@ -482,17 +655,70 @@ const ListOfDetails = ({
               </div>
               <Form.Group
                 as={Row}
-                className="d-flex align-items-center adding-image__range"
+                className="d-flex align-items-center  adding-image__range"
               >
                 <Col xs="9">
-                  <Form.Range
-                    value={rangeValue}
-                    onChange={(e) => setRangeValue(e.target.value)}
-                    className=""
-                  />
+                  <Range
+                    values={values}
+                    step={1}
+                    min={0}
+                    max={400}
+                    onChange={(values) => {
+                      setValues(values);
+                    }}
+                    onFinalChange={(values) => {
+                      setRangeValue(values[0]);
+                    }}
+                    renderTrack={({ props, children }) => (
+                      <div
+                        style={{
+                          ...props.style,
+                          height: "36px",
+                          display: "flex",
+                          width: "100%",
+                        }}
+                      >
+                        <div
+                          ref={props.ref}
+                          style={{
+                            height: "6px",
+                            width: "100%",
+                            borderRadius: "0px",
+                            background: getTrackBackground({
+                              values: values,
+                              colors: ["rgba(4, 48, 106, 1)", "#ccc"],
+                              min: 0,
+                              max: 400,
+                            }),
+                            alignSelf: "center",
+                          }}
+                        >
+                          {children}
+                        </div>
+                      </div>
+                    )}
+                    renderThumb={({ props, isDragged }) => (
+                      <div
+                        {...props}
+                        style={{
+                          ...props.style,
+                          height: "16px",
+                          width: "16px",
+                          borderRadius: "44px",
+                          backgroundColor: "rgba(4, 48, 106, 1)",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          boxShadow: "0px 2px 6px #AAA",
+                        }}
+                      ></div>
+                    )}
+                  ></Range>
                 </Col>
                 <Col xs="3">
-                  <Form.Label>{rangeValue + "ед.смещения"}</Form.Label>
+                  <Form.Label className="mb-0">
+                    {values[0] + "ед.смещения"}
+                  </Form.Label>
                 </Col>
               </Form.Group>
             </Col>

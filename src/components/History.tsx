@@ -69,7 +69,7 @@ const History = () => {
                                         <tr>
                                             <th><p>
                                                 <Link className='history__link' to={`/history/${el?.id}`}>
-                                                    {el?.number}
+                                                    {el?.protocol}
                                                 </Link>
                                             </p>
                                             </th>
@@ -92,7 +92,7 @@ const History = () => {
                                                     {el?.score?.ОХН}
                                                 </p>
                                             </th>
-                                            <th>{el?.sizes.map(size => (<p>{size}</p>))}</th>
+                                            <th>{el?.sizes_sum}</th>
 
 
                                             <th>

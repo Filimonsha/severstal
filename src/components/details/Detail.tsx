@@ -21,8 +21,8 @@ interface IProps {
   sideOfLighting: boolean,
 }
 
+const multiplier = 7.02358589
 
-const aboba = [{}, {}, {}, {}, {}]
 
 
 const Detail = (props: IProps) => {
@@ -237,7 +237,7 @@ const Detail = (props: IProps) => {
             endy[temp]
           ).toFixed(2);
 
-            text = new fabric.Text(((px*(1/currentScale))*${pixNum}).toFixed(3), {
+            text = new fabric.Text((((px*(1/currentScale))/${pixNum})*${multiplier}).toFixed(3), {
               // Обнова
             // left: endx[temp],
             left:(Math.round((endx[temp] + startx[temp])/2) - 20),
@@ -264,12 +264,7 @@ const Detail = (props: IProps) => {
             endx[temp],
             endy[temp]
           ).toFixed(2);
-// text = new fabric.Text("Length " + px*(1/currentScale), {
-//             left: endx[temp],
-//             top: endy[temp],
-//             fontSize: 12,
-//           });
-            text = new fabric.Text(((px*(1/currentScale))*${pixNum}).toFixed(3), {
+            text = new fabric.Text((((px*(1/currentScale))/${pixNum})*${multiplier}).toFixed(3), {
             left:(Math.round((endx[temp] + startx[temp])/2) - 20),
             top: endy[temp],
             fontSize: 18,
@@ -280,7 +275,7 @@ const Detail = (props: IProps) => {
 
           }
         var pointer = canvas.getPointer(o.e);
-        
+
         isDown = false;
       });
 
@@ -347,7 +342,7 @@ const Detail = (props: IProps) => {
         height: 550,
         alignment: "right",
 
-          
+
     divisions: [
       {
         pixelGap: 10,
@@ -416,34 +411,34 @@ const Detail = (props: IProps) => {
           } else if (event.deltaY < 0) {
             if(currentScale <=10){currentScale = currentScale + 0.5
             }
-            
-          }          
+
+          }
           img.style.width = Math.round(imgWidth * currentScale) + "px";
           img.style.height = Math.round(imgHeight * currentScale) + "px";
           img.setAttribute('width',Math.round(imgWidth * currentScale))
           img.setAttribute('height',Math.round(imgHeight * currentScale))
 
-          
+
           // Фикс канваса
           var upperCanvas = document.querySelector(".upper-canvas")
           upperCanvas.width = Math.round(imgWidth * currentScale )
-          upperCanvas.height = Math.round(imgHeight * currentScale) 
+          upperCanvas.height = Math.round(imgHeight * currentScale)
           upperCanvas.style.width = Math.round(imgWidth * currentScale) + "px";
           upperCanvas.style.height = Math.round(imgHeight * currentScale) + "px";
 
 
-          canvas.width = Math.round(imgWidth * currentScale) 
+          canvas.width = Math.round(imgWidth * currentScale)
           canvas.height = Math.round(imgHeight * currentScale)
 
 
           console.log(currentScale)
           rulezH.setScale(1 / currentScale);
           rulezV.setScale(1 / currentScale);
-                      document.querySelectorAll(".rulez-text").forEach(el=>el.innerHTML= el.innerHTML*${pixNum})
+                      document.querySelectorAll(".rulez-text").forEach(el=>el.innerHTML=((el.innerHTML/${pixNum})*${multiplier}).toFixed(1))
 
         });
 
-document.querySelectorAll(".rulez-text").forEach(el=>el.innerHTML= el.innerHTML*${pixNum})
+document.querySelectorAll(".rulez-text").forEach(el=>el.innerHTML= ((el.innerHTML/${pixNum})*${multiplier}).toFixed(1))
 
         `}
           </script>
@@ -490,7 +485,7 @@ document.querySelectorAll(".rulez-text").forEach(el=>el.innerHTML= el.innerHTML*
           </Col>
           <Col md="4" className="d-flex flex-column justify-content-start pb-5 pt-5">
             <Row className="p-0 mb-5">
-              <h3 className="p-0 mb-3">Тест {props.currentInfoAboutTest.number}</h3>
+              <h3 className="p-0 mb-3">Тест {props.currentInfoAboutTest.protocol}</h3>
               <h4 className="p-0 m-0">Часть {Number(props.index)}</h4>
             </Row>
             <Row className="p-0 mt-5">
