@@ -57,6 +57,7 @@ const ListOfDetails = ({
         test: Number(testId),
         length: Number(data.length),
         width: Number(data.width),
+        detail: data.number,
       })
       .then((res) => {
         axiosInstance
@@ -386,7 +387,7 @@ const ListOfDetails = ({
                 </Col>
                 <Col xs="3">
                   <Form.Label className="mb-0">
-                    {values[0] + "ед.смещения"}
+                    {values[0] + "\u00A0смещения"}
                   </Form.Label>
                 </Col>
               </Form.Group>
@@ -399,8 +400,8 @@ const ListOfDetails = ({
                     {errors.number?.message}
                   </Form.Text>
                   <Form.Control
-                    type="number"
-                    placeholder="Номер теста"
+                    // type="number"
+                    placeholder="№ темплета"
                     className="mb-2"
                     {...register("number", {})}
                   />
@@ -462,8 +463,7 @@ const ListOfDetails = ({
                         type="number"
                         placeholder="C"
                         className="mb-3 "
-                        {...register("carbon", {
-                        })}
+                        {...register("carbon", {})}
                       />
                     </Col>
                     <Col md="3" className="me-2">
@@ -475,8 +475,7 @@ const ListOfDetails = ({
                         type="number"
                         placeholder="Si"
                         className="mb-3"
-                        {...register("scandium", {
-                        })}
+                        {...register("scandium", {})}
                       />
                     </Col>
                     <Col md="3" className="me-2">
@@ -488,8 +487,7 @@ const ListOfDetails = ({
                         type="number"
                         placeholder="Mn"
                         className="mb-3"
-                        {...register("manganese", {
-                        })}
+                        {...register("manganese", {})}
                       />
                     </Col>
                   </Row>
@@ -503,8 +501,7 @@ const ListOfDetails = ({
                         type="number"
                         placeholder="P"
                         className="mb-3"
-                        {...register("phosphorus", {
-                        })}
+                        {...register("phosphorus", {})}
                       />
                     </Col>
                     <Col md="3" className="me-2">
@@ -516,8 +513,7 @@ const ListOfDetails = ({
                         type="number"
                         placeholder="S"
                         className="mb-3"
-                        {...register("sulfur", {
-                        })}
+                        {...register("sulfur", {})}
                       />
                     </Col>
                     <Col md="3" className="me-2">
@@ -529,8 +525,7 @@ const ListOfDetails = ({
                         type="number"
                         placeholder="Al"
                         className="mb-3"
-                        {...register("aluminum", {
-                        })}
+                        {...register("aluminum", {})}
                       />
                     </Col>
                   </Row>
@@ -717,7 +712,7 @@ const ListOfDetails = ({
                 </Col>
                 <Col xs="3">
                   <Form.Label className="mb-0">
-                    {values[0] + "ед.смещения"}
+                    {values[0] + "\u00A0смещения"}
                   </Form.Label>
                 </Col>
               </Form.Group>
@@ -726,6 +721,14 @@ const ListOfDetails = ({
             <Col>
               <Form className="adding-image__form">
                 <Form.Group>
+                  <Form.Text className="adding-image__error">
+                    {errors.number?.message}
+                  </Form.Text>
+                  <Form.Control
+                    placeholder="№ темплета"
+                    className="mb-2"
+                    {...register("number", {})}
+                  />
                   <Form.Text className="">
                     Сечение, мм <br />
                   </Form.Text>

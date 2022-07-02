@@ -26,6 +26,7 @@ export interface IScore {
   ОХН: number;
 }
 export interface ISegment {
+  detail: string;
   id: string;
   test: string;
   length: string;
