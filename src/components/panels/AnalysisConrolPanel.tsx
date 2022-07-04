@@ -133,9 +133,9 @@ const AnalysisConrolPanel = (props: IProps) => {
               return (
                 <Accordion.Item eventKey={index} className="w-100">
                   <Accordion.Header>
-                    {Object.keys(props.currentInfoAboutTest?.score)[index]},
+                    {Object.keys(props.currentInfoAboutTest?.score)[index]}, 
                     {
-                      props.currentInfoAboutTest?.score[el] + " "
+                      " " + props.currentInfoAboutTest?.score[el] + " "
                     }
                     Б
                   </Accordion.Header>
@@ -335,10 +335,13 @@ const AnalysisConrolPanel = (props: IProps) => {
               Сохранить отчет с изображениями ?
             </Alert>
             <Row className="d-flex justify-content-between me-0 m-0">
+              <Col className="p-0 m-0" sm="5" onClick={() => setShowSaveReport(false)}>
+                <a download href={`http://${process.env.REACT_APP_SERVER_SEVERSTAL}/api/imaging/test/${props.currentInfoAboutTest.id}/download_report/?with_pictures=1`} className='analysis-control-panel__save btn btn-outline-primary w-100 mw-100' >Да</a>
+              </Col>
+              <Col className="p-0 m-0" sm="5" onClick={() => setShowSaveReport(false)}>
+                <a download href={`http://${process.env.REACT_APP_SERVER_SEVERSTAL}/api/imaging/test/${props.currentInfoAboutTest.id}/download_report/`} className='analysis-control-panel__save btn btn-outline-primary w-100 mw-100' onClick={() => setShowSaveReport(false)}>Нет</a>
 
-            <a download href={`http://${process.env.REACT_APP_SERVER_SEVERSTAL}/api/imaging/test/${props.currentInfoAboutTest.id}/download_report/?with_pictures=1`} className='analysis-control-panel__save btn btn-outline-primary me-2'>Да</a>
-
-            <a download href={`http://${process.env.REACT_APP_SERVER_SEVERSTAL}/api/imaging/test/${props.currentInfoAboutTest.id}/download_report/`} className='analysis-control-panel__save btn btn-outline-primary me-2'>Нет</a>
+              </Col>
 
             </Row>
           </Col>
