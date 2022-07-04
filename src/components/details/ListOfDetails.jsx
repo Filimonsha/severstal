@@ -57,7 +57,7 @@ const ListOfDetails = ({
         test: Number(testId),
         length: Number(data.length),
         width: Number(data.width),
-        detail: data.number,
+        // detail: data.number,
       })
       .then((res) => {
         axiosInstance
@@ -721,14 +721,14 @@ const ListOfDetails = ({
             <Col>
               <Form className="adding-image__form">
                 <Form.Group>
-                  <Form.Text className="adding-image__error">
+                  {/* <Form.Text className="adding-image__error">
                     {errors.number?.message}
                   </Form.Text>
                   <Form.Control
                     placeholder="№ темплета"
                     className="mb-2"
                     {...register("number", {})}
-                  />
+                  /> */}
                   <Form.Text className="">
                     Сечение, мм <br />
                   </Form.Text>

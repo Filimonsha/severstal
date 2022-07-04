@@ -336,7 +336,7 @@ const AnalysisConrolPanel = (props: IProps) => {
             </Alert>
             <Row className="d-flex justify-content-between me-0 m-0">
 
-            <a download href={`http://${process.env.REACT_APP_SERVER_SEVERSTAL}/api/imaging/test/${props.currentInfoAboutTest.id}/download_report/`} className='analysis-control-panel__save btn btn-outline-primary me-2'>Да</a>
+            <a download href={`http://${process.env.REACT_APP_SERVER_SEVERSTAL}/api/imaging/test/${props.currentInfoAboutTest.id}/download_report/?with_pictures=1`} className='analysis-control-panel__save btn btn-outline-primary me-2'>Да</a>
 
             <a download href={`http://${process.env.REACT_APP_SERVER_SEVERSTAL}/api/imaging/test/${props.currentInfoAboutTest.id}/download_report/`} className='analysis-control-panel__save btn btn-outline-primary me-2'>Нет</a>
 
