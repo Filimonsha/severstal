@@ -111,27 +111,27 @@ const ListOfDetails = ({
       .post("/api/imaging/test/", {
         chemicals: [
           {
-            name: "carbon",
+            name: "C",
             percentage: Number(data.carbon),
           },
           {
-            name: "scandium",
+            name: "Si",
             percentage: Number(data.scandium),
           },
           {
-            name: "manganese",
+            name: "Mn",
             percentage: Number(data.manganese),
           },
           {
-            name: "phosphorus",
+            name: "P",
             percentage: Number(data.phosphorus),
           },
           {
-            name: "sulfur",
+            name: "S",
             percentage: Number(data.sulfur),
           },
           {
-            name: "aluminum",
+            name: "Al",
             percentage: Number(data.aluminum),
           },
         ],
@@ -318,7 +318,7 @@ const ListOfDetails = ({
             <Col md="6" className="me-2">
               <div className="adding-image__screen mb-3">
                 <img
-                  src={`http://${process.env.REACT_APP_SERVER_SEVERSTAL}/api/imaging/current_image/?offset=${rangeValue}`}
+                  src={`/api/imaging/current_image/?offset=${rangeValue}`}
                   alt="camera-img"
                   className=""
                 />
@@ -387,7 +387,7 @@ const ListOfDetails = ({
                 </Col>
                 <Col xs="3">
                   <Form.Label className="mb-0">
-                    {values[0] + "\u00A0смещения"}
+                    {values[0] + "\u00A0смещение"}
                   </Form.Label>
                 </Col>
               </Form.Group>
@@ -643,7 +643,7 @@ const ListOfDetails = ({
             <Col>
               <div className="adding-image__screen">
                 <img
-                  src={`http://${process.env.REACT_APP_SERVER_SEVERSTAL}/api/imaging/current_image/?offset=${rangeValue}`}
+                  src={`/api/imaging/current_image/?offset=${rangeValue}`}
                   alt="camera-img"
                   className="w-100 h-100"
                 />
@@ -712,7 +712,7 @@ const ListOfDetails = ({
                 </Col>
                 <Col xs="3">
                   <Form.Label className="mb-0">
-                    {values[0] + "\u00A0смещения"}
+                    {values[0] + "\u00A0смещение"}
                   </Form.Label>
                 </Col>
               </Form.Group>
